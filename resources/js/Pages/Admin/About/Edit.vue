@@ -1,0 +1,159 @@
+<script setup>
+import AdminLayout from "@/Layouts/Admin/AdminLayout.vue";
+import MediaPicker from "@/Components/MediaPicker.vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+
+const props = defineProps({
+    section: Object,
+});
+
+const page = usePage();
+
+const form = useForm({
+    title: props.section.title || "",
+    subtitle: props.section.subtitle || "",
+    image: props.section.image || "",
+    content: {
+        description: props.section.content?.description || "",
+        mission: props.section.content?.mission || "",
+        vision: props.section.content?.vision || "",
+        values: (props.section.content?.values || []).map((v) => ({ title: v.title || "", description: v.description || "" })),
+        technologies: (props.section.content?.technologies || []).join(", "),
+    },
+});
+
+function addCard() {
+    form.content.values.push({ title: "", description: "" });
+}
+
+function removeCard(index) {
+    form.content.values.splice(index, 1);
+}
+
+function submit() {
+    form.transform((data) => ({
+        ...data,
+        content: {
+            ...data.content,
+            technologies: data.content.technologies
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean),
+        },
+    })).put(route("admin.about.update"), {
+        preserveScroll: true,
+    });
+}
+</script>
+
+<template>
+    <AdminLayout>
+        <template #header>Tentang Kami</template>
+
+        <div v-if="page.props.flash?.success" class="mb-4 bg-green-100 text-green-800 px-4 py-2 rounded">
+            {{ page.props.flash.success }}
+        </div>
+
+        <form @submit.prevent="submit" class="space-y-6 max-w-3xl">
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <h2 class="font-semibold text-gray-900">Header Halaman</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Eyebrow / Subjudul Kecil</label>
+                        <input v-model="form.subtitle" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Siapa Kami" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Judul</label>
+                        <input v-model="form.title" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Tentang Kami" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <div>
+                    <h2 class="font-semibold text-gray-900">Deskripsi</h2>
+                    <p class="text-xs text-gray-500 mb-2">Paragraf pembuka yang tampil rata kiri di bawah header halaman.</p>
+                    <textarea
+                        v-model="form.content.description"
+                        rows="4"
+                        class="w-full border rounded-md px-3 py-2 text-sm"
+                        placeholder="Kami adalah agensi pengembangan website yang..."
+                    ></textarea>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-gray-900 mb-1">Gambar di Samping Deskripsi</h2>
+                    <p class="text-xs text-gray-500 mb-2">Tampil di kolom kanan, sejajar dengan paragraf. Kalau kosong, placeholder abu-abu akan ditampilkan sementara.</p>
+                    <MediaPicker v-model="form.image" />
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h2 class="font-semibold text-gray-900 mb-2">Misi</h2>
+                    <textarea v-model="form.content.mission" rows="3" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-gray-900 mb-2">Visi</h2>
+                    <textarea v-model="form.content.vision" rows="3" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="font-semibold text-gray-900">Nilai-Nilai Kami (Kartu)</h2>
+                        <p class="text-xs text-gray-500">Kartu yang tampil di section "Nilai-Nilai Kami". Tambah sebanyak yang dibutuhkan.</p>
+                    </div>
+                    <button type="button" @click="addCard" class="text-sm bg-brand-600 text-white px-3 py-1.5 rounded-md hover:bg-brand-700">
+                        + Tambah Kartu
+                    </button>
+                </div>
+
+                <p v-if="!form.content.values.length" class="text-sm text-gray-400 text-center py-6 border border-dashed rounded-md">
+                    Belum ada kartu. Klik "Tambah Kartu" untuk menambahkan.
+                </p>
+
+                <div v-for="(card, index) in form.content.values" :key="index" class="border border-gray-200 rounded-md p-4 relative">
+                    <button
+                        type="button"
+                        @click="removeCard(index)"
+                        class="absolute top-3 right-3 text-xs text-red-600 hover:underline"
+                    >
+                        Hapus
+                    </button>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-16">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Judul Kartu</label>
+                            <input v-model="card.title" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="mis. Profesional" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi Kartu</label>
+                            <input v-model="card.description" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Penjelasan singkat" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 space-y-2">
+                <h2 class="font-semibold text-gray-900">Teknologi yang Digunakan</h2>
+                <p class="text-xs text-gray-500 mb-2">Pisahkan dengan koma.</p>
+                <input
+                    v-model="form.content.technologies"
+                    type="text"
+                    class="w-full border rounded-md px-3 py-2 text-sm"
+                    placeholder="Laravel, Vue.js, Tailwind CSS"
+                />
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="bg-brand-600 text-white text-sm font-medium px-6 py-2.5 rounded-md hover:bg-brand-700 disabled:opacity-50"
+                >
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </AdminLayout>
+</template>
