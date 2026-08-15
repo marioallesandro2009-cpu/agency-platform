@@ -18,14 +18,17 @@
  * section (page_sections: page=home, section_type=cta) so that section
  * captures a lead directly instead of just linking out to /konsultasi.
  */
-import { useForm } from "@inertiajs/vue3";
-import { User, Phone, Mail, MessageSquare } from "lucide-vue-next";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { User, Phone, Mail, MessageSquare, CircleCheck } from "lucide-vue-next";
+import { computed } from "vue";
 
 defineProps({
     eyebrow: { type: String, default: "" },
     title: { type: String, default: "Siap Membangun Website Impian Anda?" },
     description: { type: String, default: "" },
 });
+
+const page = usePage();
 
 const form = useForm({
     name: "",
@@ -35,6 +38,10 @@ const form = useForm({
     service_interested: "",
     source: "cta_home",
 });
+
+// See LeadForm.vue for why this reads the flash message instead of a local
+// ref — same reasoning applies to any form posting to leads.store.
+const submitted = computed(() => !!page.props.flash?.success);
 
 function submit() {
     form.post(route("leads.store"), {
@@ -82,7 +89,15 @@ function submit() {
                         {{ description }}
                     </p>
 
-                    <form v-scroll-reveal="{ delay: 160 }" @submit.prevent="submit" class="space-y-4">
+                    <div v-if="submitted" v-scroll-reveal="{ delay: 160 }" class="flex items-start gap-3 bg-white/5 border border-white/10 rounded-lg p-5">
+                        <CircleCheck class="w-6 h-6 text-brand-400 shrink-0 mt-0.5" aria-hidden="true" />
+                        <div>
+                            <p class="font-semibold text-white mb-1">Terima kasih!</p>
+                            <p class="text-sm text-gray-300">{{ page.props.flash.success }}</p>
+                        </div>
+                    </div>
+
+                    <form v-else v-scroll-reveal="{ delay: 160 }" @submit.prevent="submit" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <div class="field">

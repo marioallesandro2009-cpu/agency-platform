@@ -43,6 +43,12 @@ function domainLabel(url) {
                 >
                     <div v-scroll-reveal="{ direction: 'left' }">
                         <Link :href="'/portfolio/' + project.slug" class="block">
+                            <span
+                                v-if="project.project_type === 'personal'"
+                                class="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full mb-3"
+                            >
+                                Personal Project
+                            </span>
                             <h2 class="text-2xl font-semibold text-gray-800 mb-4 hover:text-brand-600 transition-colors">
                                 {{ project.name }}
                             </h2>

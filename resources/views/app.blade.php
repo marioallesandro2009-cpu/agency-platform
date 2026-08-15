@@ -21,7 +21,7 @@
         @php
             $gaMeasurementId = \App\Models\Setting::get('ga_measurement_id');
             $isAdminSurface = request()->is(
-                'admin', 'admin/*', 'dashboard', 'login', 'register', 'profile',
+                'admin', 'admin/*', 'dashboard', 'login', 'profile',
                 'forgot-password', 'reset-password/*', 'confirm-password',
                 'verify-email', 'verify-email/*'
             );

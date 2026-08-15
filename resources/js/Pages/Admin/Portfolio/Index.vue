@@ -24,6 +24,7 @@ const form = useForm({
     features: "",
     technologies: "",
     client_label: "",
+    project_type: "client",
     thumbnail: "",
     cover_image: "",
     gallery: "",
@@ -52,6 +53,7 @@ function openEdit(project) {
     form.features = (project.features || []).join(", ");
     form.technologies = (project.technologies || []).join(", ");
     form.client_label = project.client_label || "";
+    form.project_type = project.project_type || "client";
     form.thumbnail = project.thumbnail || "";
     form.cover_image = project.cover_image || "";
     form.gallery = (project.gallery || []).join(", ");
@@ -121,6 +123,13 @@ async function destroy(project) {
                         <div>
                             <label class="block text-xs font-medium text-gray-600 mb-1">Client Label</label>
                             <input v-model="form.client_label" type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" placeholder="Proyek Konsep / Demo" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Jenis Proyek</label>
+                            <select v-model="form.project_type" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option value="client">Client Project</option>
+                                <option value="personal">Personal/Internal Project</option>
+                            </select>
                         </div>
                     </div>
 
@@ -213,7 +222,15 @@ async function destroy(project) {
                 <EmptyState v-if="!projects.length" message="Belum ada portfolio." />
                 <div v-for="project in projects" :key="project.id" class="flex items-center justify-between px-4 py-3">
                     <div>
-                        <p class="text-sm font-medium text-gray-900">{{ project.name }}</p>
+                        <p class="text-sm font-medium text-gray-900 flex items-center gap-2">
+                            {{ project.name }}
+                            <span
+                                v-if="project.project_type === 'personal'"
+                                class="bg-gray-100 text-gray-600 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full"
+                            >
+                                Personal
+                            </span>
+                        </p>
                         <p class="text-xs text-gray-400">
                             {{ project.category }}
                             <span v-if="project.live_url"> Â· <a :href="project.live_url" target="_blank" class="text-brand-600 hover:underline">Link live</a></span>

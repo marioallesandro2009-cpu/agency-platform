@@ -11,7 +11,7 @@ class PortfolioProject extends Model
 
     protected $fillable = [
         "name", "slug", "category", "short_description", "description",
-        "challenge", "solution", "features", "technologies", "client_label",
+        "challenge", "solution", "features", "technologies", "client_label", "project_type",
         "thumbnail", "cover_image", "gallery", "live_url",
         "seo_title", "seo_description", "is_featured", "is_published", "order",
     ];

@@ -2,6 +2,7 @@
 import AdminLayout from "@/Layouts/Admin/AdminLayout.vue";
 import EmptyState from "@/Components/Admin/EmptyState.vue";
 import MediaPicker from "@/Components/MediaPicker.vue";
+import RichTextEditor from "@/Components/Admin/RichTextEditor.vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { reactive, ref } from "vue";
 import { useEscapeClose } from "@/composables/useEscapeClose";
@@ -152,8 +153,8 @@ async function destroyService(s) {
                         <textarea v-model="form.short_description" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Konten Lengkap (bisa HTML, ditampilkan gaya blog)</label>
-                        <textarea v-model="form.long_description" class="w-full border rounded-md px-3 py-2 text-sm font-mono" rows="6"></textarea>
+                        <label class="block text-sm font-medium mb-1">Konten Lengkap (ditampilkan gaya blog)</label>
+                        <RichTextEditor v-model="form.long_description" />
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>

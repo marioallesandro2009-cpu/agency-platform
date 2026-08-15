@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
-use App\Models\Setting;
+use App\Models\PricingPackage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,11 +11,38 @@ class LeadController extends Controller
 {
     public function konsultasi(Request $request)
     {
+        $serviceInterested = $request->query("service");
+        $selectedPackage = null;
+
+        $category = $request->query("kategori");
+        $tier = $request->query("tier");
+
+        if ($category && $tier) {
+            $package = PricingPackage::where("category", $category)
+                ->where("tier", $tier)
+                ->published()
+                ->first();
+
+            if ($package) {
+                $serviceInterested = $package->name;
+                $selectedPackage = [
+                    "category" => $package->category,
+                    "tier" => $package->tier,
+                    "name" => $package->name,
+                    "price" => $package->price,
+                    "price_prefix" => $package->price_prefix,
+                    "price_suffix" => $package->price_suffix,
+                    "features" => $package->features,
+                ];
+            }
+        }
+
         return Inertia::render("Public/LeadForm", [
             "context" => "konsultasi",
             "title" => "Konsultasi Gratis",
             "subtitle" => "Ceritakan kebutuhan website Anda, tim kami akan segera menghubungi lewat WhatsApp.",
-            "serviceInterested" => $request->query("service"),
+            "serviceInterested" => $serviceInterested,
+            "selectedPackage" => $selectedPackage,
         ]);
     }
 
@@ -26,6 +53,7 @@ class LeadController extends Controller
             "title" => "Hubungi Kami",
             "subtitle" => "Ada pertanyaan? Kirim pesan dan kami akan segera membalas lewat WhatsApp.",
             "serviceInterested" => null,
+            "selectedPackage" => null,
         ]);
     }
 
@@ -35,36 +63,27 @@ class LeadController extends Controller
             "name" => "required|string|max:255",
             "whatsapp" => ["required", "string", "max:30", "regex:/^[0-9+\-\s()]{8,30}$/"],
             "email" => "nullable|email|max:255",
+            "address" => "nullable|string|max:1000",
             "message" => "nullable|string|max:1000",
             "service_interested" => "nullable|string|max:255",
+            "budget_estimate" => "nullable|string|max:100",
+            "pricing_category" => "nullable|string|max:100",
+            "pricing_tier" => "nullable|string|max:100",
             // "cta_home" — the inline "Talk to Us"-style form embedded in the
             // homepage's Final CTA section (ContactCtaForm.vue), distinct from
             // the dedicated /konsultasi and /kontak pages.
             "source" => "required|in:konsultasi,kontak,cta_home",
         ]);
 
-        $lead = Lead::create([
+        Lead::create([
             ...$data,
             "source_url" => $request->headers->get("referer"),
             "status" => "new",
         ]);
 
-        $whatsappNumber = Setting::allGrouped()["contact"]["whatsapp_number"] ?? null;
-
-        if (! $whatsappNumber) {
-            return back()->with("success", "Terima kasih, permintaan Anda sudah kami terima.");
-        }
-
-        $text = "Halo, saya {$lead->name}.";
-        if ($lead->service_interested) {
-            $text .= " Saya tertarik dengan layanan {$lead->service_interested}.";
-        }
-        if ($lead->message) {
-            $text .= " {$lead->message}";
-        }
-
-        $waUrl = "https://wa.me/{$whatsappNumber}?text=".rawurlencode($text);
-
-        return Inertia::location($waUrl);
+        // Lead-based business model: the team reaches out, the visitor isn't
+        // auto-redirected into a WhatsApp chat. See project decision — this
+        // replaced the previous Inertia::location() WA handoff.
+        return back()->with("success", "Terima kasih! Tim kami akan menghubungi Anda dalam 1x24 jam via WhatsApp.");
     }
 }

@@ -50,21 +50,21 @@ const breadcrumbItems = computed(() => [
             :subtitle="service.short_description"
             :breadcrumb-items="breadcrumbItems"
         />
-        <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
             <!-- Main content -->
             <div v-scroll-reveal class="lg:col-span-2">
-                <div class="prose max-w-none text-gray-700 whitespace-pre-line" v-html="service.long_description || service.description"></div>
+                <div class="prose max-w-none text-lg text-gray-700 leading-relaxed whitespace-pre-line" v-html="service.long_description || service.description"></div>
 
                 <div v-if="service.features?.length" class="mt-10">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Fitur</h2>
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base text-gray-600">
                         <li v-for="f in service.features" :key="f">- {{ f }}</li>
                     </ul>
                 </div>
 
                 <div v-if="service.benefits?.length" class="mt-10">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Manfaat</h2>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                    <ul class="space-y-3 text-base text-gray-600">
                         <li v-for="b in service.benefits" :key="b">- {{ b }}</li>
                     </ul>
                 </div>
@@ -80,7 +80,7 @@ const breadcrumbItems = computed(() => [
             <aside v-scroll-reveal="{ direction: 'right' }" class="space-y-8">
                 <!-- Related articles -->
                 <div v-if="relatedPosts?.length">
-                    <h3 class="font-semibold text-gray-900 mb-4">Terkait</h3>
+                    <h3 class="text-base font-semibold text-gray-900 mb-4">Terkait</h3>
                     <div class="space-y-4">
                         <Link
                             v-for="post in relatedPosts"
@@ -96,7 +96,7 @@ const breadcrumbItems = computed(() => [
 
                 <!-- Portfolio (toggle-controlled) -->
                 <div v-if="relatedPortfolio?.length">
-                    <h3 class="font-semibold text-gray-900 mb-4">Portfolio Terkait</h3>
+                    <h3 class="text-base font-semibold text-gray-900 mb-4">Portfolio Terkait</h3>
                     <div class="space-y-3">
                         <Link
                             v-for="project in relatedPortfolio"
@@ -114,7 +114,7 @@ const breadcrumbItems = computed(() => [
 
                 <!-- Other services -->
                 <div v-if="otherServices?.length">
-                    <h3 class="font-semibold text-gray-900 mb-4">Layanan Lainnya</h3>
+                    <h3 class="text-base font-semibold text-gray-900 mb-4">Layanan Lainnya</h3>
                     <div class="space-y-3">
                         <Link
                             v-for="s in otherServices"

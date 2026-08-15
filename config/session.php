@@ -169,7 +169,11 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // Falls back to true whenever APP_ENV=production, so the session cookie
+    // is HTTPS-only by default even if SESSION_SECURE_COOKIE is never set
+    // explicitly on the hosting server — override to false only for a
+    // deliberate non-HTTPS production deploy.
+    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV') === 'production'),
 
     /*
     |--------------------------------------------------------------------------

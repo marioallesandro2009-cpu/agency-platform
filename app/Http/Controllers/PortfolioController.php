@@ -11,7 +11,7 @@ class PortfolioController extends Controller
     {
         return Inertia::render("Public/Portfolio/Index", [
             "projects" => PortfolioProject::published()->ordered()->get([
-                "id", "name", "slug", "category", "short_description", "thumbnail", "is_featured",
+                "id", "name", "slug", "category", "short_description", "thumbnail", "is_featured", "project_type",
             ]),
         ]);
     }

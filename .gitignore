@@ -13,12 +13,19 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
 /public/hot
 /public/storage
 /storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*.log
 /storage/pail
 /vendor
+
+# /public/build is intentionally NOT ignored — production server has no
+# Node.js, so the compiled Vite/Vue assets must be committed and deployed
+# via git clone/pull instead of being built on the server. See DEPLOY.md.
 Homestead.json
 Homestead.yaml
 Thumbs.db

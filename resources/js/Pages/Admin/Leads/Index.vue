@@ -100,7 +100,9 @@ function formatDate(date) {
                             {{ lead.whatsapp }}
                             <span v-if="lead.email"> - {{ lead.email }}</span>
                             <span v-if="lead.service_interested"> - Minat: {{ lead.service_interested }}</span>
+                            <span v-if="lead.budget_estimate"> - Anggaran: {{ lead.budget_estimate }}</span>
                         </p>
+                        <p v-if="lead.address" class="text-sm text-gray-500 mt-1">Alamat: {{ lead.address }}</p>
                         <p v-if="lead.message" class="text-sm text-gray-600 mt-2 whitespace-pre-line">{{ lead.message }}</p>
                         <p class="text-xs text-gray-400 mt-2">{{ formatDate(lead.created_at) }}</p>
 

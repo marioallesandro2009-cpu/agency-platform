@@ -1,0 +1,1 @@
+const e=[{value:"landing_page",label:"Landing Page"},{value:"company_profile",label:"Company Profile"},{value:"ecommerce",label:"E-commerce"},{value:"sistem_informasi",label:"Sistem Informasi"}],a=[{value:"seed",label:"Seed"},{value:"growth",label:"Growth"},{value:"scale",label:"Scale"}],l={seed:0,growth:1,scale:2};export{e as P,l as T,a};

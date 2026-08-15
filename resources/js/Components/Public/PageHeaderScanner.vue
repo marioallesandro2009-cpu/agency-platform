@@ -34,7 +34,7 @@ defineProps({
 </script>
 
 <template>
-    <section class="page-header relative overflow-hidden bg-charcoal text-white py-20 md:py-28">
+    <section class="page-header relative overflow-hidden bg-charcoal text-white py-14 sm:py-20 md:py-28">
         <ScannerBackground class="z-0" :color1="color1" :color2="color2" :color3="color3" />
 
         <div class="page-header__scrim absolute inset-0 z-10" aria-hidden="true"></div>
@@ -51,7 +51,7 @@ defineProps({
                 </p>
                 <h1
                     v-scroll-reveal="{ delay: 80 }"
-                    class="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6 text-left"
+                    class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] sm:leading-[1.05] mb-4 sm:mb-6 text-left [text-wrap:balance]"
                 >
                     {{ title }}
                 </h1>

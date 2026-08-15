@@ -82,13 +82,13 @@ defineProps({
             </div>
         </section>
 
-        <section class="bg-blue-600 py-16">
+        <section class="bg-brand-600 py-16">
             <div v-scroll-reveal class="max-w-2xl mx-auto px-4 text-center">
                 <h2 class="text-2xl font-bold text-white mb-4">Mari Bekerja Sama</h2>
-                <p class="text-blue-100 mb-6">Konsultasikan kebutuhan website Anda dengan tim kami.</p>
+                <p class="text-white/80 mb-6">Konsultasikan kebutuhan website Anda dengan tim kami.</p>
                 <Link
                     href="/konsultasi"
-                    class="inline-block bg-white text-blue-600 font-medium px-8 py-3 rounded-md transition-all duration-300 hover:bg-blue-50 hover:scale-105 hover:shadow-lg"
+                    class="inline-block bg-white text-brand-700 font-medium px-8 py-3 rounded-md transition-all duration-300 hover:bg-brand-50 hover:scale-105 hover:shadow-lg"
                 >
                     Konsultasi Gratis
                 </Link>

@@ -125,11 +125,11 @@ function formatPrice(price) {
         </section>
 
         <!-- CTA -->
-        <section class="bg-blue-600 py-16">
+        <section class="bg-brand-600 py-16">
             <div v-scroll-reveal class="max-w-2xl mx-auto px-4 text-center">
                 <h2 class="text-2xl font-bold text-white mb-4">Siap Membangun Website Anda?</h2>
-                <p class="text-blue-100 mb-6">Konsultasikan kebutuhan Anda secara gratis, tanpa komitmen.</p>
-                <Link href="/konsultasi" class="inline-block bg-white text-blue-600 font-medium px-8 py-3 rounded-md hover:bg-blue-50">
+                <p class="text-white/80 mb-6">Konsultasikan kebutuhan Anda secara gratis, tanpa komitmen.</p>
+                <Link href="/konsultasi" class="inline-block bg-white text-brand-700 font-medium px-8 py-3 rounded-md hover:bg-brand-50">
                     Konsultasi Gratis
                 </Link>
             </div>

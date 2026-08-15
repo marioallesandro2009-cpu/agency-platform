@@ -93,7 +93,12 @@ class MediaController extends Controller
         }
 
         try {
-            $response = Http::timeout(10)->withOptions(["allow_redirects" => ["max" => 3]])->get($data["url"]);
+            // Redirects disabled deliberately: the host allowlist above is
+            // checked against the *requested* URL only, so a trusted host
+            // that itself issued a redirect to an arbitrary/internal address
+            // would bypass it (classic SSRF-via-redirect). The allowed CDN
+            // hosts serve images directly and don't need redirect support.
+            $response = Http::timeout(10)->withOptions(["allow_redirects" => false])->get($data["url"]);
         } catch (\Throwable $e) {
             throw ValidationException::withMessages(["url" => "Gagal mengambil gambar dari link tersebut."]);
         }

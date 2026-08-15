@@ -214,6 +214,12 @@ onUnmounted(() => {
                 class="absolute inset-0 pointer-events-none"
                 :style="{ background: `linear-gradient(180deg, transparent 45%, ${overlayColor} 100%)` }"
             ></div>
+            <span
+                v-if="item.badge"
+                class="absolute left-5 top-5 bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full"
+            >
+                {{ item.badge }}
+            </span>
             <div
                 v-if="showLabels"
                 :ref="(el) => setLabelRef(el, index)"

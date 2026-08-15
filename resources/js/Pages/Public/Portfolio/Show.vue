@@ -31,6 +31,12 @@ const breadcrumbItems = computed(() => [
             :title="project.name"
             :subtitle="project.short_description"
         >
+            <span
+                v-if="project.project_type === 'personal'"
+                class="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full mb-2"
+            >
+                Personal Project
+            </span>
             <p v-if="project.client_label" class="text-xs text-gray-400 italic">{{ project.client_label }}</p>
         </PageHeaderScanner>
 

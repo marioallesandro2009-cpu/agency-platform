@@ -7,6 +7,7 @@ import ContactCtaForm from "@/Components/ContactCtaForm.vue";
 import ServiceCard from "@/Components/Public/ServiceCard.vue";
 import WhyUsCard from "@/Components/Public/WhyUsCard.vue";
 import PricingCategoryGrid from "@/Components/Public/PricingCategoryGrid.vue";
+import LiveTicker from "@/Components/Public/LiveTicker.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 
@@ -31,6 +32,7 @@ const props = defineProps({
     portfolioProjects: Array,
     blogSection: Object,
     latestPosts: Array,
+    recentActivity: Array,
 });
 
 function formatDate(date) {
@@ -43,6 +45,7 @@ const portfolioGalleryItems = computed(() =>
         image: project.thumbnail,
         label: project.name,
         link: "/portfolio/" + project.slug,
+        badge: project.project_type === "personal" ? "Personal Project" : null,
     }))
 );
 
@@ -55,6 +58,7 @@ function toggleFaq(id) {
 <template>
     <SeoHead :title="page.props.settings?.general?.tagline" />
     <PublicLayout>
+        <LiveTicker :activities="recentActivity" />
         <template v-for="type in sections" :key="type">
             <!-- Hero -->
             <section v-if="type === 'hero' && hero" class="relative bg-charcoal text-white overflow-hidden">

@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 const tierLabel = computed(() => PRICING_TIERS.find((t) => t.value === props.pkg.tier)?.label || props.pkg.name);
+const orderUrl = computed(() => `/konsultasi?kategori=${props.pkg.category}&tier=${props.pkg.tier}`);
 
 const TIER_STYLES = {
     seed: {
@@ -83,8 +84,8 @@ function formatPrice(price) {
                 </ul>
 
                 <Link
-                    :href="pkg.cta_url || '/konsultasi'"
-                    class="block text-center rounded-full py-3 font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
+                    :href="orderUrl"
+                    class="block w-full text-center rounded-full py-3 font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
                 >
                     {{ pkg.cta_text || "Pesan Website" }}
                 </Link>

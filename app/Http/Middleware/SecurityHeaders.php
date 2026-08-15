@@ -22,6 +22,12 @@ class SecurityHeaders
         $response->headers->set("Referrer-Policy", "strict-origin-when-cross-origin");
         $response->headers->set("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
 
+        if (app()->environment('production')) {
+            // 1 year, includes subdomains — safe to opt in since ForceHttps
+            // already redirects every http:// request to https:// site-wide.
+            $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+        }
+
         /**
          * script-src keeps 'unsafe-inline' for the JSON-LD <script type="application/ld+json">
          * tags used for SEO structured data — those aren't executable, but CSP still governs

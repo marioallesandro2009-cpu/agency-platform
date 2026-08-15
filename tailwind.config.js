@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -57,8 +58,26 @@ export default {
                 blob: 'blob 14s infinite ease-in-out',
                 shake: 'shake 0.5s ease-in-out',
             },
+            typography: (theme) => ({
+                // Matches the CKEditor-produced content elsewhere on the
+                // site (brand-green links/bullets instead of the default
+                // blue, headings in the same gray as the rest of the copy).
+                DEFAULT: {
+                    css: {
+                        '--tw-prose-body': theme('colors.gray.700'),
+                        '--tw-prose-headings': theme('colors.gray.900'),
+                        '--tw-prose-links': theme('colors.brand.600'),
+                        '--tw-prose-bold': theme('colors.gray.900'),
+                        '--tw-prose-bullets': theme('colors.brand.600'),
+                        '--tw-prose-quotes': theme('colors.gray.700'),
+                        '--tw-prose-quote-borders': theme('colors.brand.300'),
+                        a: { textDecoration: 'none', fontWeight: '500' },
+                        'a:hover': { textDecoration: 'underline' },
+                    },
+                },
+            }),
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, typography],
 };

@@ -64,6 +64,7 @@ class PortfolioController extends Controller
             "features" => "nullable|string",
             "technologies" => "nullable|string",
             "client_label" => "nullable|string|max:255",
+            "project_type" => "required|in:client,personal",
             "thumbnail" => "nullable|string|max:500",
             "cover_image" => "nullable|string|max:500",
             "gallery" => "nullable|string",

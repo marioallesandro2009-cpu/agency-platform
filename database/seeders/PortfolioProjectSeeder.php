@@ -21,6 +21,7 @@ class PortfolioProjectSeeder extends Seeder
                 "features" => ["Katalog menu", "Integrasi WhatsApp", "Google Maps", "Responsive"],
                 "technologies" => ["Laravel", "Vue", "Tailwind CSS"],
                 "client_label" => "Proyek Konsep / Demo",
+                "project_type" => "personal",
                 "thumbnail" => "/storage/media/f92b4cd7-d852-4fc7-8488-54c5a73b5ef6.jpg", // Pexels, free-commercial-use, photo by enisahalidi (https://www.pexels.com/photo/29516134/)
                 "cover_image" => "/storage/media/f92b4cd7-d852-4fc7-8488-54c5a73b5ef6.jpg",
                 "gallery" => [],
@@ -40,6 +41,7 @@ class PortfolioProjectSeeder extends Seeder
                 "features" => ["Halaman tim", "Portofolio proyek", "Blog perusahaan", "SEO friendly"],
                 "technologies" => ["Laravel", "Inertia.js", "Vue", "Tailwind CSS"],
                 "client_label" => "Proyek Konsep / Demo",
+                "project_type" => "personal",
                 "thumbnail" => "/storage/media/ec4448b2-e4c2-49a9-b093-2ba2e75a583b.jpg", // Pexels, free-commercial-use, photo by mazhar-ulazhar (https://www.pexels.com/photo/31352672/)
                 "cover_image" => "/storage/media/ec4448b2-e4c2-49a9-b093-2ba2e75a583b.jpg",
                 "gallery" => [],
@@ -59,6 +61,7 @@ class PortfolioProjectSeeder extends Seeder
                 "features" => ["Katalog produk", "Varian produk", "Keranjang belanja", "Checkout"],
                 "technologies" => ["Laravel", "Vue", "Tailwind CSS"],
                 "client_label" => "Proyek Konsep / Demo",
+                "project_type" => "personal",
                 "thumbnail" => "/storage/media/eae148c6-3ed8-40b2-b437-74bd9c9a7dca.jpg", // Pexels, free-commercial-use, photo by delot (https://www.pexels.com/photo/19599222/)
                 "cover_image" => "/storage/media/eae148c6-3ed8-40b2-b437-74bd9c9a7dca.jpg",
                 "gallery" => [],
@@ -78,6 +81,7 @@ class PortfolioProjectSeeder extends Seeder
                 "features" => ["Jadwal dokter", "Booking online", "Dashboard admin", "Notifikasi"],
                 "technologies" => ["Laravel", "Vue", "MySQL"],
                 "client_label" => "Proyek Konsep / Demo",
+                "project_type" => "personal",
                 "thumbnail" => "/storage/media/e8c8086d-7cf8-40f1-9bf3-11fec49d0e80.jpg", // Pexels, free-commercial-use, photo by cottonbro (https://www.pexels.com/photo/7579831/)
                 "cover_image" => "/storage/media/e8c8086d-7cf8-40f1-9bf3-11fec49d0e80.jpg",
                 "gallery" => [],
