@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class SettingSeeder extends Seeder
 {
@@ -44,5 +45,12 @@ class SettingSeeder extends Seeder
         foreach ($settings as $setting) {
             Setting::updateOrCreate(["key" => $setting["key"]], $setting);
         }
+
+        // updateOrCreate() above bypasses Setting::set(), which is the only
+        // place that clears the forever-cached grouped settings. Without this,
+        // a stale cache from before seeding (e.g. an empty settings table)
+        // would keep serving incomplete groups indefinitely.
+        Cache::forget("settings");
+        Cache::forget("settings.grouped");
     }
 }

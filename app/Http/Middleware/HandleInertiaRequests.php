@@ -28,12 +28,19 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        $settingsGrouped = Setting::allGrouped();
+
         return [
             ...parent::share($request),
             "auth" => [
                 "user" => $request->user(),
             ],
-            "settings" => array_intersect_key(Setting::allGrouped(), array_flip(self::PUBLIC_SETTING_GROUPS)),
+            // Every group is guaranteed present (defaulting to []) even if the
+            // cached grouped settings are stale/incomplete, so the frontend
+            // never has to deal with settings.<group> being undefined.
+            "settings" => collect(self::PUBLIC_SETTING_GROUPS)
+                ->mapWithKeys(fn (string $group) => [$group => $settingsGrouped[$group] ?? []])
+                ->toArray(),
             "navServices" => Service::published()->ordered()->get(["id", "name", "slug"]),
             "navMenu" => NavItem::visible()->ordered()->get(["id", "label", "url"]),
             "flash" => [
