@@ -31,18 +31,43 @@ function formatPrice(price, period) {
     return "Rp " + new Intl.NumberFormat("id-ID").format(price) + suffix;
 }
 
-function yearlyListPrice(plan) {
-    return plan.price * 12;
-}
+// Resolves what to show for a plan's current period: the final price, an
+// optional "original" price to strike through, and a badge label.
+//
+// Yearly has two possible sources for the struck-through price: an explicit
+// admin-set original_price_yearly (a real promo), or — when that's absent —
+// the plan's own monthly price x 12 (frames the yearly price as "cheaper
+// than paying monthly all year"). The explicit admin value wins when both
+// are present, since it's a deliberate choice rather than a side effect of
+// the monthly price.
+function priceDisplay(plan) {
+    const period = periodFor(plan);
 
-function monthsSaved(plan) {
-    if (!plan.price_yearly) return 0;
-    return Math.round((yearlyListPrice(plan) - plan.price_yearly) / plan.price);
-}
+    if (period === "monthly") {
+        const final = plan.price;
+        const original = plan.original_price_monthly;
+        if (!original || original <= final) return { final, original: null, badge: null };
+        const percent = Math.round((1 - final / original) * 100);
+        return { final, original, badge: `-${percent}%` };
+    }
 
-function discountPercent(plan) {
-    if (!plan.price_yearly) return 0;
-    return Math.round((1 - plan.price_yearly / yearlyListPrice(plan)) * 100);
+    const final = plan.price_yearly;
+    if (!final) return { final, original: null, badge: null };
+
+    if (plan.original_price_yearly && plan.original_price_yearly > final) {
+        const original = plan.original_price_yearly;
+        const percent = Math.round((1 - final / original) * 100);
+        return { final, original, badge: `-${percent}%` };
+    }
+
+    const listPrice = plan.price * 12;
+    if (listPrice > final) {
+        const percent = Math.round((1 - final / listPrice) * 100);
+        const months = Math.round((listPrice - final) / plan.price);
+        return { final, original: listPrice, badge: `-${percent}% · Hemat ${months} bulan` };
+    }
+
+    return { final, original: null, badge: null };
 }
 
 function waLink(planName) {
@@ -94,20 +119,17 @@ function waLink(planName) {
                     <div class="mb-4">
                         <div class="flex items-baseline gap-2 flex-wrap">
                             <p class="text-lg font-bold text-gray-900">
-                                {{ formatPrice(periodFor(plan) === "yearly" ? plan.price_yearly : plan.price, periodFor(plan)) }}
+                                {{ formatPrice(priceDisplay(plan).final, periodFor(plan)) }}
                             </p>
-                            <span
-                                v-if="periodFor(plan) === 'yearly' && discountPercent(plan) > 0"
-                                class="text-sm text-gray-400 line-through"
-                            >
-                                {{ formatPrice(yearlyListPrice(plan), "yearly") }}
+                            <span v-if="priceDisplay(plan).original" class="text-sm text-gray-400 line-through">
+                                {{ formatPrice(priceDisplay(plan).original, periodFor(plan)) }}
                             </span>
                         </div>
                         <span
-                            v-if="periodFor(plan) === 'yearly' && discountPercent(plan) > 0"
+                            v-if="priceDisplay(plan).badge"
                             class="inline-block mt-1 text-[11px] font-medium text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full"
                         >
-                            -{{ discountPercent(plan) }}% &middot; Hemat {{ monthsSaved(plan) }} bulan
+                            {{ priceDisplay(plan).badge }}
                         </span>
                     </div>
 

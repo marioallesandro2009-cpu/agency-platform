@@ -22,7 +22,9 @@ useFocusTrap(showForm, modalRef);
 const form = useForm({
     name: "",
     price: "",
+    original_price_monthly: "",
     price_yearly: "",
+    original_price_yearly: "",
     features: "",
     cta_text: "Tanya Lebih Lanjut",
     order: 0,
@@ -39,7 +41,9 @@ function openEdit(plan) {
     editingId.value = plan.id;
     form.name = plan.name;
     form.price = plan.price;
+    form.original_price_monthly = plan.original_price_monthly;
     form.price_yearly = plan.price_yearly;
+    form.original_price_yearly = plan.original_price_yearly;
     form.features = (plan.features || []).join(", ");
     form.cta_text = plan.cta_text;
     form.order = plan.order;
@@ -129,8 +133,16 @@ function formatPrice(price) {
                         <input v-model="form.price" type="number" required class="w-full border rounded-md px-3 py-2 text-sm" placeholder="100000" />
                     </div>
                     <div>
+                        <label class="block text-sm font-medium mb-1">Harga Asli per Bulan (opsional, untuk tampilan coret)</label>
+                        <input v-model="form.original_price_monthly" type="number" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Kosongkan kalau tidak ada diskon" />
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium mb-1">Harga per Tahun (angka, opsional)</label>
                         <input v-model="form.price_yearly" type="number" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="1000000" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Harga Asli per Tahun (opsional, untuk tampilan coret)</label>
+                        <input v-model="form.original_price_yearly" type="number" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Kosongkan kalau tidak ada diskon" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Benefit / Checklist (pisahkan koma)</label>
