@@ -94,7 +94,7 @@ const breadcrumbItems = computed(() => [
                     target="_blank"
                     class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700"
                 >
-                    Lihat Proyek Live
+                    Kunjungi
                 </a>
             </div>
 
