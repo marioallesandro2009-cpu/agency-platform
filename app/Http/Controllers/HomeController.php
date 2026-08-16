@@ -26,7 +26,7 @@ class HomeController extends Controller
         $hero = null;
         if ($heroSection = $pageSections->get("hero")) {
             $hero = array_merge(
-                ["title" => $heroSection->title, "subtitle" => $heroSection->subtitle],
+                ["title" => $heroSection->title, "subtitle" => $heroSection->subtitle, "image" => $heroSection->image],
                 $heroSection->content ?? []
             );
         }

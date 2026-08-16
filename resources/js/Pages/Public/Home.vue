@@ -62,6 +62,10 @@ function toggleFaq(id) {
         <template v-for="type in sections" :key="type">
             <!-- Hero -->
             <section v-if="type === 'hero' && hero" class="relative bg-charcoal text-white overflow-hidden">
+                <template v-if="hero.image">
+                    <img :src="hero.image" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+                    <div class="absolute inset-0 bg-charcoal/80"></div>
+                </template>
                 <div class="max-w-4xl mx-auto px-4 py-24 text-center relative z-10">
                     <p v-scroll-reveal class="text-brand-400 font-semibold text-sm uppercase tracking-wide mb-3">{{ hero.eyebrow }}</p>
                     <h1 v-scroll-reveal="{ delay: 80 }" class="text-4xl md:text-5xl font-bold mb-6 leading-tight">{{ hero.title }}</h1>

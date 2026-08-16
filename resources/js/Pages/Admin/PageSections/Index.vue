@@ -15,7 +15,7 @@ const page = usePage();
 const localSections = ref([...props.sections]);
 const pendingIds = ref(new Set());
 
-const editableTypes = ["about", "why_us"];
+const editableTypes = ["about", "why_us", "hero"];
 const showForm = ref(false);
 const modalRef = ref(null);
 const editingSection = ref(null);
@@ -25,17 +25,24 @@ useFocusTrap(showForm, modalRef);
 
 const form = useForm({
     title: "",
+    subtitle: "",
     image: "",
     description: "",
     button_text: "",
     button_url: "",
     items: [],
+    eyebrow: "",
+    cta_primary_text: "",
+    cta_primary_url: "",
+    cta_secondary_text: "",
+    cta_secondary_url: "",
 });
 
 function openEdit(section) {
     editingSection.value = section;
     form.clearErrors();
     form.title = section.title || "";
+    form.subtitle = section.subtitle || "";
     form.image = section.image || "";
     form.description = section.content?.description || "";
     form.button_text = section.content?.button_text || "";
@@ -45,6 +52,11 @@ function openEdit(section) {
         description: i.description || "",
         icon: i.icon || "",
     }));
+    form.eyebrow = section.content?.eyebrow || "";
+    form.cta_primary_text = section.content?.cta_primary_text || "";
+    form.cta_primary_url = section.content?.cta_primary_url || "";
+    form.cta_secondary_text = section.content?.cta_secondary_text || "";
+    form.cta_secondary_url = section.content?.cta_secondary_url || "";
     showForm.value = true;
 }
 
@@ -57,26 +69,36 @@ function removeItem(index) {
 }
 
 function submit() {
-    const isWhyUs = editingSection.value.section_type === "why_us";
+    const type = editingSection.value.section_type;
 
-    router.patch(
-        route("admin.page-sections.update", editingSection.value.id),
-        {
-            title: form.title,
-            image: form.image,
-            content: isWhyUs
-                ? { items: form.items }
-                : {
-                      description: form.description,
-                      button_text: form.button_text,
-                      button_url: form.button_url,
-                  },
-        },
-        {
-            preserveScroll: true,
-            onSuccess: () => (showForm.value = false),
-        }
-    );
+    const payload = {
+        title: form.title,
+        image: form.image,
+    };
+
+    if (type === "why_us") {
+        payload.content = { items: form.items };
+    } else if (type === "hero") {
+        payload.subtitle = form.subtitle;
+        payload.content = {
+            eyebrow: form.eyebrow,
+            cta_primary_text: form.cta_primary_text,
+            cta_primary_url: form.cta_primary_url,
+            cta_secondary_text: form.cta_secondary_text,
+            cta_secondary_url: form.cta_secondary_url,
+        };
+    } else {
+        payload.content = {
+            description: form.description,
+            button_text: form.button_text,
+            button_url: form.button_url,
+        };
+    }
+
+    router.patch(route("admin.page-sections.update", editingSection.value.id), payload, {
+        preserveScroll: true,
+        onSuccess: () => (showForm.value = false),
+    });
 }
 
 watch(
@@ -264,6 +286,42 @@ const sectionLabels = {
                             <div>
                                 <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi Kartu</label>
                                 <textarea v-model="item.description" rows="2" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-else-if="editingSection?.section_type === 'hero'">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Eyebrow (teks kecil di atas judul)</label>
+                            <input v-model="form.eyebrow" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Jasa Website Profesional" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Subjudul</label>
+                            <textarea v-model="form.subtitle" rows="3" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Gambar</label>
+                            <p class="text-xs text-gray-500 mb-2">Ditampilkan sebagai background di belakang teks. Kalau kosong, background solid gelap seperti sekarang akan tetap dipakai.</p>
+                            <MediaPicker v-model="form.image" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Teks Tombol Utama</label>
+                                <input v-model="form.cta_primary_text" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Konsultasi Gratis" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Link Tombol Utama</label>
+                                <input v-model="form.cta_primary_url" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="/konsultasi" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Teks Tombol Kedua</label>
+                                <input v-model="form.cta_secondary_text" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Lihat Portfolio" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Link Tombol Kedua</label>
+                                <input v-model="form.cta_secondary_url" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="/portfolio" />
                             </div>
                         </div>
                     </template>

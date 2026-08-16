@@ -31,6 +31,7 @@ class PageSectionController extends Controller
     {
         $validated = $request->validate([
             "title" => "nullable|string|max:255",
+            "subtitle" => "nullable|string|max:255",
             "image" => "nullable|string|max:500",
             "content" => "nullable|array",
             "content.description" => "nullable|string",
@@ -41,6 +42,12 @@ class PageSectionController extends Controller
             "content.items.*.title" => "required_with:content.items|string|max:100",
             "content.items.*.description" => "nullable|string|max:500",
             "content.items.*.icon" => "nullable|string|max:100",
+            // "hero" fields
+            "content.eyebrow" => "nullable|string|max:100",
+            "content.cta_primary_text" => "nullable|string|max:100",
+            "content.cta_primary_url" => "nullable|string|max:255",
+            "content.cta_secondary_text" => "nullable|string|max:100",
+            "content.cta_secondary_url" => "nullable|string|max:255",
         ]);
 
         $pageSection->update($validated);
