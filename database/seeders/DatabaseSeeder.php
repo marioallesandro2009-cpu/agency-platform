@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
             PricingPackageSeeder::class,
             MaintenancePlanSeeder::class,
             PortfolioProjectSeeder::class,
+            TestimonialSeeder::class,
+            FaqSeeder::class,
             BlogCategorySeeder::class,
             BlogPostSeeder::class,
             NavItemSeeder::class,
