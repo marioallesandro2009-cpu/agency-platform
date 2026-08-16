@@ -195,7 +195,7 @@ onUnmounted(() => {
             :style="{
                 borderRadius: radius + 'px',
                 height: isMobile ? height * 0.6 + 'px' : '100%',
-                transformStyle: 'preserve-3d',
+                transformStyle: isMobile ? 'flat' : 'preserve-3d',
                 backgroundColor: overlayColor,
                 '--tw-ring-color': accentColor,
             }"
