@@ -110,7 +110,7 @@ function formatPrice(price) {
                 <div v-if="context === 'kontak'" class="mb-8 flex flex-wrap gap-3">
                     <a
                         v-if="page.props.settings.contact.whatsapp_number"
-                        :href="'https://wa.me/' + page.props.settings.contact.whatsapp_number"
+                        :href="'https://wa.me/' + page.props.settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'"
                         target="_blank"
                         class="inline-flex items-center gap-2 bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700"
                     >

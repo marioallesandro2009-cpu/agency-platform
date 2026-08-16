@@ -104,7 +104,7 @@ const year = new Date().getFullYear();
                     </Link>
                 </nav>
 
-                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number" target="_blank" class="hidden md:inline-block bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Konsultasi Gratis</a>
+                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" class="hidden md:inline-block bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Konsultasi Gratis</a>
 
                 <button
                     @click="mobileMenuOpen = !mobileMenuOpen"
@@ -162,7 +162,7 @@ const year = new Date().getFullYear();
 
         <a
             v-if="settings.contact?.whatsapp_number"
-            :href="'https://wa.me/' + settings.contact.whatsapp_number"
+            :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'"
             target="_blank"
             rel="noopener"
             aria-label="Chat WhatsApp"
