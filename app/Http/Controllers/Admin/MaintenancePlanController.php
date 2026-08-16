@@ -54,6 +54,7 @@ class MaintenancePlanController extends Controller
         return $request->validate([
             "name" => "required|string|max:255",
             "price" => "required|integer",
+            "price_yearly" => "nullable|integer",
             "features" => "nullable|array",
             "cta_text" => "nullable|string|max:100",
             "order" => "nullable|integer",

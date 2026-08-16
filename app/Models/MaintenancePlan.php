@@ -10,13 +10,14 @@ class MaintenancePlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name", "slug", "price", "features", "cta_text", "order", "is_published",
+        "name", "slug", "price", "price_yearly", "features", "cta_text", "order", "is_published",
     ];
 
     protected $casts = [
         "features" => "array",
         "is_published" => "boolean",
         "price" => "integer",
+        "price_yearly" => "integer",
     ];
 
     public function scopePublished($query)

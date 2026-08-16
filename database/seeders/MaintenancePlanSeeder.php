@@ -14,6 +14,7 @@ class MaintenancePlanSeeder extends Seeder
                 "name" => "Basic",
                 "slug" => "basic",
                 "price" => 100000,
+                "price_yearly" => 1000000,
                 "features" => [
                     "Cek uptime & monitoring",
                     "Backup rutin",
@@ -27,6 +28,7 @@ class MaintenancePlanSeeder extends Seeder
                 "name" => "Standard",
                 "slug" => "standard",
                 "price" => 200000,
+                "price_yearly" => 2000000,
                 "features" => [
                     "Semua benefit Basic",
                     "Update plugin/sistem",
@@ -41,6 +43,7 @@ class MaintenancePlanSeeder extends Seeder
                 "name" => "Priority",
                 "slug" => "priority",
                 "price" => 350000,
+                "price_yearly" => 3500000,
                 "features" => [
                     "Semua benefit Standard",
                     "Perubahan section/layout ringan",
