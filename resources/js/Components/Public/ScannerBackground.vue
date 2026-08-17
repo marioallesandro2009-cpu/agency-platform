@@ -265,12 +265,19 @@ function initScanner() {
     if (initialized || !canvasEl.value || !container.value) return;
     initialized = true;
 
-    renderer = new Renderer({
-        canvas: canvasEl.value,
-        alpha: true,
-        antialias: true,
-        dpr: Math.min(window.devicePixelRatio || 1, 2),
-    });
+    try {
+        renderer = new Renderer({
+            canvas: canvasEl.value,
+            alpha: true,
+            antialias: true,
+            dpr: Math.min(window.devicePixelRatio || 1, 2),
+        });
+    } catch (err) {
+        console.warn("ScannerBackground: WebGL unavailable, skipping effect.", err);
+        renderer = null;
+        return;
+    }
+
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
