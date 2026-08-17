@@ -24,6 +24,7 @@ const labels = {
     logo_dark: "Logo Dark Mode",
     favicon: "Favicon",
     og_image: "OG Image",
+    footer_disclaimer: "Disclaimer Footer (elemen visual)",
     whatsapp_number: "Nomor WhatsApp",
     email: "Email",
     phone: "Telepon",

@@ -34,6 +34,7 @@ const menu = [
     { label: "Testimonials", route: "admin.testimonials.index", icon: "testimonials" },
     { label: "FAQ", route: "admin.faqs.index", icon: "faq" },
     { label: "Media", route: "admin.media.index", icon: "media" },
+    { label: "Maskot", route: "admin.mascot.index", icon: "mascot" },
     { label: "Navigasi", route: "admin.navigation.index", icon: "navigation" },
     { label: "Settings", route: "admin.settings.index", icon: "settings" },
 ];

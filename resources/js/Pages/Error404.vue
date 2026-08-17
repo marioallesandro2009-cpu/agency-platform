@@ -7,12 +7,17 @@
  * inaccurate, not "safe."
  */
 import { Head, Link } from "@inertiajs/vue3";
+
+defineProps({
+    mascot: Object,
+});
 </script>
 
 <template>
     <Head title="Halaman Tidak Ditemukan" />
     <div class="min-h-screen bg-charcoal flex items-center justify-center px-4">
         <div class="text-center max-w-md">
+            <img v-if="mascot?.image_path" :src="mascot.image_path" :alt="mascot.alt_text || ''" class="w-40 h-40 mx-auto mb-2 object-contain" />
             <p class="text-brand-500 font-bold text-8xl md:text-9xl tracking-tight">404</p>
             <h1 class="text-white text-xl md:text-2xl font-semibold mt-4">Halaman Tidak Ditemukan</h1>
             <p class="text-gray-400 text-sm mt-3">

@@ -136,11 +136,14 @@ class PageSectionSeeder extends Seeder
                 "content" => [
                     "description" => "Kami adalah agensi pengembangan website yang fokus membantu bisnis dan UMKM di Indonesia hadir secara profesional di dunia digital. Sejak awal berdiri, kami berkomitmen membangun website yang bukan cuma indah dipandang, tapi juga efektif mendatangkan hasil nyata bagi bisnis klien.",
                     "mission" => "Menyediakan solusi website yang terjangkau, cepat, dan berkualitas untuk membantu bisnis tumbuh secara digital.",
+                    "mission_icon" => "target",
                     "vision" => "Menjadi mitra terpercaya bagi UMKM dan bisnis di Indonesia dalam membangun kehadiran online yang profesional.",
+                    "vision_icon" => "compass",
                     "values" => [
-                        ["title" => "Transparansi", "description" => "Harga dan proses kerja yang jelas sejak awal, tanpa biaya tersembunyi."],
-                        ["title" => "Kualitas", "description" => "Setiap website dibangun dengan standar kode dan desain yang rapi."],
-                        ["title" => "Kolaboratif", "description" => "Kami mendengarkan kebutuhan klien sebagai mitra, bukan sekadar vendor."],
+                        ["title" => "Transparansi", "description" => "Harga dan proses kerja yang jelas sejak awal, tanpa biaya tersembunyi.", "icon" => "shield-check"],
+                        ["title" => "Kualitas", "description" => "Setiap website dibangun dengan standar kode dan desain yang rapi.", "icon" => "check-circle"],
+                        ["title" => "Kolaboratif", "description" => "Kami mendengarkan kebutuhan klien sebagai mitra, bukan sekadar vendor.", "icon" => "users"],
+                        ["title" => "Tepat Waktu", "description" => "Kami menyelesaikan proyek sesuai linimasa yang disepakati sejak awal.", "icon" => "clock"],
                     ],
                     "technologies" => ["Laravel", "Vue.js", "Inertia.js", "Tailwind CSS", "MySQL"],
                 ],

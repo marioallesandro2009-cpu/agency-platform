@@ -37,6 +37,7 @@ class PageSectionController extends Controller
             "content.description" => "nullable|string",
             "content.button_text" => "nullable|string|max:100",
             "content.button_url" => "nullable|string|max:255",
+            "content.extra_note" => "nullable|string|max:100",
             // "why_us" cards (content.items[].icon added alongside title/description)
             "content.items" => "nullable|array",
             "content.items.*.title" => "required_with:content.items|string|max:100",

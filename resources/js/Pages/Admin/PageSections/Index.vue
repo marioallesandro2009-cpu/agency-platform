@@ -30,6 +30,7 @@ const form = useForm({
     description: "",
     button_text: "",
     button_url: "",
+    extra_note: "",
     items: [],
     eyebrow: "",
     cta_primary_text: "",
@@ -47,6 +48,7 @@ function openEdit(section) {
     form.description = section.content?.description || "";
     form.button_text = section.content?.button_text || "";
     form.button_url = section.content?.button_url || "";
+    form.extra_note = section.content?.extra_note || "";
     form.items = (section.content?.items || []).map((i) => ({
         title: i.title || "",
         description: i.description || "",
@@ -92,6 +94,7 @@ function submit() {
             description: form.description,
             button_text: form.button_text,
             button_url: form.button_url,
+            extra_note: form.extra_note,
         };
     }
 
@@ -344,6 +347,11 @@ const sectionLabels = {
                                 <label class="block text-sm font-medium mb-1">Link Tombol</label>
                                 <input v-model="form.button_url" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="/tentang-kami" />
                             </div>
+                        </div>
+                        <div v-if="editingSection?.section_type === 'about'">
+                            <label class="block text-sm font-medium mb-1">Catatan Singkat (opsional)</label>
+                            <p class="text-xs text-gray-500 mb-1">Contoh: "5+ project selesai". Tampil di bawah tombol kalau diisi; kosongkan untuk tidak menampilkan apa-apa.</p>
+                            <input v-model="form.extra_note" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="5+ project selesai" />
                         </div>
                     </template>
 

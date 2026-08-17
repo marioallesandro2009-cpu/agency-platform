@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\MaintenancePlanController;
+use App\Http\Controllers\Admin\MascotAssetController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\SettingController;
@@ -115,6 +116,9 @@ Route::middleware(["auth", "admin"])->prefix("admin")->name("admin.")->group(fun
     Route::get("/leads", [App\Http\Controllers\Admin\LeadController::class, "index"])->name("leads.index");
     Route::patch("/leads/{lead:id}", [App\Http\Controllers\Admin\LeadController::class, "updateStatus"])->name("leads.update-status");
     Route::delete("/leads/{lead:id}", [App\Http\Controllers\Admin\LeadController::class, "destroy"])->name("leads.destroy");
+
+    Route::get("/maskot", [MascotAssetController::class, "index"])->name("mascot.index");
+    Route::post("/maskot/{mascotAsset}", [MascotAssetController::class, "update"])->name("mascot.update");
 
     Route::get("/media", [App\Http\Controllers\Admin\MediaController::class, "index"])->name("media.index");
     Route::post("/media", [App\Http\Controllers\Admin\MediaController::class, "store"])->name("media.store");

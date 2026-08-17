@@ -19,7 +19,9 @@ class AboutController extends Controller
                 "content" => [
                     "description" => null,
                     "mission" => null,
+                    "mission_icon" => null,
                     "vision" => null,
+                    "vision_icon" => null,
                     "values" => [],
                     "technologies" => [],
                 ],
@@ -42,10 +44,13 @@ class AboutController extends Controller
             "content" => "nullable|array",
             "content.description" => "nullable|string",
             "content.mission" => "nullable|string",
+            "content.mission_icon" => "nullable|string|max:100",
             "content.vision" => "nullable|string",
+            "content.vision_icon" => "nullable|string|max:100",
             "content.values" => "nullable|array",
             "content.values.*.title" => "required_with:content.values|string|max:100",
             "content.values.*.description" => "nullable|string|max:500",
+            "content.values.*.icon" => "nullable|string|max:100",
             "content.technologies" => "nullable|array",
             "content.technologies.*" => "string|max:100",
         ]);

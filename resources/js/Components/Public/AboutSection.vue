@@ -1,9 +1,11 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 
 defineProps({
     about: Object,
 });
+
+const mascots = usePage().props.mascots || {};
 </script>
 
 <template>
@@ -33,6 +35,14 @@ defineProps({
                     >
                         {{ about.button_text }}
                     </Link>
+                    <p v-if="about.extra_note" class="text-sm text-gray-500 mt-4">{{ about.extra_note }}</p>
+
+                    <img
+                        v-if="mascots.kenalan_dekat_kami?.image_path"
+                        :src="mascots.kenalan_dekat_kami.image_path"
+                        :alt="mascots.kenalan_dekat_kami.alt_text || ''"
+                        class="w-full max-w-xs mt-8 object-contain"
+                    />
                 </div>
             </div>
         </div>

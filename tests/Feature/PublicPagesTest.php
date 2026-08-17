@@ -113,4 +113,19 @@ class PublicPagesTest extends TestCase
         $this->get('/sitemap.xml')->assertOk()->assertHeader('content-type', 'application/xml');
         $this->get('/robots.txt')->assertOk();
     }
+
+    public function test_sitemap_xml_declaration_is_the_first_bytes_of_the_response(): void
+    {
+        // Regression guard: a raw XML declaration written literally as the
+        // first line of a Blade view gets compiled into a PHP file where
+        // PHP's parser chokes on it (short_open_tag), producing a 500 in
+        // production even though local view()->render() calls can succeed.
+        // The declaration must be emitted via a Blade raw-echo, with
+        // nothing (no whitespace, no BOM) before it.
+        $content = $this->get('/sitemap.xml')->assertOk()->getContent();
+
+        $declaration = '<?xml version="1.0" encoding="UTF-8"?>';
+        $this->assertSame($declaration, substr($content, 0, strlen($declaration)));
+        $this->assertStringStartsWith('<?xml', $content);
+    }
 }

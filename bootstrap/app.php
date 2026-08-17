@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MascotAsset;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -38,7 +39,13 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (NotFoundHttpException $e, $request) {
             if (!$request->expectsJson()) {
-                return Inertia::render("Error404")->toResponse($request)->setStatusCode(404);
+                // This renders before the route ever matched, so the "web"
+                // middleware group (and with it HandleInertiaRequests'
+                // shared "mascots" prop) never ran — pass the one mascot
+                // this page needs directly instead of relying on it.
+                return Inertia::render("Error404", [
+                    "mascot" => MascotAsset::where("placement_key", "halaman_404")->where("is_active", true)->first(),
+                ])->toResponse($request)->setStatusCode(404);
             }
         });
     })->create();

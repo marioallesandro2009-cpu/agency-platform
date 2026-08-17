@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 
 const page = usePage();
 const settings = page.props.settings || {};
+const mascots = page.props.mascots || {};
 const navServices = page.props.navServices || [];
 const homeItem = computed(() => (page.props.navMenu || []).find((item) => item.url === "/"));
 const menu = computed(() => (page.props.navMenu || []).filter((item) => item.url !== "/"));
@@ -166,9 +167,15 @@ const year = new Date().getFullYear();
             target="_blank"
             rel="noopener"
             aria-label="Chat WhatsApp"
-            class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#1ebe57] transition-colors"
+            class="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#1ebe57] transition-colors overflow-hidden"
         >
-            <svg viewBox="0 0 32 32" class="h-8 w-8" fill="currentColor" aria-hidden="true">
+            <img
+                v-if="mascots.whatsapp_widget?.image_path"
+                :src="mascots.whatsapp_widget.image_path"
+                :alt="mascots.whatsapp_widget.alt_text || 'Chat WhatsApp'"
+                class="h-full w-full object-cover"
+            />
+            <svg v-else viewBox="0 0 32 32" class="h-8 w-8" fill="currentColor" aria-hidden="true">
                 <path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.31.64 4.47 1.75 6.31L4 29l7.86-1.71A11.94 11.94 0 0 0 16.001 27C22.63 27 28 21.627 28 15S22.63 3 16.001 3Zm0 21.75c-1.93 0-3.73-.53-5.28-1.45l-.38-.22-4.66 1.01 1.02-4.53-.25-.4A9.72 9.72 0 0 1 5.25 15c0-5.93 4.82-10.75 10.75-10.75S26.75 9.07 26.75 15 21.93 24.75 16.001 24.75Zm5.98-8.09c-.33-.16-1.93-.95-2.23-1.06-.3-.11-.52-.16-.74.16-.22.33-.85 1.06-1.04 1.27-.19.22-.38.24-.71.08-.33-.16-1.38-.51-2.63-1.62-.97-.87-1.63-1.94-1.82-2.27-.19-.33-.02-.5.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01-.22 0-.57.08-.87.41-.3.33-1.14 1.11-1.14 2.71 0 1.6 1.17 3.14 1.33 3.36.16.22 2.3 3.51 5.57 4.92.78.34 1.38.54 1.86.69.78.25 1.49.21 2.05.13.63-.09 1.93-.79 2.2-1.55.27-.76.27-1.41.19-1.55-.08-.14-.3-.22-.63-.38Z"/>
             </svg>
         </a>
@@ -205,7 +212,7 @@ const year = new Date().getFullYear();
             </div>
             <div class="border-t border-gray-800 py-4 text-center text-xs space-y-1">
                 <p>(c) {{ year }} {{ settings.general?.website_name }}. All rights reserved.</p>
-                <p class="text-gray-500">Beberapa elemen visual terinspirasi dari sumber ilustrasi umum di internet.</p>
+                <p class="text-gray-500">{{ settings.general?.footer_disclaimer }}</p>
             </div>
         </footer>
     </div>

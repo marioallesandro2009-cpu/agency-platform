@@ -30,6 +30,8 @@ import {
     Layout,
     Settings,
     Heart,
+    Target,
+    Compass,
     Sparkles,
 } from "lucide-vue-next";
 
@@ -61,6 +63,8 @@ const ICONS = {
     Layout,
     Settings,
     Heart,
+    Target,
+    Compass,
 };
 
 const props = defineProps({

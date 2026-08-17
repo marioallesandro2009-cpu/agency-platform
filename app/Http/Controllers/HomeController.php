@@ -39,6 +39,7 @@ class HomeController extends Controller
                 "description" => $aboutSection->content["description"] ?? null,
                 "button_text" => $aboutSection->content["button_text"] ?? null,
                 "button_url" => $aboutSection->content["button_url"] ?? null,
+                "extra_note" => $aboutSection->content["extra_note"] ?? null,
             ];
         }
 

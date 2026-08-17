@@ -1,6 +1,7 @@
 <script setup>
 import AdminLayout from "@/Layouts/Admin/AdminLayout.vue";
 import MediaPicker from "@/Components/MediaPicker.vue";
+import { ICON_OPTIONS } from "@/constants/icons";
 import { useForm, usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -16,14 +17,16 @@ const form = useForm({
     content: {
         description: props.section.content?.description || "",
         mission: props.section.content?.mission || "",
+        mission_icon: props.section.content?.mission_icon || "",
         vision: props.section.content?.vision || "",
-        values: (props.section.content?.values || []).map((v) => ({ title: v.title || "", description: v.description || "" })),
+        vision_icon: props.section.content?.vision_icon || "",
+        values: (props.section.content?.values || []).map((v) => ({ title: v.title || "", description: v.description || "", icon: v.icon || "" })),
         technologies: (props.section.content?.technologies || []).join(", "),
     },
 });
 
 function addCard() {
-    form.content.values.push({ title: "", description: "" });
+    form.content.values.push({ title: "", description: "", icon: "" });
 }
 
 function removeCard(index) {
@@ -90,11 +93,21 @@ function submit() {
             <div class="bg-white rounded-lg shadow p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <h2 class="font-semibold text-gray-900 mb-2">Misi</h2>
-                    <textarea v-model="form.content.mission" rows="3" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                    <textarea v-model="form.content.mission" rows="3" class="w-full border rounded-md px-3 py-2 text-sm mb-2"></textarea>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Icon</label>
+                    <select v-model="form.content.mission_icon" class="w-full border rounded-md px-3 py-2 text-sm">
+                        <option value="">- Default (Target) -</option>
+                        <option v-for="opt in ICON_OPTIONS" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                    </select>
                 </div>
                 <div>
                     <h2 class="font-semibold text-gray-900 mb-2">Visi</h2>
-                    <textarea v-model="form.content.vision" rows="3" class="w-full border rounded-md px-3 py-2 text-sm"></textarea>
+                    <textarea v-model="form.content.vision" rows="3" class="w-full border rounded-md px-3 py-2 text-sm mb-2"></textarea>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Icon</label>
+                    <select v-model="form.content.vision_icon" class="w-full border rounded-md px-3 py-2 text-sm">
+                        <option value="">- Default (Compass) -</option>
+                        <option v-for="opt in ICON_OPTIONS" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                    </select>
                 </div>
             </div>
 
@@ -127,9 +140,16 @@ function submit() {
                             <input v-model="card.title" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="mis. Profesional" />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi Kartu</label>
-                            <input v-model="card.description" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Penjelasan singkat" />
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Icon</label>
+                            <select v-model="card.icon" class="w-full border rounded-md px-3 py-2 text-sm">
+                                <option value="">- Pilih icon -</option>
+                                <option v-for="opt in ICON_OPTIONS" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                            </select>
                         </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Deskripsi Kartu</label>
+                        <input v-model="card.description" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Penjelasan singkat" />
                     </div>
                 </div>
             </div>

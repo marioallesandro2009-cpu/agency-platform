@@ -27,4 +27,6 @@ export const ICON_OPTIONS = [
     { value: "layout", label: "Layout (Struktur)" },
     { value: "settings", label: "Settings (Kustom)" },
     { value: "heart", label: "Heart (Kepuasan)" },
+    { value: "target", label: "Target (Misi/Tujuan)" },
+    { value: "compass", label: "Compass (Visi/Arah)" },
 ];

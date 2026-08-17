@@ -1,13 +1,15 @@
 <script setup>
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
     posts: Array,
     categories: Array,
     activeCategory: Object,
 });
+
+const mascot = usePage().props.mascots?.empty_state_blog;
 
 function formatDate(date) {
     if (!date) return "";
@@ -50,6 +52,7 @@ function formatDate(date) {
             </div>
 
             <div v-if="posts.length === 0" class="text-center text-gray-500 py-12">
+                <img v-if="mascot?.image_path" :src="mascot.image_path" :alt="mascot.alt_text || ''" class="w-32 h-32 mx-auto mb-4 object-contain" />
                 Belum ada artikel di kategori ini.
             </div>
 

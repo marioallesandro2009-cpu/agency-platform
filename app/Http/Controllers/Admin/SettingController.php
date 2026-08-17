@@ -18,7 +18,7 @@ class SettingController extends Controller
      * every visitor. Keep this in sync with SettingSeeder and Admin/Settings/Index.vue.
      */
     private const EDITABLE_KEYS = [
-        "general" => ["website_name", "tagline", "description", "logo", "logo_dark", "favicon", "og_image"],
+        "general" => ["website_name", "tagline", "description", "logo", "logo_dark", "favicon", "og_image", "footer_disclaimer"],
         "contact" => ["whatsapp_number", "email", "phone", "address", "maps_url"],
         "social" => ["instagram", "tiktok", "facebook", "linkedin", "youtube"],
         "branding" => ["primary_color", "secondary_color"],

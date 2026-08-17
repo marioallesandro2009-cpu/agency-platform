@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             BlogCategorySeeder::class,
             BlogPostSeeder::class,
             NavItemSeeder::class,
+            MascotAssetSeeder::class,
         ]);
     }
 }

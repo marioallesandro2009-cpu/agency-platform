@@ -19,6 +19,7 @@ class SettingSeeder extends Seeder
             ["key" => "logo_dark", "value" => null, "group" => "general"],
             ["key" => "favicon", "value" => null, "group" => "general"],
             ["key" => "og_image", "value" => null, "group" => "general"],
+            ["key" => "footer_disclaimer", "value" => "Beberapa elemen visual terinspirasi dari sumber ilustrasi umum di internet.", "group" => "general"],
 
             // Contact
             ["key" => "whatsapp_number", "value" => "6281234567890", "group" => "contact"],

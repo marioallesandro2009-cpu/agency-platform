@@ -29,6 +29,7 @@ defineProps({
 });
 
 const page = usePage();
+const mascots = computed(() => page.props.mascots || {});
 
 const form = useForm({
     name: "",
@@ -56,7 +57,13 @@ function submit() {
             <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
                 <!-- Illustration -->
                 <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
-                    <svg viewBox="0 0 360 320" class="w-full max-w-sm" role="img" aria-label="Ilustrasi kirim pesan">
+                    <img
+                        v-if="mascots.cta_kontak?.image_path"
+                        :src="mascots.cta_kontak.image_path"
+                        :alt="mascots.cta_kontak.alt_text || ''"
+                        class="w-full max-w-sm object-contain"
+                    />
+                    <svg v-else viewBox="0 0 360 320" class="w-full max-w-sm" role="img" aria-label="Ilustrasi kirim pesan">
                         <g id="dots" fill="#a3e635">
                             <circle id="dot1" class="dot" cx="60" cy="60" r="6" />
                             <circle id="dot2" class="dot" cx="300" cy="50" r="5" />
@@ -90,7 +97,13 @@ function submit() {
                     </p>
 
                     <div v-if="submitted" v-scroll-reveal="{ delay: 160 }" class="flex items-start gap-3 bg-white/5 border border-white/10 rounded-lg p-5">
-                        <CircleCheck class="w-6 h-6 text-brand-400 shrink-0 mt-0.5" aria-hidden="true" />
+                        <img
+                            v-if="mascots.kontak_konfirmasi?.image_path"
+                            :src="mascots.kontak_konfirmasi.image_path"
+                            :alt="mascots.kontak_konfirmasi.alt_text || ''"
+                            class="w-10 h-10 rounded-full object-cover shrink-0"
+                        />
+                        <CircleCheck v-else class="w-6 h-6 text-brand-400 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                             <p class="font-semibold text-white mb-1">Terima kasih!</p>
                             <p class="text-sm text-gray-300">{{ page.props.flash.success }}</p>

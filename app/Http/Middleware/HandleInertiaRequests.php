@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\MascotAsset;
 use App\Models\NavItem;
 use App\Models\Service;
 use App\Models\Setting;
@@ -43,6 +44,17 @@ class HandleInertiaRequests extends Middleware
                 ->toArray(),
             "navServices" => Service::published()->ordered()->get(["id", "name", "slug"]),
             "navMenu" => NavItem::visible()->ordered()->get(["id", "label", "url"]),
+            // Keyed by placement_key so any component can read
+            // $page.props.mascots.<key>?.image_path without a dedicated
+            // controller/query per page. image_path/alt_text/caption are
+            // null until an admin sets them via /admin/maskot — every
+            // consuming template must keep today's look when they're null.
+            "mascots" => MascotAsset::where("is_active", true)->get()->keyBy("placement_key")
+                ->map(fn (MascotAsset $m) => [
+                    "image_path" => $m->image_path,
+                    "alt_text" => $m->alt_text,
+                    "caption" => $m->caption,
+                ]),
             "flash" => [
                 "success" => fn () => $request->session()->get("success"),
                 "error" => fn () => $request->session()->get("error"),

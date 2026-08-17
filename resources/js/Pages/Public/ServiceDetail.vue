@@ -13,6 +13,7 @@ const props = defineProps({
 });
 
 const page = usePage();
+const mascots = page.props.mascots || {};
 
 const jsonLd = computed(() => ({
     "@context": "https://schema.org",
@@ -125,6 +126,18 @@ const breadcrumbItems = computed(() => [
                             {{ s.name }}
                         </Link>
                     </div>
+                </div>
+
+                <!-- Mascot (service_sidebar) -->
+                <div v-if="mascots.service_sidebar?.image_path" class="rounded-2xl overflow-hidden bg-gray-50">
+                    <img
+                        :src="mascots.service_sidebar.image_path"
+                        :alt="mascots.service_sidebar.alt_text || ''"
+                        class="w-full h-auto object-contain"
+                    />
+                    <p v-if="mascots.service_sidebar.caption" class="text-xs text-gray-500 text-center py-2 px-3">
+                        {{ mascots.service_sidebar.caption }}
+                    </p>
                 </div>
             </aside>
         </div>
