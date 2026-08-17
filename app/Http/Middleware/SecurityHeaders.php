@@ -67,7 +67,7 @@ class SecurityHeaders
             trim("script-src 'self' 'unsafe-inline' https://www.googletagmanager.com " . implode(' ', $viteDevOrigins)),
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
             "font-src 'self' https://fonts.bunny.net",
-            trim("img-src 'self' data: https: " . implode(' ', $localImgOrigins)),
+            trim("img-src 'self' data: https: blob: " . implode(' ', $localImgOrigins)),
             trim("connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.google.com " . implode(' ', [...$viteDevOrigins, ...$viteDevWsOrigins])),
             "frame-ancestors 'none'",
             "base-uri 'self'",
