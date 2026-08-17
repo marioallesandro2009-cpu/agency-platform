@@ -23,7 +23,7 @@ defineProps({
     <div tabindex="0" class="why-us-card group relative bg-white rounded-xl shadow-sm p-8 overflow-hidden border-l-4 border-brand-600">
         <span class="why-us-card__number" aria-hidden="true">{{ String(index + 1).padStart(2, "0") }}</span>
 
-        <div class="why-us-card__icon relative z-10 w-16 h-16 rounded-full bg-brand-50 flex items-center justify-center mb-5">
+        <div class="why-us-card__icon relative z-10 w-16 h-16 rounded-full flex items-center justify-center mb-5">
             <LucideIcon :name="icon" class="w-8 h-8 text-brand-600" />
         </div>
 
@@ -44,7 +44,7 @@ defineProps({
     line-height: 1;
     font-weight: 800;
     color: #4d7c0f;
-    opacity: 0.12;
+    opacity: 0.06;
     pointer-events: none;
     user-select: none;
 }
@@ -56,6 +56,11 @@ defineProps({
 
 .why-us-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.why-us-card__icon {
+    background: linear-gradient(135deg, #ecfccb 0%, #d9f99d 100%);
+    box-shadow: 0 4px 12px -2px rgb(77 124 15 / 0.25), inset 0 1px 0 rgb(255 255 255 / 0.6);
 }
 
 .why-us-card__desc {

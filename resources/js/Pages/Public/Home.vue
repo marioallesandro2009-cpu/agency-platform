@@ -118,7 +118,19 @@ function toggleFaq(id) {
                         <p class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-2">{{ whyUs.subtitle }}</p>
                         <h2 class="text-3xl font-bold text-gray-900">{{ whyUs.title }}</h2>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <template v-if="whyUs.items.length > 2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto mb-8">
+                            <div v-for="(item, index) in whyUs.items.slice(0, 2)" :key="item.title" v-scroll-reveal="{ delay: index * 80 }">
+                                <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            <div v-for="(item, index) in whyUs.items.slice(2)" :key="item.title" v-scroll-reveal="{ delay: (index + 2) * 80 }">
+                                <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index + 2" />
+                            </div>
+                        </div>
+                    </template>
+                    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
                         <div v-for="(item, index) in whyUs.items" :key="item.title" v-scroll-reveal="{ delay: index * 80 }">
                             <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index" />
                         </div>
