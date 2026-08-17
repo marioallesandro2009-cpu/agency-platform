@@ -4,7 +4,43 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        @php
+            $seoSiteName = \App\Models\Setting::get('website_name') ?: config('app.name', 'Laravel');
+            $seoTagline = \App\Models\Setting::get('tagline');
+            $seoDescription = \App\Models\Setting::get('description');
+            $seoOgImage = \App\Models\Setting::get('og_image');
+            if ($seoOgImage && !preg_match('/^https?:\/\//', $seoOgImage)) {
+                $seoOgImage = url($seoOgImage);
+            }
+            $seoTitle = $seoTagline ? "{$seoSiteName} - {$seoTagline}" : $seoSiteName;
+        @endphp
+
+        {{--
+            Rendered server-side (not just via Inertia's client-side <Head>) because
+            link-preview crawlers (WhatsApp, Facebook, Twitter) don't execute JS —
+            they only ever see this raw blade output. The `inertia="<key>"` attributes
+            match the `head-key`s in SeoHead.vue, so Inertia's Head component replaces
+            each tag in place once Vue mounts instead of appending a duplicate —
+            per-page SeoHead.vue titles/meta still work for real visitors.
+        --}}
+        <title inertia>{{ $seoTitle }}</title>
+        <meta inertia="description" name="description" content="{{ $seoDescription }}">
+
+        <meta inertia="og-site-name" property="og:site_name" content="{{ $seoSiteName }}">
+        <meta inertia="og-title" property="og:title" content="{{ $seoTitle }}">
+        <meta inertia="og-description" property="og:description" content="{{ $seoDescription }}">
+        <meta inertia="og-type" property="og:type" content="website">
+        <meta inertia="og-url" property="og:url" content="{{ url()->current() }}">
+        @if ($seoOgImage)
+            <meta inertia="og-image" property="og:image" content="{{ $seoOgImage }}">
+        @endif
+
+        <meta inertia="twitter-card" name="twitter:card" content="summary_large_image">
+        <meta inertia="twitter-title" name="twitter:title" content="{{ $seoTitle }}">
+        <meta inertia="twitter-description" name="twitter:description" content="{{ $seoDescription }}">
+        @if ($seoOgImage)
+            <meta inertia="twitter-image" name="twitter:image" content="{{ $seoOgImage }}">
+        @endif
 
         <link rel="icon" href="{{ \App\Models\Setting::get('favicon') ?: asset('favicon.ico') }}">
 
