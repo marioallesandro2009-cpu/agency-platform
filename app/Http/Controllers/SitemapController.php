@@ -54,7 +54,25 @@ class SitemapController extends Controller
             $urls[] = ["loc" => route("portfolio.show", $project), "lastmod" => $project->updated_at, "priority" => "0.6"];
         }
 
-        $xml = view("sitemap", ["urls" => $urls])->render();
+        // Generate XML secara manual (tanpa Blade) supaya tidak bergantung
+        // pada view compiler yang bermasalah di production.
+        $xml = '<' . '?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+        foreach ($urls as $url) {
+            $xml .= "  <url>\n";
+            $xml .= "    <loc>" . htmlspecialchars($url["loc"], ENT_XML1 | ENT_QUOTES) . "</loc>\n";
+
+            if (! empty($url["lastmod"])) {
+                $lastmod = is_object($url["lastmod"]) ? $url["lastmod"]->toAtomString() : $url["lastmod"];
+                $xml .= "    <lastmod>" . $lastmod . "</lastmod>\n";
+            }
+
+            $xml .= "    <priority>" . $url["priority"] . "</priority>\n";
+            $xml .= "  </url>\n";
+        }
+
+        $xml .= "</urlset>";
 
         return Response::make($xml, 200, ["Content-Type" => "application/xml"]);
     }
@@ -68,7 +86,7 @@ class SitemapController extends Controller
             "Disallow: /profile",
             "Allow: /",
             "",
-            "Sitemap: ".route("sitemap"),
+            "Sitemap: " . route("sitemap"),
         ]);
 
         return Response::make($content, 200, ["Content-Type" => "text/plain"]);
