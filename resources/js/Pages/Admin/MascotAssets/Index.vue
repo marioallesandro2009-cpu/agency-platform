@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from "@/Layouts/Admin/AdminLayout.vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 
 const props = defineProps({
     assets: Array,
@@ -20,9 +20,21 @@ const META = {
         label: "Widget WhatsApp",
         description: "Avatar tombol WhatsApp mengambang yang tampil di semua halaman publik.",
     },
-    service_sidebar: {
-        label: "Sidebar Halaman Jasa",
-        description: "Gambar tambahan di sidebar kanan-bawah halaman /jasa-website-*.",
+    sidebar_jasa_umkm: {
+        label: "Sidebar Jasa — UMKM",
+        description: "Gambar tambahan di sidebar kanan-bawah halaman /jasa-website-umkm.",
+    },
+    sidebar_jasa_company_profile: {
+        label: "Sidebar Jasa — Company Profile",
+        description: "Gambar tambahan di sidebar kanan-bawah halaman /jasa-website-company-profile.",
+    },
+    sidebar_jasa_toko_online: {
+        label: "Sidebar Jasa — Toko Online",
+        description: "Gambar tambahan di sidebar kanan-bawah halaman /jasa-toko-online.",
+    },
+    sidebar_jasa_web_development: {
+        label: "Sidebar Jasa — Web Development",
+        description: "Gambar tambahan di sidebar kanan-bawah halaman /jasa-web-development.",
     },
     cta_kontak: {
         label: "CTA Kontak (Homepage)",
@@ -60,14 +72,86 @@ const rows = reactive(
         file: null,
         previewUrl: null,
         saving: false,
+        deleting: false,
+        transparencyWarning: false,
     }))
 );
+
+// `rows` is a local reactive copy built once from the initial props so the
+// caption/alt_text inputs stay editable without fighting Inertia's own
+// reactivity. Without this watcher, a fresh `assets` payload from the server
+// (after upload or delete) never reaches the already-mounted rows, which is
+// why the preview used to require a manual browser refresh to show up.
+watch(
+    () => props.assets,
+    (freshAssets) => {
+        freshAssets.forEach((asset) => {
+            const row = rows.find((r) => r.id === asset.id);
+            if (!row) return;
+            row.image_path = asset.image_path;
+            row.caption = asset.caption || "";
+            row.alt_text = asset.alt_text || "";
+        });
+    },
+    { deep: true }
+);
+
+// Reads the picked PNG file into a small offscreen canvas and checks whether
+// every sampled pixel is fully opaque (alpha 255) — a strong signal the
+// "transparent" PNG is actually flat/opaque and will show a solid background
+// box on the public site. Downscaling to 64x64 keeps this cheap regardless
+// of the original image size.
+function checkPngTransparency(file) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+
+        const cleanup = (result) => {
+            URL.revokeObjectURL(url);
+            resolve(result);
+        };
+
+        img.onload = () => {
+            try {
+                const size = 64;
+                const canvas = document.createElement("canvas");
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, size, size);
+                const data = ctx.getImageData(0, 0, size, size).data;
+
+                let hasTransparency = false;
+                for (let i = 3; i < data.length; i += 4) {
+                    if (data[i] < 255) {
+                        hasTransparency = true;
+                        break;
+                    }
+                }
+                cleanup(hasTransparency);
+            } catch (e) {
+                // Can't read pixel data (e.g. canvas tainted) — fail open,
+                // don't block or falsely warn the user.
+                cleanup(true);
+            }
+        };
+        img.onerror = () => cleanup(true);
+        img.src = url;
+    });
+}
 
 function pickFile(row, event) {
     const file = event.target.files?.[0];
     if (!file) return;
     row.file = file;
     row.previewUrl = URL.createObjectURL(file);
+    row.transparencyWarning = false;
+
+    if (file.type === "image/png") {
+        checkPngTransparency(file).then((hasTransparency) => {
+            row.transparencyWarning = !hasTransparency;
+        });
+    }
 }
 
 function save(row) {
@@ -83,9 +167,30 @@ function save(row) {
         onSuccess: () => {
             row.file = null;
             row.previewUrl = null;
+            row.transparencyWarning = false;
         },
         onFinish: () => {
             row.saving = false;
+        },
+    });
+}
+
+function destroyImage(row) {
+    if (!window.confirm("Hapus gambar ini? Halaman publik akan kembali ke tampilan default.")) {
+        return;
+    }
+
+    row.deleting = true;
+
+    router.delete(route("admin.mascot.destroy", row.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            row.file = null;
+            row.previewUrl = null;
+            row.transparencyWarning = false;
+        },
+        onFinish: () => {
+            row.deleting = false;
         },
     });
 }
@@ -100,7 +205,7 @@ function save(row) {
         </div>
 
         <p class="text-sm text-gray-500 mb-6">
-            9 titik ilustrasi/maskot di seluruh situs. Selama gambar belum diisi di sini, halaman publik tampil persis seperti sekarang.
+            12 titik ilustrasi/maskot di seluruh situs. Selama gambar belum diisi di sini, halaman publik tampil persis seperti sekarang.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -115,11 +220,25 @@ function save(row) {
                     </div>
 
                     <div class="flex-1 min-w-0 space-y-2">
-                        <label class="inline-flex items-center gap-2 text-xs bg-brand-600 text-white px-3 py-1.5 rounded-md cursor-pointer hover:bg-brand-700">
-                            Unggah / Ganti Gambar
-                            <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="pickFile(row, $event)" />
-                        </label>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <label class="inline-flex items-center gap-2 text-xs bg-brand-600 text-white px-3 py-1.5 rounded-md cursor-pointer hover:bg-brand-700">
+                                Unggah / Ganti Gambar
+                                <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="pickFile(row, $event)" />
+                            </label>
+                            <button
+                                v-if="row.image_path && !row.previewUrl"
+                                type="button"
+                                :disabled="row.deleting"
+                                @click="destroyImage(row)"
+                                class="inline-flex items-center gap-2 text-xs bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-md hover:bg-red-100 disabled:opacity-50"
+                            >
+                                {{ row.deleting ? "Menghapus..." : "Hapus Gambar" }}
+                            </button>
+                        </div>
                         <p class="text-[11px] text-gray-400">JPG/PNG/WEBP, maks 2MB.</p>
+                        <p v-if="row.transparencyWarning" class="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-1.5">
+                            <strong>Peringatan:</strong> gambar ini terdeteksi tidak memiliki background transparan. Background solid akan ikut tampil di halaman publik. Yakin ingin lanjut upload?
+                        </p>
 
                         <input
                             v-model="row.caption"

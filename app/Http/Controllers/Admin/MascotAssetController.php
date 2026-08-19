@@ -44,4 +44,20 @@ class MascotAssetController extends Controller
 
         return back()->with("success", "Gambar maskot berhasil diperbarui.");
     }
+
+    public function destroy(MascotAsset $mascotAsset)
+    {
+        if ($mascotAsset->image_path) {
+            $oldPath = str_replace(Storage::disk("public")->url(""), "", $mascotAsset->image_path);
+            Storage::disk("public")->delete($oldPath);
+        }
+
+        $mascotAsset->update([
+            "image_path" => null,
+            "alt_text" => null,
+            "caption" => null,
+        ]);
+
+        return back()->with("success", "Gambar maskot berhasil dihapus.");
+    }
 }

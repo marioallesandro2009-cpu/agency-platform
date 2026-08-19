@@ -62,6 +62,8 @@ Route::middleware(["auth", "admin"])->prefix("admin")->name("admin.")->group(fun
     Route::delete("/visitors/reset", [DashboardController::class, "resetVisitors"])->name("visitors.reset");
     Route::get("/settings", [SettingController::class, "index"])->name("settings.index");
     Route::put("/settings", [SettingController::class, "update"])->name("settings.update");
+    Route::post("/settings/favicon", [SettingController::class, "updateFavicon"])->name("settings.favicon.update");
+    Route::delete("/settings/favicon", [SettingController::class, "destroyFavicon"])->name("settings.favicon.destroy");
 
     Route::get("/about", [AdminAboutController::class, "edit"])->name("about.edit");
     Route::put("/about", [AdminAboutController::class, "update"])->name("about.update");
@@ -119,6 +121,7 @@ Route::middleware(["auth", "admin"])->prefix("admin")->name("admin.")->group(fun
 
     Route::get("/maskot", [MascotAssetController::class, "index"])->name("mascot.index");
     Route::post("/maskot/{mascotAsset}", [MascotAssetController::class, "update"])->name("mascot.update");
+    Route::delete("/maskot/{mascotAsset}", [MascotAssetController::class, "destroy"])->name("mascot.destroy");
 
     Route::get("/media", [App\Http\Controllers\Admin\MediaController::class, "index"])->name("media.index");
     Route::post("/media", [App\Http\Controllers\Admin\MediaController::class, "store"])->name("media.store");

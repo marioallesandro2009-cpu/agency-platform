@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewLeadNotification;
 use App\Models\Lead;
 use App\Models\PricingPackage;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class LeadController extends Controller
@@ -75,11 +78,16 @@ class LeadController extends Controller
             "source" => "required|in:konsultasi,kontak,cta_home",
         ]);
 
-        Lead::create([
+        $lead = Lead::create([
             ...$data,
             "source_url" => $request->headers->get("referer"),
             "status" => "new",
         ]);
+
+        $notificationEmail = Setting::get("admin_notification_email");
+        if ($notificationEmail) {
+            Mail::to($notificationEmail)->queue(new NewLeadNotification($lead));
+        }
 
         // Lead-based business model: the team reaches out, the visitor isn't
         // auto-redirected into a WhatsApp chat. See project decision — this

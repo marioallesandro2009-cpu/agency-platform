@@ -15,6 +15,17 @@ const props = defineProps({
 const page = usePage();
 const mascots = page.props.mascots || {};
 
+// Each /jasa-website-* page gets its own sidebar mascot slot instead of a
+// shared one — keyed by the service's slug (matches the route defaults in
+// routes/web.php and SitemapController's $serviceRoutes map).
+const SIDEBAR_MASCOT_KEYS = {
+    "jasa-website-umkm": "sidebar_jasa_umkm",
+    "jasa-website-company-profile": "sidebar_jasa_company_profile",
+    "jasa-toko-online": "sidebar_jasa_toko_online",
+    "jasa-web-development": "sidebar_jasa_web_development",
+};
+const sidebarMascot = computed(() => mascots[SIDEBAR_MASCOT_KEYS[props.service.slug]] || {});
+
 const jsonLd = computed(() => ({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -106,7 +117,7 @@ const breadcrumbItems = computed(() => [
                             class="flex items-center gap-3 group"
                         >
                             <div class="w-14 h-14 rounded-md bg-gray-100 overflow-hidden flex-shrink-0">
-                                <img v-if="project.thumbnail" :src="project.thumbnail" :alt="project.name" class="w-full h-full object-cover" />
+                                <img v-if="project.thumbnail" :src="project.thumbnail" :alt="project.name" width="56" height="56" loading="lazy" class="w-full h-full object-cover" />
                             </div>
                             <span class="text-sm text-gray-700 group-hover:text-brand-600">{{ project.name }}</span>
                         </Link>
@@ -128,15 +139,18 @@ const breadcrumbItems = computed(() => [
                     </div>
                 </div>
 
-                <!-- Mascot (service_sidebar) -->
-                <div v-if="mascots.service_sidebar?.image_path" class="rounded-2xl overflow-hidden bg-gray-50">
+                <!-- Mascot (per-service sidebar slot) -->
+                <div v-if="sidebarMascot.image_path" class="rounded-2xl overflow-hidden bg-gray-50">
                     <img
-                        :src="mascots.service_sidebar.image_path"
-                        :alt="mascots.service_sidebar.alt_text || ''"
+                        :src="sidebarMascot.image_path"
+                        :alt="sidebarMascot.alt_text || ''"
+                        width="400"
+                        height="400"
+                        loading="lazy"
                         class="w-full h-auto object-contain"
                     />
-                    <p v-if="mascots.service_sidebar.caption" class="text-xs text-gray-500 text-center py-2 px-3">
-                        {{ mascots.service_sidebar.caption }}
+                    <p v-if="sidebarMascot.caption" class="text-xs text-gray-500 text-center py-2 px-3">
+                        {{ sidebarMascot.caption }}
                     </p>
                 </div>
             </aside>

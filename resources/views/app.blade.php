@@ -42,7 +42,40 @@
             <meta inertia="twitter-image" name="twitter:image" content="{{ $seoOgImage }}">
         @endif
 
-        <link rel="icon" href="{{ \App\Models\Setting::get('favicon') ?: asset('favicon.ico') }}">
+        {{--
+            Two-layer favicon: Lapis 1 is the static default committed to the
+            repo (public/favicon.ico + favicon-48x48.png + apple-touch-icon.png,
+            generated from resources/images/logo-mark.png — the real ExodineWeb
+            "E" mark, not a generic placeholder), always present so no page is
+            ever left with a missing/empty icon tag. Lapis 2 is the optional
+            admin override (Setting::get('favicon'), set via
+            SettingController::updateFavicon()) — when set, it replaces the
+            default entirely; "Reset ke Default" (destroyFavicon()) clears it
+            back to null, which falls straight back to Lapis 1 here.
+
+            The admin-uploaded file is required to be square and >=180px
+            (enforced server-side in updateFavicon()), so it works for both
+            rel="icon" and apple-touch-icon on its own — no derivative sizes
+            needed for that path. The static default, not being validated at
+            upload time, gets real generated derivatives instead (48x48 PNG +
+            multi-size ICO + 180x180 PNG) so it meets Google's favicon
+            requirements (square, >=48px) without relying on a single ICO's
+            largest embedded frame.
+        --}}
+        @php
+            $customFavicon = \App\Models\Setting::get('favicon');
+            $customFaviconIsIco = $customFavicon && str_ends_with(strtolower($customFavicon), '.ico');
+        @endphp
+        @if ($customFavicon)
+            <link rel="icon" href="{{ $customFavicon }}" type="{{ $customFaviconIsIco ? 'image/x-icon' : 'image/png' }}">
+            @unless ($customFaviconIsIco)
+                <link rel="apple-touch-icon" href="{{ $customFavicon }}">
+            @endunless
+        @else
+            <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+            <link rel="icon" href="{{ asset('favicon-48x48.png') }}" type="image/png" sizes="48x48">
+            <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+        @endif
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -64,7 +97,7 @@
         @endphp
         @if ($gaMeasurementId && ! $isAdminSurface)
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaMeasurementId }}"></script>
-            <script>
+            <script nonce="{{ app('csp-nonce') }}">
                 window.dataLayer = window.dataLayer || [];
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
@@ -73,7 +106,7 @@
         @endif
 
         <!-- Scripts -->
-        @routes
+        @routes(null, app('csp-nonce'))
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>

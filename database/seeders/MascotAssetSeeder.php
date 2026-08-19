@@ -14,7 +14,10 @@ class MascotAssetSeeder extends Seeder
         $keys = [
             "hero_tentang_kami",
             "whatsapp_widget",
-            "service_sidebar",
+            "sidebar_jasa_umkm",
+            "sidebar_jasa_company_profile",
+            "sidebar_jasa_toko_online",
+            "sidebar_jasa_web_development",
             "cta_kontak",
             "kenalan_dekat_kami",
             "halaman_404",
