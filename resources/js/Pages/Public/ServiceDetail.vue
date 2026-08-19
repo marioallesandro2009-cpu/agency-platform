@@ -140,7 +140,7 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <!-- Mascot (per-service sidebar slot) -->
-                <div v-if="sidebarMascot.image_path" class="rounded-2xl overflow-hidden bg-gray-50">
+                <div v-if="sidebarMascot.image_path" class="rounded-2xl overflow-hidden">
                     <img
                         :src="sidebarMascot.image_path"
                         :alt="sidebarMascot.alt_text || ''"
