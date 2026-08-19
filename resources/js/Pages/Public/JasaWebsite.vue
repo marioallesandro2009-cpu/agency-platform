@@ -87,6 +87,9 @@ function formatPrice(price) {
                             v-if="project.thumbnail"
                             :src="project.thumbnail"
                             :alt="project.name"
+                            width="400"
+                            height="160"
+                            loading="lazy"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />
                     </div>

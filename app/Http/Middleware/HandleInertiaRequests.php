@@ -59,6 +59,11 @@ class HandleInertiaRequests extends Middleware
                 "success" => fn () => $request->session()->get("success"),
                 "error" => fn () => $request->session()->get("error"),
             ],
+            // Lets Vue-rendered inline <script> tags (JSON-LD in
+            // PublicLayout/SeoHead/Breadcrumbs) match the nonce SecurityHeaders
+            // put in the CSP header for this same request. See the 'csp-nonce'
+            // singleton binding in AppServiceProvider::register().
+            "cspNonce" => app('csp-nonce'),
         ];
     }
 }

@@ -14,7 +14,7 @@ const mascots = usePage().props.mascots || {};
             <div class="grid grid-cols-1 lg:grid-cols-5 lg:items-center">
                 <div v-scroll-reveal="{ direction: 'left' }" class="lg:col-span-2">
                     <div class="rounded-2xl overflow-hidden shadow-md aspect-[4/5] bg-gray-100">
-                        <img v-if="about.image" :src="about.image" :alt="about.title" class="w-full h-full object-cover" />
+                        <img v-if="about.image" :src="about.image" :alt="about.title" width="400" height="500" loading="lazy" class="w-full h-full object-cover" />
                     </div>
                 </div>
 
@@ -41,7 +41,10 @@ const mascots = usePage().props.mascots || {};
                         v-if="mascots.kenalan_dekat_kami?.image_path"
                         :src="mascots.kenalan_dekat_kami.image_path"
                         :alt="mascots.kenalan_dekat_kami.alt_text || ''"
-                        class="w-full max-w-xs mt-8 object-contain"
+                        width="220"
+                        height="220"
+                        loading="lazy"
+                        class="w-full max-w-[220px] mt-8 object-contain"
                     />
                 </div>
             </div>

@@ -120,6 +120,7 @@ function formatDate(date) {
                         <a
                             :href="'https://wa.me/' + lead.whatsapp.replace(/[^0-9]/g, '')"
                             target="_blank"
+                            rel="noopener"
                             class="text-xs bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700"
                         >
                             Chat WA

@@ -1,7 +1,6 @@
 <script setup>
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
-import AccordionGallery from "@/Components/Public/AccordionGallery.vue";
 import AboutSection from "@/Components/Public/AboutSection.vue";
 import ContactCtaForm from "@/Components/ContactCtaForm.vue";
 import ServiceCard from "@/Components/Public/ServiceCard.vue";
@@ -9,7 +8,13 @@ import WhyUsCard from "@/Components/Public/WhyUsCard.vue";
 import PricingCategoryGrid from "@/Components/Public/PricingCategoryGrid.vue";
 import LiveTicker from "@/Components/Public/LiveTicker.vue";
 import { Link, usePage } from "@inertiajs/vue3";
-import { computed, ref } from "vue";
+import { computed, defineAsyncComponent, ref } from "vue";
+
+// Pulls gsap (the 3D-tilt/hover animation library) into its own lazily
+// fetched chunk instead of bundling it into the homepage's critical initial
+// JS — the "Portfolio" section it belongs to is an optional, admin-toggled,
+// below-the-fold section that a given homepage config may not even render.
+const AccordionGallery = defineAsyncComponent(() => import("@/Components/Public/AccordionGallery.vue"));
 
 const page = usePage();
 
@@ -63,7 +68,7 @@ function toggleFaq(id) {
             <!-- Hero -->
             <section v-if="type === 'hero' && hero" class="relative bg-charcoal text-white overflow-hidden">
                 <template v-if="hero.image">
-                    <img :src="hero.image" alt="" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+                    <img :src="hero.image" alt="" width="1600" height="900" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover opacity-40" />
                     <div class="absolute inset-0 bg-charcoal/80"></div>
                 </template>
                 <div class="max-w-4xl mx-auto px-4 py-24 text-center relative z-10">
@@ -179,8 +184,8 @@ function toggleFaq(id) {
                         v-scroll-reveal="{ delay: index * 80 }"
                         class="bg-white border border-black/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
                     >
-                        <p class="text-yellow-500 text-sm mb-3">
-                            <span v-for="n in t.rating" :key="n">*</span><span v-for="n in (5 - t.rating)" :key="'e' + n" class="text-gray-400">*</span>
+                        <p class="text-yellow-700 text-sm mb-3">
+                            <span v-for="n in t.rating" :key="n">*</span><span v-for="n in (5 - t.rating)" :key="'e' + n" class="text-gray-500">*</span>
                         </p>
                         <p class="text-sm text-gray-600 mb-4 italic">"{{ t.testimonial }}"</p>
                         <p class="font-semibold text-gray-900 text-sm">{{ t.name }}</p>
@@ -245,7 +250,7 @@ function toggleFaq(id) {
                         class="border border-black/10 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
                     >
                         <div class="h-40 bg-gray-100">
-                            <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover" />
+                            <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" width="400" height="160" loading="lazy" class="w-full h-full object-cover" />
                         </div>
                         <div class="p-5">
                             <p v-if="post.category" class="text-xs text-brand-600 font-medium mb-2">{{ post.category.name }}</p>

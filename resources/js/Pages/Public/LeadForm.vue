@@ -112,6 +112,7 @@ function formatPrice(price) {
                         v-if="page.props.settings.contact.whatsapp_number"
                         :href="'https://wa.me/' + page.props.settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'"
                         target="_blank"
+                        rel="noopener"
                         class="inline-flex items-center gap-2 bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700"
                     >
                         Chat WhatsApp
@@ -264,7 +265,7 @@ function formatPrice(price) {
                                                 <span v-if="form.address">{{ form.address }}</span>
                                                 <span v-if="form.address && form.message"> - </span>
                                                 <span v-if="form.message">{{ form.message }}</span>
-                                                <span v-if="!form.address && !form.message" class="text-gray-400">- Tidak diisi -</span>
+                                                <span v-if="!form.address && !form.message" class="text-gray-500">- Tidak diisi -</span>
                                             </p>
                                         </div>
                                         <button type="button" @click="editStep(3)" class="text-brand-600 hover:underline flex-shrink-0">Edit</button>

@@ -207,6 +207,8 @@ onUnmounted(() => {
                 :ref="(el) => setMediaRef(el, index)"
                 :src="item.image"
                 :alt="item.label"
+                width="400"
+                height="500"
                 class="absolute inset-0 h-full w-full object-cover"
                 loading="lazy"
             />

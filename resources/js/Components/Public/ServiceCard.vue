@@ -24,6 +24,8 @@ const PLACEHOLDER = "https://placehold.co/640x360?text=%20";
                 :src="service.image || PLACEHOLDER"
                 :alt="service.image ? service.name : ''"
                 :aria-hidden="!service.image"
+                width="640"
+                height="360"
                 class="w-full h-full object-cover service-card__img"
                 loading="lazy"
             />

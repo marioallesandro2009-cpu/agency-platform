@@ -82,7 +82,7 @@ function formatPrice(price) {
                     v-scroll-reveal="{ delay: index * 80 }"
                 />
             </div>
-            <p v-else class="text-center text-gray-400 py-12">Paket untuk kategori ini akan segera hadir.</p>
+            <p v-else class="text-center text-gray-500 py-12">Paket untuk kategori ini akan segera hadir.</p>
 
             <div v-if="activePackages.length" v-scroll-reveal class="mt-14 bg-white border border-black/10 rounded-2xl p-6 md:p-8">
                 <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Harga Renewal per Tier</h3>

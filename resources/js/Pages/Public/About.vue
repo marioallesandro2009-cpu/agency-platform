@@ -45,6 +45,9 @@ function valueIcon(value) {
                         v-if="mascots.intro_tentang_kami?.image_path"
                         :src="mascots.intro_tentang_kami.image_path"
                         :alt="mascots.intro_tentang_kami.alt_text || ''"
+                        width="80"
+                        height="80"
+                        loading="lazy"
                         class="w-20 h-20 object-contain mb-4"
                     />
                     <p class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-3">Profil Kami</p>
@@ -57,6 +60,9 @@ function valueIcon(value) {
                         :src="about.image || mascots.hero_tentang_kami?.image_path || 'https://placehold.co/600x450'"
                         :alt="about.image || mascots.hero_tentang_kami?.image_path ? (about.title || 'Tentang Kami') : ''"
                         :aria-hidden="!about.image && !mascots.hero_tentang_kami?.image_path"
+                        width="600"
+                        height="450"
+                        loading="lazy"
                         class="w-full h-full object-cover"
                     />
                 </div>

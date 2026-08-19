@@ -22,13 +22,13 @@ function state(index) {
 const circleClasses = {
     done: "bg-brand-600 border-brand-600 text-white",
     active: "bg-white border-brand-600 text-brand-600",
-    upcoming: "bg-white border-gray-300 text-gray-400",
+    upcoming: "bg-white border-gray-300 text-gray-500",
 };
 
 const labelClasses = {
     done: "text-gray-700",
     active: "text-gray-900 font-semibold",
-    upcoming: "text-gray-400",
+    upcoming: "text-gray-500",
 };
 
 const lineClass = (index) => (state(index) === "done" ? "bg-brand-600" : "bg-gray-200");

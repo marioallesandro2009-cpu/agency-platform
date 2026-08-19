@@ -52,7 +52,7 @@ function formatDate(date) {
             </div>
 
             <div v-if="posts.length === 0" class="text-center text-gray-500 py-12">
-                <img v-if="mascot?.image_path" :src="mascot.image_path" :alt="mascot.alt_text || ''" class="w-32 h-32 mx-auto mb-4 object-contain" />
+                <img v-if="mascot?.image_path" :src="mascot.image_path" :alt="mascot.alt_text || ''" width="128" height="128" loading="lazy" class="w-32 h-32 mx-auto mb-4 object-contain" />
                 Belum ada artikel di kategori ini.
             </div>
 
@@ -64,7 +64,7 @@ function formatDate(date) {
                     class="border border-black/10 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
                 >
                     <div class="h-48 bg-gray-100">
-                        <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" class="w-full h-full object-cover" />
+                        <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" width="400" height="192" loading="lazy" class="w-full h-full object-cover" />
                     </div>
                     <div class="p-5">
                         <p v-if="post.category" class="text-xs text-brand-600 font-medium mb-2">{{ post.category.name }}</p>

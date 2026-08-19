@@ -41,7 +41,7 @@ const year = new Date().getFullYear();
 
 <template>
     <Head>
-        <component :is="'script'" type="application/ld+json">{{ organizationJsonLd }}</component>
+        <component :is="'script'" type="application/ld+json" :nonce="page.props.cspNonce">{{ organizationJsonLd }}</component>
     </Head>
     <div class="min-h-screen flex flex-col bg-white">
         <div class="bg-charcoal text-gray-300 text-xs">
@@ -51,9 +51,9 @@ const year = new Date().getFullYear();
                     <span v-if="settings.contact?.email">Email: {{ settings.contact.email }}</span>
                 </div>
                 <div class="flex gap-3">
-                    <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" class="hover:text-white">Instagram</a>
-                    <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" class="hover:text-white">Facebook</a>
-                    <a v-if="settings.social?.linkedin" :href="settings.social.linkedin" target="_blank" class="hover:text-white">LinkedIn</a>
+                    <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
+                    <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" rel="noopener" class="hover:text-white">Facebook</a>
+                    <a v-if="settings.social?.linkedin" :href="settings.social.linkedin" target="_blank" rel="noopener" class="hover:text-white">LinkedIn</a>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@ const year = new Date().getFullYear();
         <header class="sticky top-0 z-40 bg-white shadow-sm">
             <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/" class="flex items-center gap-2">
-                    <img v-if="settings.general?.logo" :src="settings.general.logo" class="h-8" :alt="settings.general?.website_name" />
+                    <img v-if="settings.general?.logo" :src="settings.general.logo" width="120" height="32" class="h-8" :alt="settings.general?.website_name" />
                     <span v-else class="font-bold text-xl text-gray-900">{{ settings.general?.website_name }}</span>
                 </Link>
 
@@ -105,7 +105,7 @@ const year = new Date().getFullYear();
                     </Link>
                 </nav>
 
-                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" class="hidden md:inline-block bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Konsultasi Gratis</a>
+                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" rel="noopener" class="hidden md:inline-block bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Konsultasi Gratis</a>
 
                 <button
                     @click="mobileMenuOpen = !mobileMenuOpen"
@@ -173,6 +173,8 @@ const year = new Date().getFullYear();
                 v-if="mascots.whatsapp_widget?.image_path"
                 :src="mascots.whatsapp_widget.image_path"
                 :alt="mascots.whatsapp_widget.alt_text || 'Chat WhatsApp'"
+                width="56"
+                height="56"
                 class="h-full w-full object-cover"
             />
             <svg v-else viewBox="0 0 32 32" class="h-8 w-8" fill="currentColor" aria-hidden="true">
@@ -205,8 +207,8 @@ const year = new Date().getFullYear();
                 <div>
                     <h4 class="text-white font-semibold mb-3 text-sm">Ikuti Kami</h4>
                     <div class="flex gap-3 text-sm">
-                        <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" class="hover:text-white">Instagram</a>
-                        <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" class="hover:text-white">Facebook</a>
+                        <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
+                        <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" rel="noopener" class="hover:text-white">Facebook</a>
                     </div>
                 </div>
             </div>

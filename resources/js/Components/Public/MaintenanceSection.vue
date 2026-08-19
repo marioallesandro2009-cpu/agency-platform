@@ -121,7 +121,7 @@ function waLink(planName) {
                             <p class="text-lg font-bold text-gray-900">
                                 {{ formatPrice(priceDisplay(plan).final, periodFor(plan)) }}
                             </p>
-                            <span v-if="priceDisplay(plan).original" class="text-sm text-gray-400 line-through">
+                            <span v-if="priceDisplay(plan).original" class="text-sm text-gray-500 line-through">
                                 {{ formatPrice(priceDisplay(plan).original, periodFor(plan)) }}
                             </span>
                         </div>
@@ -151,7 +151,7 @@ function waLink(planName) {
                 </div>
             </div>
 
-            <p class="text-center text-xs text-gray-400 max-w-2xl mx-auto mt-8">
+            <p class="text-center text-xs text-gray-500 max-w-2xl mx-auto mt-8">
                 Paket maintenance opsional. Website Anda tetap mendapat garansi bug-fixing sesuai ketentuan tier yang
                 dipilih, meski tanpa paket maintenance lanjutan.
             </p>

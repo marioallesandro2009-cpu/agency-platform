@@ -46,6 +46,8 @@ const breadcrumbItems = computed(() => [
                     v-if="project.cover_image"
                     :src="project.cover_image"
                     :alt="project.name"
+                    width="896"
+                    height="384"
                     class="w-full h-full object-cover"
                 />
             </div>
@@ -92,6 +94,7 @@ const breadcrumbItems = computed(() => [
                 <a
                     :href="project.live_url"
                     target="_blank"
+                    rel="noopener"
                     class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700"
                 >
                     Kunjungi
@@ -121,6 +124,9 @@ const breadcrumbItems = computed(() => [
                                 v-if="item.thumbnail"
                                 :src="item.thumbnail"
                                 :alt="item.name"
+                                width="400"
+                                height="128"
+                                loading="lazy"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform"
                             />
                         </div>

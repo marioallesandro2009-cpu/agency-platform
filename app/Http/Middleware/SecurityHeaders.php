@@ -22,19 +22,37 @@ class SecurityHeaders
         $response->headers->set("Referrer-Policy", "strict-origin-when-cross-origin");
         $response->headers->set("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
 
+        /**
+         * Same-origin window isolation. Safe to set unconditionally: nothing on
+         * this site opens a cross-origin popup/tab that needs a window.opener
+         * reference back (the WhatsApp links/widget are plain <a target="_blank"
+         * rel="noopener"> — no window.open() or postMessage handshake — and GTM
+         * doesn't need it either), so there's no feature this could break.
+         */
+        $response->headers->set("Cross-Origin-Opener-Policy", "same-origin");
+
         if (app()->environment('production')) {
             // 1 year, includes subdomains — safe to opt in since ForceHttps
             // already redirects every http:// request to https:// site-wide.
-            $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+            // "preload" only takes effect once the domain is actually submitted
+            // to https://hstspreload.org — adding the directive here is a
+            // prerequisite for that submission, not a substitute for it.
+            $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
         }
 
         /**
-         * script-src keeps 'unsafe-inline' for the JSON-LD <script type="application/ld+json">
-         * tags used for SEO structured data — those aren't executable, but CSP still governs
-         * any <script> element. HTMLPurifier-sanitized content is the primary XSS defense;
-         * this CSP is a second layer that still blocks loading scripts from other origins,
-         * framing, and base-uri/object-src tricks.
+         * script-src carries a per-request nonce (see the 'csp-nonce' singleton
+         * binding in AppServiceProvider::register()) for the inline scripts we control — @routes/gtag init in app.blade.php, and
+         * the JSON-LD <script type="application/ld+json"> tags Vue renders in
+         * PublicLayout/SeoHead/Breadcrumbs via the "cspNonce" shared prop.
+         * 'unsafe-inline' is kept alongside as a fallback token: CSP2+ browsers
+         * ignore 'unsafe-inline' whenever a nonce is also present in the same
+         * directive (per spec — this is the standard progressive-enhancement
+         * pattern, not a loophole), so it costs nothing in any browser Lighthouse
+         * tests with, while protecting against any inline script that isn't
+         * (yet) covered by the nonce plumbing in older/uncommon browsers.
          */
+        $nonce = app('csp-nonce');
         /**
          * In local dev, the Vite dev server serves scripts (and a websocket for HMR)
          * from a separate origin/port, so CSP must allow that origin explicitly —
@@ -64,7 +82,7 @@ class SecurityHeaders
 
         $response->headers->set("Content-Security-Policy", implode("; ", [
             "default-src 'self'",
-            trim("script-src 'self' 'unsafe-inline' https://www.googletagmanager.com " . implode(' ', $viteDevOrigins)),
+            trim("script-src 'self' 'unsafe-inline' 'nonce-{$nonce}' https://www.googletagmanager.com " . implode(' ', $viteDevOrigins)),
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
             "font-src 'self' https://fonts.bunny.net",
             trim("img-src 'self' data: https: blob: " . implode(' ', $localImgOrigins)),

@@ -1,6 +1,8 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+
+const page = usePage();
 
 const props = defineProps({
     // [{ label, href }] — href omitted (or absent) on the last/current item.
@@ -30,7 +32,7 @@ const jsonLd = computed(() => {
 
 <template>
     <Head>
-        <component :is="'script'" type="application/ld+json">{{ jsonLd }}</component>
+        <component :is="'script'" type="application/ld+json" :nonce="page.props.cspNonce">{{ jsonLd }}</component>
     </Head>
     <nav
         aria-label="Breadcrumb"

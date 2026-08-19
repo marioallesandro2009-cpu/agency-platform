@@ -233,7 +233,7 @@ async function destroy(project) {
                         </p>
                         <p class="text-xs text-gray-400">
                             {{ project.category }}
-                            <span v-if="project.live_url"> Â· <a :href="project.live_url" target="_blank" class="text-brand-600 hover:underline">Link live</a></span>
+                            <span v-if="project.live_url"> Â· <a :href="project.live_url" target="_blank" rel="noopener" class="text-brand-600 hover:underline">Link live</a></span>
                         </p>
                     </div>
                     <div class="flex items-center gap-3">

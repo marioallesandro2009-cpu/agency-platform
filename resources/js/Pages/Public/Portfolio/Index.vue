@@ -60,6 +60,7 @@ function domainLabel(url) {
                             v-if="project.live_url"
                             :href="project.live_url"
                             target="_blank"
+                            rel="noopener"
                             class="text-gray-500 hover:text-brand-600 text-sm"
                         >
                             {{ domainLabel(project.live_url) }}
@@ -79,6 +80,9 @@ function domainLabel(url) {
                                 v-if="project.thumbnail"
                                 :src="project.thumbnail"
                                 :alt="project.name"
+                                width="800"
+                                height="600"
+                                loading="lazy"
                                 class="w-full h-auto object-cover"
                             />
                             <div v-else class="w-full h-56 bg-gray-100"></div>

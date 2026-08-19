@@ -48,6 +48,6 @@ const jsonLdString = computed(() => (props.jsonLd ? JSON.stringify(props.jsonLd)
         <meta head-key="twitter-description" name="twitter:description" :content="metaDescription" />
         <meta v-if="ogImage" head-key="twitter-image" name="twitter:image" :content="ogImage" />
 
-        <component v-if="jsonLdString" head-key="json-ld" :is="'script'" type="application/ld+json">{{ jsonLdString }}</component>
+        <component v-if="jsonLdString" head-key="json-ld" :is="'script'" type="application/ld+json" :nonce="page.props.cspNonce">{{ jsonLdString }}</component>
     </Head>
 </template>

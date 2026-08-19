@@ -68,6 +68,21 @@ class PublicPagesTest extends TestCase
         $this->get('/jasa-website-umkm')->assertNotFound();
     }
 
+    /**
+     * A route that doesn't exist at all never reaches "web" group middleware
+     * (Laravel throws NotFoundHttpException straight out of route matching,
+     * before any matched route's middleware pipeline runs) — the custom
+     * NotFoundHttpException render callback in bootstrap/app.php builds its
+     * response outside that pipeline entirely. Anything the response layer
+     * (app.blade.php, HandleInertiaRequests) unconditionally depends on being
+     * bound by "web" middleware — like the CSP nonce — must still resolve
+     * here, or every unmatched URL 500s instead of showing the 404 page.
+     */
+    public function test_completely_unmatched_route_returns_404_not_500(): void
+    {
+        $this->get('/this-route-does-not-exist-at-all')->assertNotFound();
+    }
+
     public function test_blog_post_detail_page_loads(): void
     {
         $category = BlogCategory::create(['name' => 'Tips', 'slug' => 'tips']);
