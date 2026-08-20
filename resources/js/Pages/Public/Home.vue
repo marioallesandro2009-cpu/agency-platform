@@ -9,6 +9,9 @@ import PricingCategoryGrid from "@/Components/Public/PricingCategoryGrid.vue";
 import LiveTicker from "@/Components/Public/LiveTicker.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed, defineAsyncComponent, ref } from "vue";
+import { MessageCircle, PenTool, Code, Rocket } from "lucide-vue-next";
+
+const PROCESS_ICONS = [MessageCircle, PenTool, Code, Rocket];
 
 // Pulls gsap (the 3D-tilt/hover animation library) into its own lazily
 // fetched chunk instead of bundling it into the homepage's critical initial
@@ -149,16 +152,24 @@ function toggleFaq(id) {
                     <p class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-2">{{ process.subtitle }}</p>
                     <h2 class="text-3xl font-bold text-gray-900">{{ process.title }}</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div
-                        v-for="(step, index) in process.steps"
-                        :key="step.title"
-                        v-scroll-reveal="{ delay: index * 80 }"
-                        class="text-center"
-                    >
-                        <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center font-semibold mx-auto mb-3">{{ index + 1 }}</div>
-                        <h3 class="font-semibold text-gray-900 mb-2">{{ step.title }}</h3>
-                        <p class="text-sm text-gray-500">{{ step.description }}</p>
+                <div class="relative">
+                    <div class="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-0.5 bg-brand-200"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div
+                            v-for="(step, index) in process.steps"
+                            :key="step.title"
+                            v-scroll-reveal="{ delay: index * 80 }"
+                            class="relative text-center bg-white border border-brand-100 rounded-xl px-5 py-6 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:border-brand-300 hover:shadow-lg"
+                        >
+                            <div class="process-icon-3d relative w-16 h-16 mx-auto mb-3" :style="{ animationDelay: index * 200 + 'ms' }">
+                                <div class="w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center">
+                                    <component :is="PROCESS_ICONS[index]" class="w-7 h-7" aria-hidden="true" />
+                                </div>
+                                <span class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-white border-2 border-brand-600 text-brand-600 text-xs font-bold flex items-center justify-center">{{ index + 1 }}</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">{{ step.title }}</h3>
+                            <p class="text-sm text-gray-500">{{ step.description }}</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -276,3 +287,28 @@ function toggleFaq(id) {
         </template>
     </PublicLayout>
 </template>
+
+<style scoped>
+/* Ambient (non-hover) 3D wobble for the "Proses Kerja Kami" step icons —
+   runs continuously on a perspective tilt, independent of :hover. */
+.process-icon-3d {
+    perspective: 500px;
+}
+.process-icon-3d > div {
+    animation: process-icon-tilt 5s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+@keyframes process-icon-tilt {
+    0%, 100% {
+        transform: rotateY(-14deg) rotateX(5deg);
+    }
+    50% {
+        transform: rotateY(14deg) rotateX(-5deg);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .process-icon-3d > div {
+        animation: none;
+    }
+}
+</style>
