@@ -79,7 +79,7 @@ const breadcrumbItems = computed(() => [
                 :alt="post.title"
                 width="1200"
                 height="675"
-                class="w-full rounded-lg mb-8 object-cover max-h-96"
+                class="w-full rounded-xl mb-8 object-cover max-h-96"
             />
 
             <div class="prose max-w-none text-gray-700 whitespace-pre-line" v-html="post.content"></div>

@@ -1,5 +1,6 @@
 <script setup>
-import { Link, usePage } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
+import Button from "./Button.vue";
 
 defineProps({
     about: Object,
@@ -9,7 +10,7 @@ const mascots = usePage().props.mascots || {};
 </script>
 
 <template>
-    <section class="bg-white py-24 md:py-32 overflow-hidden">
+    <section class="bg-gray-50 py-24 md:py-32 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-12 lg:items-center gap-8 lg:gap-0">
                 <div
@@ -22,13 +23,9 @@ const mascots = usePage().props.mascots || {};
                     <p class="text-gray-600 text-left leading-relaxed mb-8">
                         {{ about.description }}
                     </p>
-                    <Link
-                        v-if="about.button_text"
-                        :href="about.button_url || '/tentang-kami'"
-                        class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-7 py-3.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
-                    >
+                    <Button v-if="about.button_text" :href="about.button_url || '/tentang-kami'" size="large">
                         {{ about.button_text }}
-                    </Link>
+                    </Button>
                     <p v-if="about.extra_note" class="text-sm text-gray-500 mt-4">{{ about.extra_note }}</p>
 
                     <img
@@ -43,7 +40,7 @@ const mascots = usePage().props.mascots || {};
                 </div>
 
                 <div v-scroll-reveal="{ direction: 'left' }" class="lg:col-start-1 lg:col-span-7 lg:row-start-1">
-                    <div class="rounded-lg overflow-hidden aspect-[4/3] lg:aspect-[3/4] bg-gray-100">
+                    <div class="rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[3/4] bg-gray-100">
                         <img v-if="about.image" :src="about.image" :alt="about.title" width="700" height="875" loading="lazy" class="w-full h-full object-cover" />
                     </div>
                 </div>

@@ -71,6 +71,11 @@ function toggleFaq(id) {
         <template v-for="type in sections" :key="type">
             <!-- Hero -->
             <section v-if="type === 'hero' && hero" class="relative bg-charcoal text-white overflow-hidden">
+                <div
+                    class="absolute inset-0 opacity-[0.06] pointer-events-none"
+                    aria-hidden="true"
+                    style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 32px 32px;"
+                ></div>
                 <div class="max-w-7xl mx-auto px-4 py-24 sm:py-32 lg:py-36 relative z-10">
                     <div class="grid grid-cols-1 gap-14 lg:gap-20" :class="hero.image ? 'lg:grid-cols-2 lg:items-center' : ''">
                         <div :class="hero.image ? '' : 'text-center max-w-3xl mx-auto'">
@@ -95,7 +100,7 @@ function toggleFaq(id) {
                         </div>
 
                         <div v-if="hero.image" v-scroll-reveal="{ direction: 'right', delay: 120 }" class="relative">
-                            <div class="rounded-lg overflow-hidden shadow-elevated aspect-[4/3]">
+                            <div class="rounded-xl overflow-hidden shadow-elevated aspect-[4/3]">
                                 <img :src="hero.image" :alt="hero.title" width="1200" height="900" fetchpriority="high" class="w-full h-full object-cover" />
                             </div>
                         </div>
@@ -120,16 +125,20 @@ function toggleFaq(id) {
             </section>
 
             <!-- Portfolio -->
-            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="max-w-6xl mx-auto px-4 py-20 md:py-24">
-                <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                    <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ portfolioSection?.subtitle || "Portfolio" }}</p>
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ portfolioSection?.title || "Hasil Karya Kami" }}</h2>
-                </div>
-                <div v-scroll-reveal="{ delay: 100 }">
-                    <AccordionGallery :items="portfolioGalleryItems" />
-                </div>
-                <div class="text-center mt-12">
-                    <Link href="/portfolio" class="text-brand-600 font-semibold text-sm hover:underline">Lihat semua portfolio -&gt;</Link>
+            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="bg-gray-50 py-20 md:py-24">
+                <div class="max-w-6xl mx-auto px-4">
+                    <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
+                        <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ portfolioSection?.subtitle || "Portfolio" }}</p>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ portfolioSection?.title || "Hasil Karya Kami" }}</h2>
+                    </div>
+                    <div v-scroll-reveal="{ delay: 100 }">
+                        <AccordionGallery :items="portfolioGalleryItems" />
+                    </div>
+                    <div class="text-center mt-12">
+                        <Button variant="ghost" href="/portfolio" class="group">
+                            Lihat semua portfolio <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">-&gt;</span>
+                        </Button>
+                    </div>
                 </div>
             </section>
 

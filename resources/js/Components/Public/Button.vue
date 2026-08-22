@@ -37,7 +37,7 @@ const classes = computed(() => {
     }
 
     const size = props.size === "large" ? "px-7 py-3.5" : "px-6 py-3";
-    const shape = `${base} ${size} text-sm font-semibold uppercase tracking-wide rounded-md hover:-translate-y-0.5 disabled:hover:translate-y-0`;
+    const shape = `${base} ${size} text-sm font-semibold uppercase tracking-wide rounded-md hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 disabled:hover:translate-y-0 disabled:active:scale-100`;
 
     if (props.variant === "outline") {
         return `${shape} border border-white/30 text-white hover:border-white`;
