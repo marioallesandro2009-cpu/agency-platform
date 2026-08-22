@@ -14,6 +14,15 @@
  *   3. .page-header__scrim — thin dark gradient overlay, z-10, for contrast
  *   4. .page-header__content — breadcrumb (optional) + eyebrow/title/
  *                              subtitle text, z-20
+ *
+ * The section itself carries `isolate` — without it, `position: relative`
+ * alone does NOT create a stacking context, so the scrim's z-10 competes
+ * with siblings outside this component instead of staying contained. That
+ * let the scrim bleed onto any element pulled up over this section's own
+ * box with a negative margin (e.g. Portfolio/Show.vue's cover image,
+ * `-mt-8`) — z-index:auto siblings still lose to an uncontained z-10, even
+ * though `overflow-hidden` keeps the scrim inside this section's own box.
+ * `isolate` fixes that at the source, so no caller needs its own workaround.
  */
 import ScannerBackground from "./ScannerBackground.vue";
 import Breadcrumbs from "./Breadcrumbs.vue";
@@ -34,7 +43,7 @@ defineProps({
 </script>
 
 <template>
-    <section class="page-header relative overflow-hidden bg-charcoal text-white py-14 sm:py-20 md:py-28">
+    <section class="page-header relative isolate overflow-hidden bg-charcoal text-white py-14 sm:py-20 md:py-28">
         <ScannerBackground class="z-0" :color1="color1" :color2="color2" :color3="color3" />
 
         <div class="page-header__scrim absolute inset-0 z-10" aria-hidden="true"></div>
