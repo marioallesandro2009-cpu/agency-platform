@@ -15,16 +15,16 @@ defineProps({
 </script>
 
 <template>
-    <div class="why-us-tile relative">
-        <span class="block text-5xl md:text-6xl font-extrabold text-brand-100 leading-none mb-5 tabular-nums" aria-hidden="true">
+    <div class="why-us-tile relative text-center sm:text-left">
+        <span class="block text-5xl md:text-6xl font-extrabold text-brand-200 leading-none mb-5 tabular-nums" aria-hidden="true">
             {{ String(index + 1).padStart(2, "0") }}
         </span>
 
-        <div class="flex items-center gap-2.5 mb-2.5">
+        <div class="flex items-center justify-center sm:justify-start gap-2.5 mb-2.5">
             <LucideIcon :name="icon" class="w-5 h-5 text-brand-600 shrink-0" />
             <h3 class="font-bold text-lg text-gray-900 tracking-tight">{{ title }}</h3>
         </div>
 
-        <p class="text-base text-gray-500 leading-relaxed max-w-xs">{{ description }}</p>
+        <p class="text-base text-gray-600 leading-relaxed max-w-xs mx-auto sm:mx-0">{{ description }}</p>
     </div>
 </template>
