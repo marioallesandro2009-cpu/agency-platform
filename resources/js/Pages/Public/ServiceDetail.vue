@@ -66,7 +66,7 @@ const breadcrumbItems = computed(() => [
         <div class="max-w-7xl mx-auto px-4 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
             <!-- Main content -->
             <div v-scroll-reveal class="lg:col-span-2">
-                <div class="prose max-w-none text-lg text-gray-700 leading-relaxed whitespace-pre-line" v-html="service.long_description || service.description"></div>
+                <div class="prose text-lg text-gray-700 leading-relaxed whitespace-pre-line" v-html="service.long_description || service.description"></div>
 
                 <div v-if="service.features?.length" class="mt-12">
                     <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-5">Fitur</h2>
@@ -83,14 +83,29 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-200">
-                    <Button :href="service.cta_url || '/konsultasi'">{{ service.cta_text || "Konsultasi Gratis Sekarang" }}</Button>
+                    <div class="flex flex-wrap items-center gap-6 sm:gap-8">
+                        <Button :href="service.cta_url || '/konsultasi'">{{ service.cta_text || "Konsultasi Gratis Sekarang" }}</Button>
+
+                        <div v-if="sidebarMascot.image_path" class="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48 mascot-float">
+                            <div class="absolute inset-2 -z-10 rounded-full bg-brand-50" aria-hidden="true"></div>
+                            <img
+                                :src="sidebarMascot.image_path"
+                                :alt="sidebarMascot.alt_text || ''"
+                                width="220"
+                                height="220"
+                                loading="lazy"
+                                class="w-full h-full object-contain"
+                            />
+                        </div>
+                    </div>
+                    <p v-if="sidebarMascot.caption" class="text-xs text-gray-500 mt-3">{{ sidebarMascot.caption }}</p>
                 </div>
             </div>
 
             <!-- Sidebar -->
             <aside v-scroll-reveal="{ direction: 'right' }" class="space-y-8">
                 <!-- Related articles -->
-                <div v-if="relatedPosts?.length">
+                <div v-if="relatedPosts?.length" class="[&:not(:first-child)]:pt-8 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-gray-100">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Terkait</h3>
                     <div class="space-y-4">
                         <Link
@@ -106,7 +121,7 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <!-- Portfolio (toggle-controlled) -->
-                <div v-if="relatedPortfolio?.length">
+                <div v-if="relatedPortfolio?.length" class="[&:not(:first-child)]:pt-8 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-gray-100">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Portfolio Terkait</h3>
                     <div class="space-y-3">
                         <Link
@@ -124,35 +139,42 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <!-- Other services -->
-                <div v-if="otherServices?.length">
+                <div v-if="otherServices?.length" class="[&:not(:first-child)]:pt-8 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-gray-100">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Layanan Lainnya</h3>
                     <div class="space-y-3">
                         <Link
                             v-for="s in otherServices"
                             :key="s.id"
                             :href="'/' + s.slug"
-                            class="block text-sm text-gray-700 hover:text-brand-600"
+                            class="group flex items-center justify-between gap-2 text-sm text-gray-700 hover:text-brand-600 transition-colors"
                         >
-                            {{ s.name }}
+                            <span>{{ s.name }}</span>
+                            <span aria-hidden="true" class="text-brand-600 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">&rarr;</span>
                         </Link>
                     </div>
-                </div>
-
-                <!-- Mascot (per-service sidebar slot) -->
-                <div v-if="sidebarMascot.image_path" class="rounded-lg overflow-hidden">
-                    <img
-                        :src="sidebarMascot.image_path"
-                        :alt="sidebarMascot.alt_text || ''"
-                        width="400"
-                        height="400"
-                        loading="lazy"
-                        class="w-full h-auto object-contain"
-                    />
-                    <p v-if="sidebarMascot.caption" class="text-xs text-gray-500 text-center py-2 px-3">
-                        {{ sidebarMascot.caption }}
-                    </p>
                 </div>
             </aside>
         </div>
     </PublicLayout>
 </template>
+
+<style scoped>
+/* Very subtle brand-companion float for the CTA-row mascot — slow and
+   small so it reads as "alive" without competing with the CTA button. */
+.mascot-float {
+    animation: mascot-float 5s ease-in-out infinite;
+}
+@keyframes mascot-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .mascot-float {
+        animation: none;
+    }
+}
+</style>
