@@ -4,6 +4,7 @@ import SeoHead from "@/Components/SeoHead.vue";
 import Breadcrumbs from "@/Components/Public/Breadcrumbs.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+import { readingTimeMinutes } from "@/utils/seoAnalyzer";
 
 const props = defineProps({
     post: Object,
@@ -25,6 +26,8 @@ const jsonLd = computed(() => ({
         "name": props.post.author?.name || page.props.settings?.general?.website_name,
     },
 }));
+
+const readingTime = computed(() => readingTimeMinutes(props.post.content));
 
 function formatDate(date) {
     if (!date) return "";
@@ -57,6 +60,7 @@ const breadcrumbItems = computed(() => [
                 <div class="flex items-center gap-3 text-sm text-gray-500">
                     <span v-if="post.author">{{ post.author.name }}</span>
                     <span v-if="post.published_at">- {{ formatDate(post.published_at) }}</span>
+                    <span>- {{ readingTime }} menit baca</span>
                 </div>
             </div>
 

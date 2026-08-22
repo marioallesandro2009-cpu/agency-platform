@@ -3,9 +3,10 @@ import AdminLayout from "@/Layouts/Admin/AdminLayout.vue";
 import EmptyState from "@/Components/Admin/EmptyState.vue";
 import MediaPicker from "@/Components/MediaPicker.vue";
 import RichTextEditor from "@/Components/Admin/RichTextEditor.vue";
+import SeoAnalyzerPanel from "@/Components/Admin/SeoAnalyzerPanel.vue";
 import { router, usePage } from "@inertiajs/vue3";
-import { computed, reactive, ref } from "vue";
-import { analyzeSeo, seoScoreLabel } from "@/utils/seoAnalyzer";
+import { reactive, ref } from "vue";
+import { analyzeSeo, scoreDotColor } from "@/utils/seoAnalyzer";
 import { useEscapeClose } from "@/composables/useEscapeClose";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 import { confirmDialog } from "@/composables/useConfirmDialog";
@@ -102,17 +103,7 @@ const statusColor = {
     scheduled: "bg-yellow-100 text-yellow-700",
 };
 
-const seoAnalysis = computed(() => analyzeSeo({
-    title: form.title,
-    slug: form.slug,
-    content: form.content,
-    seoTitle: form.seo_title,
-    seoDescription: form.seo_description,
-    focusKeyword: form.focus_keyword,
-}));
-
 function postSeoScore(post) {
-    if (!post.focus_keyword) return null;
     return analyzeSeo({
         title: post.title,
         slug: post.slug,
@@ -121,22 +112,6 @@ function postSeoScore(post) {
         seoDescription: post.seo_description,
         focusKeyword: post.focus_keyword,
     }).score;
-}
-
-function scoreDotColor(score) {
-    if (score >= 80) return "bg-green-500";
-    if (score >= 50) return "bg-yellow-500";
-    return "bg-red-500";
-}
-
-function scorePanelColor(score) {
-    if (score >= 80) return "bg-green-50 border-green-200";
-    if (score >= 50) return "bg-yellow-50 border-yellow-200";
-    return "bg-red-50 border-red-200";
-}
-
-function checkDotColor(status) {
-    return { good: "bg-green-500", ok: "bg-yellow-500", bad: "bg-red-500" }[status];
 }
 </script>
 
@@ -181,7 +156,6 @@ function checkDotColor(status) {
                 </div>
                 <div class="flex items-center gap-3">
                     <span
-                        v-if="postSeoScore(post) !== null"
                         class="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full bg-gray-50 border border-gray-200"
                         title="SEO score"
                     >
@@ -200,74 +174,72 @@ function checkDotColor(status) {
 
         <!-- Form modal -->
         <div v-if="showForm" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" @click.self="showForm = false">
-            <div ref="modalRef" role="dialog" aria-modal="true" aria-labelledby="blog-form-title" class="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-auto">
+            <div ref="modalRef" role="dialog" aria-modal="true" aria-labelledby="blog-form-title" class="bg-white rounded-lg shadow-xl max-w-6xl w-full p-6 max-h-[90vh] overflow-auto">
                 <h2 id="blog-form-title" class="text-lg font-semibold mb-4">{{ editingId ? "Edit" : "Tulis" }} Artikel</h2>
-                <form @submit.prevent="submit" class="space-y-3">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Judul</label>
-                        <input v-model="form.title" type="text" required class="w-full border rounded-md px-3 py-2 text-sm" />
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+                    <form @submit.prevent="submit" class="space-y-3 min-w-0">
                         <div>
-                            <label class="block text-sm font-medium mb-1">Slug (kosongkan buat auto)</label>
-                            <input v-model="form.slug" type="text" class="w-full border rounded-md px-3 py-2 text-sm" />
+                            <label class="block text-sm font-medium mb-1">Judul</label>
+                            <input v-model="form.title" type="text" required class="w-full border rounded-md px-3 py-2 text-sm" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Slug (kosongkan buat auto)</label>
+                                <input v-model="form.slug" type="text" class="w-full border rounded-md px-3 py-2 text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Kategori</label>
+                                <select v-model="form.blog_category_id" class="w-full border rounded-md px-3 py-2 text-sm">
+                                    <option value="">- Tanpa kategori -</option>
+                                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-1">Kategori</label>
-                            <select v-model="form.blog_category_id" class="w-full border rounded-md px-3 py-2 text-sm">
-                                <option value="">- Tanpa kategori -</option>
-                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                            <label class="block text-sm font-medium mb-1">Excerpt (ringkasan)</label>
+                            <textarea v-model="form.excerpt" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Konten Artikel</label>
+                            <RichTextEditor v-model="form.content" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Featured Image</label>
+                            <MediaPicker v-model="form.featured_image" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Status</label>
+                            <select v-model="form.status" class="w-full border rounded-md px-3 py-2 text-sm">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
                             </select>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Excerpt (ringkasan)</label>
-                        <textarea v-model="form.excerpt" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Konten Artikel</label>
-                        <RichTextEditor v-model="form.content" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Featured Image</label>
-                        <MediaPicker v-model="form.featured_image" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Status</label>
-                        <select v-model="form.status" class="w-full border rounded-md px-3 py-2 text-sm">
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                        </select>
-                    </div>
 
-                    <div class="border-t pt-3 mt-3">
-                        <p class="text-sm font-semibold text-gray-700 mb-2">SEO</p>
-                        <div class="space-y-2">
-                            <input v-model="form.focus_keyword" type="text" placeholder="Focus keyword" class="w-full border rounded-md px-3 py-2 text-sm" />
-                            <input v-model="form.seo_title" type="text" placeholder="SEO Title" class="w-full border rounded-md px-3 py-2 text-sm" />
-                            <textarea v-model="form.seo_description" placeholder="Meta description" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
-                        </div>
-
-                        <div v-if="seoAnalysis.hasKeyword" class="mt-3 border rounded-md p-3" :class="scorePanelColor(seoAnalysis.score)">
-                            <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-semibold text-gray-800">SEO Score</p>
-                                <span class="text-sm font-bold text-gray-800">{{ seoAnalysis.score }}/100 - {{ seoScoreLabel(seoAnalysis.score) }}</span>
+                        <div class="border-t pt-3 mt-3">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">SEO</p>
+                            <div class="space-y-2">
+                                <input v-model="form.focus_keyword" type="text" placeholder="Focus keyword" class="w-full border rounded-md px-3 py-2 text-sm" />
+                                <input v-model="form.seo_title" type="text" placeholder="SEO Title" class="w-full border rounded-md px-3 py-2 text-sm" />
+                                <textarea v-model="form.seo_description" placeholder="Meta description" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
                             </div>
-                            <ul class="space-y-1.5">
-                                <li v-for="check in seoAnalysis.checks" :key="check.id" class="text-xs text-gray-600 flex items-start gap-2">
-                                    <span class="w-2 h-2 rounded-full mt-1 flex-shrink-0" :class="checkDotColor(check.status)"></span>
-                                    <span>{{ check.message }}</span>
-                                </li>
-                            </ul>
                         </div>
-                        <p v-else class="text-xs text-gray-400 mt-2">Isi focus keyword untuk melihat analisis SEO.</p>
-                    </div>
 
-                    <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" @click="showForm = false" class="px-4 py-2 text-sm text-gray-600">Batal</button>
-                        <button type="submit" class="bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Simpan</button>
-                    </div>
-                </form>
+                        <div class="flex justify-end gap-2 pt-2">
+                            <button type="button" @click="showForm = false" class="px-4 py-2 text-sm text-gray-600">Batal</button>
+                            <button type="submit" class="bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Simpan</button>
+                        </div>
+                    </form>
+
+                    <SeoAnalyzerPanel
+                        class="lg:sticky lg:top-0"
+                        :title="form.title"
+                        :slug="form.slug"
+                        :content="form.content"
+                        :seo-title="form.seo_title"
+                        :seo-description="form.seo_description"
+                        :focus-keyword="form.focus_keyword"
+                    />
+                </div>
             </div>
         </div>
     </AdminLayout>

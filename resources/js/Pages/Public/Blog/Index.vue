@@ -2,6 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import { Link, usePage } from "@inertiajs/vue3";
+import { readingTimeMinutes } from "@/utils/seoAnalyzer";
 
 const props = defineProps({
     posts: Array,
@@ -75,7 +76,7 @@ function formatDate(date) {
                             {{ post.title }}
                         </h2>
                         <p class="text-sm text-gray-500 mb-3 line-clamp-2 leading-relaxed">{{ post.excerpt }}</p>
-                        <p class="text-xs text-gray-500">{{ formatDate(post.published_at) }}</p>
+                        <p class="text-xs text-gray-500">{{ formatDate(post.published_at) }} - {{ readingTimeMinutes(post.content) }} menit baca</p>
                     </Link>
                 </article>
             </div>
