@@ -76,6 +76,7 @@ function toggleFaq(id) {
                     aria-hidden="true"
                     style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 32px 32px;"
                 ></div>
+                <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
                 <div class="max-w-7xl mx-auto px-4 py-24 sm:py-32 lg:py-36 relative z-10">
                     <div class="grid grid-cols-1 gap-14 lg:gap-20" :class="hero.image ? 'lg:grid-cols-2 lg:items-center' : ''">
                         <div :class="hero.image ? '' : 'text-center max-w-3xl mx-auto'">

@@ -1,12 +1,14 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
 import Button from "./Button.vue";
+import { useParallax } from "@/composables/useParallax";
 
 defineProps({
     about: Object,
 });
 
 const mascots = usePage().props.mascots || {};
+const { target: coverImageTarget, offset: coverImageOffset } = useParallax();
 </script>
 
 <template>
@@ -39,9 +41,19 @@ const mascots = usePage().props.mascots || {};
                     />
                 </div>
 
-                <div v-scroll-reveal="{ direction: 'left' }" class="lg:col-start-1 lg:col-span-7 lg:row-start-1">
-                    <div class="rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[3/4] bg-gray-100">
-                        <img v-if="about.image" :src="about.image" :alt="about.title" width="700" height="875" loading="lazy" class="w-full h-full object-cover" />
+                <div class="lg:col-start-1 lg:col-span-7 lg:row-start-1">
+                    <div v-image-reveal class="rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[3/4] bg-gray-100">
+                        <img
+                            v-if="about.image"
+                            ref="coverImageTarget"
+                            :src="about.image"
+                            :alt="about.title"
+                            width="700"
+                            height="875"
+                            loading="lazy"
+                            class="w-full h-full object-cover"
+                            :style="{ transform: `translateY(${coverImageOffset}px) scale(1.1)` }"
+                        />
                     </div>
                 </div>
             </div>

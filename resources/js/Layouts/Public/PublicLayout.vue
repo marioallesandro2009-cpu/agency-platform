@@ -59,7 +59,7 @@ const year = new Date().getFullYear();
             </div>
         </div>
 
-        <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+        <header class="navbar-in sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4">
                 <Link href="/" class="flex items-center gap-2 shrink-0">
                     <img v-if="settings.general?.logo" :src="settings.general.logo" width="180" height="48" class="h-10 md:h-11 w-auto" :alt="settings.general?.website_name" />
@@ -239,6 +239,27 @@ const year = new Date().getFullYear();
 </template>
 
 <style scoped>
+/* One-time page-load entrance for the navbar — runs automatically on
+   mount, not scroll-triggered (it's above the fold on every page load). */
+.navbar-in {
+    animation: navbar-in 450ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes navbar-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .navbar-in {
+        animation: none;
+    }
+}
+
 /* Center-out underline hover effect for the main nav links */
 .nav-underline {
     position: relative;
