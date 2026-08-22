@@ -25,8 +25,9 @@ const PLACEHOLDER = "https://placehold.co/640x400?text=%20";
 </script>
 
 <template>
-    <div class="group relative py-10 md:py-12 border-t border-gray-200 first:border-t-0">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+    <div class="group relative">
+        <div v-if="index > 0" v-line-reveal="{ delay: index * 60 }" class="h-px bg-gray-200"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center py-10 md:py-12">
             <div class="lg:col-span-6" :class="index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'">
                 <span class="block text-4xl md:text-5xl font-extrabold text-gray-200 leading-none mb-3 tabular-nums" aria-hidden="true">
                     {{ String(index + 1).padStart(2, "0") }}
@@ -48,7 +49,7 @@ const PLACEHOLDER = "https://placehold.co/640x400?text=%20";
             </div>
 
             <div class="lg:col-span-6" :class="index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'">
-                <div class="aspect-[16/10] rounded-lg overflow-hidden shadow-soft bg-gray-100">
+                <div v-image-reveal class="aspect-[16/10] rounded-lg overflow-hidden shadow-soft bg-gray-100">
                     <img
                         :src="service.image || PLACEHOLDER"
                         :alt="service.image ? service.name : ''"
