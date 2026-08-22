@@ -1,7 +1,8 @@
 <script setup>
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
-import Breadcrumbs from "@/Components/Public/Breadcrumbs.vue";
+import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
+import Button from "@/Components/Public/Button.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { readingTimeMinutes } from "@/utils/seoAnalyzer";
@@ -50,20 +51,27 @@ const breadcrumbItems = computed(() => [
         :json-ld="jsonLd"
     />
     <PublicLayout>
-        <Breadcrumbs :items="breadcrumbItems" />
-        <article class="max-w-3xl mx-auto px-4 py-16 md:py-20">
-            <div v-scroll-reveal class="mb-8">
-                <Link v-if="post.category" :href="'/blog/category/' + post.category.slug" class="text-brand-600 text-xs font-semibold uppercase tracking-widest">
-                    {{ post.category.name }}
-                </Link>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mt-3 mb-3 leading-tight [text-wrap:balance]">{{ post.title }}</h1>
-                <div class="flex items-center gap-3 text-sm text-gray-500">
-                    <span v-if="post.author">{{ post.author.name }}</span>
-                    <span v-if="post.published_at">- {{ formatDate(post.published_at) }}</span>
-                    <span>- {{ readingTime }} menit baca</span>
-                </div>
+        <PageHeaderScanner
+            eyebrow="Blog"
+            :title="post.title"
+            :subtitle="post.excerpt"
+            :breadcrumb-items="breadcrumbItems"
+        >
+            <Link
+                v-if="post.category"
+                :href="'/blog/category/' + post.category.slug"
+                class="inline-block text-brand-400 text-xs font-semibold uppercase tracking-widest hover:text-brand-300 mb-2"
+            >
+                {{ post.category.name }}
+            </Link>
+            <div class="flex items-center gap-3 text-sm text-gray-300">
+                <span v-if="post.author">{{ post.author.name }}</span>
+                <span v-if="post.published_at">- {{ formatDate(post.published_at) }}</span>
+                <span>- {{ readingTime }} menit baca</span>
             </div>
+        </PageHeaderScanner>
 
+        <article class="max-w-3xl mx-auto px-4 py-16 md:py-20">
             <img
                 v-if="post.featured_image"
                 v-scroll-reveal="{ delay: 100 }"
@@ -77,9 +85,7 @@ const breadcrumbItems = computed(() => [
             <div class="prose max-w-none text-gray-700 whitespace-pre-line" v-html="post.content"></div>
 
             <div class="mt-12 pt-8 border-t border-gray-200">
-                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
-                    Konsultasi Gratis Sekarang
-                </Link>
+                <Button href="/konsultasi">Konsultasi Gratis Sekarang</Button>
             </div>
 
             <div v-if="related?.length" class="mt-16">

@@ -2,6 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
+import Button from "@/Components/Public/Button.vue";
 import { Link } from "@inertiajs/vue3";
 
 defineProps({
@@ -27,13 +28,11 @@ function formatPrice(price) {
             title="Jasa Website Profesional"
             subtitle="Kami membangun website yang cepat, modern, dan sesuai kebutuhan bisnis Anda — dari UMKM hingga sistem custom."
         >
-            <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-7 py-3.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
-                Konsultasi Gratis
-            </Link>
+            <Button href="/konsultasi" size="large">Konsultasi Gratis</Button>
         </PageHeaderScanner>
 
         <!-- Service types -->
-        <section class="max-w-5xl mx-auto px-4 py-20">
+        <section class="max-w-5xl mx-auto px-4 py-20 md:py-24">
             <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Jenis Layanan Website Kami</h2>
             <div class="border-t border-gray-200">
                 <Link
@@ -56,7 +55,7 @@ function formatPrice(price) {
         </section>
 
         <!-- Why website matters -->
-        <section class="bg-gray-50 py-20">
+        <section class="bg-gray-50 py-20 md:py-24">
             <div class="max-w-4xl mx-auto px-4">
                 <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Kenapa Bisnis Anda Butuh Website</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -77,7 +76,7 @@ function formatPrice(price) {
         </section>
 
         <!-- Portfolio -->
-        <section v-if="portfolioProjects.length" class="max-w-7xl mx-auto px-4 py-20">
+        <section v-if="portfolioProjects.length" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
             <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Contoh Hasil Kerja Kami</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Link
@@ -103,12 +102,14 @@ function formatPrice(price) {
                 </Link>
             </div>
             <div class="text-center mt-12">
-                <Link href="/portfolio" class="text-brand-600 font-semibold text-sm hover:underline">Lihat semua portfolio →</Link>
+                <Button variant="ghost" href="/portfolio" class="group">
+                    Lihat semua portfolio <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                </Button>
             </div>
         </section>
 
         <!-- Pricing teaser -->
-        <section v-if="pricingPackages.length" class="bg-gray-50 py-20">
+        <section v-if="pricingPackages.length" class="bg-gray-50 py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4">
                 <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Estimasi Harga</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -125,13 +126,15 @@ function formatPrice(price) {
                     </div>
                 </div>
                 <div class="text-center mt-12">
-                    <Link href="/harga" class="text-brand-600 font-semibold text-sm hover:underline">Lihat detail paket harga →</Link>
+                    <Button variant="ghost" href="/harga" class="group">
+                        Lihat detail paket harga <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                    </Button>
                 </div>
             </div>
         </section>
 
         <!-- CTA -->
-        <section class="bg-brand-600 py-20">
+        <section class="bg-brand-600 py-20 md:py-24">
             <div v-scroll-reveal class="max-w-2xl mx-auto px-4 text-center">
                 <h2 class="text-3xl font-bold tracking-tight text-white mb-4">Siap Membangun Website Anda?</h2>
                 <p class="text-white/80 mb-8">Konsultasikan kebutuhan Anda secara gratis, tanpa komitmen.</p>

@@ -46,7 +46,7 @@ const jsonLd = computed(() => ({
             subtitle="Temukan jawaban atas pertanyaan umum seputar layanan kami."
         />
 
-        <section class="max-w-3xl mx-auto px-4 py-16">
+        <section class="max-w-3xl mx-auto px-4 py-20 md:py-24">
             <div v-if="categories.length" class="flex flex-wrap gap-2 justify-center mb-10">
                 <button
                     @click="activeCategory = 'Semua'"

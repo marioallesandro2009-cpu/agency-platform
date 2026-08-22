@@ -30,7 +30,7 @@ function domainLabel(url) {
             subtitle="Beberapa proyek konsep yang menunjukkan pendekatan kami dalam membangun website untuk berbagai kebutuhan bisnis."
         />
 
-        <section class="max-w-6xl mx-auto px-4 py-16">
+        <section class="max-w-6xl mx-auto px-4 py-16 md:py-20">
             <div v-if="projects.length === 0" class="text-center text-gray-500 py-12">
                 Belum ada proyek portfolio yang dipublikasikan.
             </div>

@@ -3,6 +3,7 @@ import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
 import StepIndicator from "@/Components/Public/StepIndicator.vue";
+import Button from "@/Components/Public/Button.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { CircleCheck } from "lucide-vue-next";
 import { computed, ref } from "vue";
@@ -307,22 +308,12 @@ function formatPrice(price) {
                             </button>
                             <span v-else></span>
 
-                            <button
-                                v-if="currentStep < STEPS.length"
-                                type="button"
-                                @click="next"
-                                class="bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
-                            >
+                            <Button v-if="currentStep < STEPS.length" type="button" @click="next">
                                 Lanjut &rarr;
-                            </button>
-                            <button
-                                v-else
-                                type="submit"
-                                :disabled="form.processing"
-                                class="bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0"
-                            >
+                            </Button>
+                            <Button v-else type="submit" :disabled="form.processing">
                                 {{ form.processing ? "Mengirim..." : "Kirim" }}
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>

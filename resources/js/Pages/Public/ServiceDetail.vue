@@ -2,6 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
+import Button from "@/Components/Public/Button.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 
@@ -82,9 +83,7 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-200">
-                    <Link :href="service.cta_url || '/konsultasi'" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
-                        {{ service.cta_text || "Konsultasi Gratis Sekarang" }}
-                    </Link>
+                    <Button :href="service.cta_url || '/konsultasi'">{{ service.cta_text || "Konsultasi Gratis Sekarang" }}</Button>
                 </div>
             </div>
 

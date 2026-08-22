@@ -78,7 +78,7 @@ function waLink(planName) {
 </script>
 
 <template>
-    <section v-if="plans.length" class="py-20">
+    <section v-if="plans.length" class="py-20 md:py-24">
         <div class="max-w-7xl mx-auto px-4">
             <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                 <h2 class="text-3xl font-bold tracking-tight text-gray-900 mb-3">Paket Maintenance Lanjutan</h2>

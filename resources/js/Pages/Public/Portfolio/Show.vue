@@ -1,8 +1,8 @@
 <script setup>
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
-import Breadcrumbs from "@/Components/Public/Breadcrumbs.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
+import Button from "@/Components/Public/Button.vue";
 import { Link } from "@inertiajs/vue3";
 import { computed } from "vue";
 
@@ -25,11 +25,11 @@ const breadcrumbItems = computed(() => [
         :image="project.thumbnail"
     />
     <PublicLayout>
-        <Breadcrumbs :items="breadcrumbItems" />
         <PageHeaderScanner
             :eyebrow="project.category"
             :title="project.name"
             :subtitle="project.short_description"
+            :breadcrumb-items="breadcrumbItems"
         >
             <span
                 v-if="project.project_type === 'personal'"
@@ -53,7 +53,7 @@ const breadcrumbItems = computed(() => [
             </div>
         </div>
 
-        <section class="max-w-4xl mx-auto px-4 py-20 space-y-16">
+        <section class="max-w-4xl mx-auto px-4 py-20 md:py-24 space-y-16">
             <div v-if="project.description">
                 <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Tentang Proyek</h2>
                 <p class="text-gray-600 leading-relaxed">{{ project.description }}</p>
@@ -91,22 +91,13 @@ const breadcrumbItems = computed(() => [
             </div>
 
             <div v-if="project.live_url">
-                <a
-                    :href="project.live_url"
-                    target="_blank"
-                    rel="noopener"
-                    class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700"
-                >
-                    Kunjungi
-                </a>
+                <Button :href="project.live_url" external>Kunjungi</Button>
             </div>
 
             <div class="bg-gray-50 rounded-lg p-8 text-center">
                 <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-2">Tertarik dengan hasil serupa?</h2>
                 <p class="text-gray-500 mb-4">Konsultasikan kebutuhan website Anda secara gratis.</p>
-                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
-                    Konsultasi Gratis
-                </Link>
+                <Button href="/konsultasi">Konsultasi Gratis</Button>
             </div>
 
             <div v-if="related.length">

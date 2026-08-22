@@ -38,7 +38,7 @@ function valueIcon(value) {
             :title="about?.title || 'Tentang Kami'"
         />
 
-        <section v-if="about?.description" class="max-w-7xl mx-auto px-4 py-16">
+        <section v-if="about?.description" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
                 <div v-scroll-reveal="{ direction: 'left' }">
                     <img
@@ -114,7 +114,7 @@ function valueIcon(value) {
             </div>
         </section>
 
-        <section v-if="about?.technologies?.length" class="bg-gray-50 py-16">
+        <section v-if="about?.technologies?.length" class="bg-gray-50 py-16 md:py-20">
             <div v-scroll-reveal class="max-w-3xl mx-auto px-4 text-center">
                 <h2 class="text-2xl font-bold text-gray-900 mb-6">Teknologi yang Kami Gunakan</h2>
                 <div class="flex flex-wrap justify-center gap-2">

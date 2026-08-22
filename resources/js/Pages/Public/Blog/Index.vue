@@ -1,6 +1,7 @@
 <script setup>
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
+import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { readingTimeMinutes } from "@/utils/seoAnalyzer";
 
@@ -24,14 +25,13 @@ function formatDate(date) {
         :description="activeCategory ? `Kumpulan artikel seputar ${activeCategory.name}.` : 'Artikel dan insight seputar pembuatan website, UMKM, dan bisnis online.'"
     />
     <PublicLayout>
-        <section class="max-w-7xl mx-auto px-4 py-20">
-            <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
-                <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">Blog</p>
-                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
-                    {{ activeCategory ? "Kategori: " + activeCategory.name : "Artikel & Insight" }}
-                </h1>
-            </div>
+        <PageHeaderScanner
+            eyebrow="Blog"
+            :title="activeCategory ? 'Kategori: ' + activeCategory.name : 'Artikel & Insight'"
+            subtitle="Artikel dan insight seputar pembuatan website, UMKM, dan bisnis online."
+        />
 
+        <section class="max-w-7xl mx-auto px-4 py-20 md:py-24">
             <!-- Category filter -->
             <div class="flex flex-wrap gap-2 justify-center mb-14">
                 <Link
