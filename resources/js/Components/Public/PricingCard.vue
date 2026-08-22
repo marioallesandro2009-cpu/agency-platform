@@ -8,7 +8,7 @@
  */
 import { computed } from "vue";
 import { CircleCheck } from "lucide-vue-next";
-import { Link } from "@inertiajs/vue3";
+import Button from "./Button.vue";
 import { PRICING_TIERS } from "@/constants/pricing";
 
 const props = defineProps({
@@ -83,12 +83,7 @@ function formatPrice(price) {
                     </li>
                 </ul>
 
-                <Link
-                    :href="orderUrl"
-                    class="block w-full text-center rounded-md py-3 text-sm font-semibold uppercase tracking-wide bg-brand-600 text-white transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
-                >
-                    {{ pkg.cta_text || "Pesan Website" }}
-                </Link>
+                <Button :href="orderUrl" class="w-full">{{ pkg.cta_text || "Pesan Website" }}</Button>
             </div>
         </div>
     </div>

@@ -195,7 +195,7 @@ function toggleFaq(id) {
                         <div class="flex gap-0.5 mb-4" aria-hidden="true">
                             <Star v-for="n in 5" :key="n" class="w-4 h-4" :class="n <= t.rating ? 'fill-brand-500 text-brand-500' : 'text-gray-200'" />
                         </div>
-                        <p class="text-gray-700 leading-relaxed mb-5">&ldquo;{{ t.testimonial }}&rdquo;</p>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-5">&ldquo;{{ t.testimonial }}&rdquo;</p>
                         <p class="font-bold tracking-tight text-gray-900 text-sm">{{ t.name }}</p>
                         <p class="text-xs text-gray-500">{{ t.position }}<span v-if="t.company">, {{ t.company }}</span></p>
                     </div>

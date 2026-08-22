@@ -287,7 +287,7 @@ function submit() {
 .btn-primary {
     width: 100%;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.375rem;
     font-weight: 600;
     font-size: 0.9375rem;
     color: #0a0a0a;
@@ -298,6 +298,10 @@ function submit() {
 }
 .btn-primary:hover:not(:disabled) {
     background-position: 100% 0%;
+}
+.btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #1a1a1a, 0 0 0 4px #84cc16;
 }
 .btn-primary:disabled {
     opacity: 0.6;

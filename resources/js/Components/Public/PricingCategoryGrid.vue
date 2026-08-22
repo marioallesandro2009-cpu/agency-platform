@@ -6,7 +6,7 @@
  * tier-card grid on /harga itself — see PricingSection.vue for that.
  */
 import { computed } from "vue";
-import { Link } from "@inertiajs/vue3";
+import Button from "./Button.vue";
 import { Rocket, Building2, ShoppingCart, Database } from "lucide-vue-next";
 import { PRICING_CATEGORIES } from "@/constants/pricing";
 
@@ -66,12 +66,9 @@ function formatPrice(price) {
                             {{ card.cheapestPrice ? formatPrice(card.cheapestPrice) : "Segera Hadir" }}
                         </p>
                     </div>
-                    <Link
-                        :href="`/harga?kategori=${card.value}`"
-                        class="text-sm font-medium text-brand-600 hover:text-brand-700 inline-flex items-center gap-1"
-                    >
+                    <Button variant="ghost" :href="`/harga?kategori=${card.value}`">
                         Selengkapnya <span aria-hidden="true">&rarr;</span>
-                    </Link>
+                    </Button>
                 </div>
             </div>
         </div>
