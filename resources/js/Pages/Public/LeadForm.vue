@@ -96,7 +96,7 @@ function formatPrice(price) {
     <PublicLayout>
         <PageHeaderScanner :title="title" :subtitle="subtitle" />
 
-        <section class="max-w-3xl mx-auto px-4 py-16">
+        <section class="max-w-3xl mx-auto px-4 py-16 md:py-20">
             <!-- Thank-you state -->
             <div v-if="submitted" class="text-center py-16">
                 <div class="w-16 h-16 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mx-auto mb-5">
@@ -142,7 +142,7 @@ function formatPrice(price) {
                     <form @submit.prevent="submit">
                         <!-- Step 1: Data Diri -->
                         <div v-if="currentStep === 1" class="space-y-4">
-                            <h2 class="font-semibold text-gray-900">Data Diri</h2>
+                            <h2 class="font-bold tracking-tight text-lg text-gray-900">Data Diri</h2>
                             <div>
                                 <label for="lead-name" class="block text-sm font-medium text-gray-700 mb-1">Nama Perusahaan <span class="text-red-500">*</span></label>
                                 <input
@@ -188,7 +188,7 @@ function formatPrice(price) {
 
                         <!-- Step 2: Kebutuhan -->
                         <div v-if="currentStep === 2" class="space-y-4">
-                            <h2 class="font-semibold text-gray-900">Kebutuhan</h2>
+                            <h2 class="font-bold tracking-tight text-lg text-gray-900">Kebutuhan</h2>
                             <div>
                                 <label for="lead-service" class="block text-sm font-medium text-gray-700 mb-1">Jenis Layanan <span class="text-red-500">*</span></label>
                                 <input
@@ -214,7 +214,7 @@ function formatPrice(price) {
 
                         <!-- Step 3: Detail -->
                         <div v-if="currentStep === 3" class="space-y-4">
-                            <h2 class="font-semibold text-gray-900">Detail</h2>
+                            <h2 class="font-bold tracking-tight text-lg text-gray-900">Detail</h2>
                             <div>
                                 <label for="lead-address" class="block text-sm font-medium text-gray-700 mb-1">Detail Alamat (opsional — boleh dilewati)</label>
                                 <textarea
@@ -241,9 +241,9 @@ function formatPrice(price) {
                         <div v-if="currentStep === 4" class="space-y-6">
                             <div>
                                 <div class="flex items-center justify-between mb-2">
-                                    <h2 class="font-semibold text-gray-900">Data Kamu</h2>
+                                    <h2 class="font-bold tracking-tight text-lg text-gray-900">Data Kamu</h2>
                                 </div>
-                                <div class="bg-gray-50 rounded-md p-4 space-y-3 text-sm">
+                                <div class="bg-gray-50 rounded-lg p-4 space-y-3 text-sm">
                                     <div class="flex items-start justify-between gap-3">
                                         <div>
                                             <p class="text-gray-500">Nama Perusahaan / Email / WA</p>
@@ -274,9 +274,9 @@ function formatPrice(price) {
                             </div>
 
                             <div v-if="selectedPackage">
-                                <h2 class="font-semibold text-gray-900 mb-2">Paket yang Kamu Pilih</h2>
-                                <div class="border border-brand-200 bg-brand-50 rounded-md p-4">
-                                    <p class="font-semibold text-gray-900">{{ selectedPackage.name }}</p>
+                                <h2 class="font-bold tracking-tight text-lg text-gray-900 mb-2">Paket yang Kamu Pilih</h2>
+                                <div class="border border-brand-200 bg-brand-50 rounded-lg p-4">
+                                    <p class="font-bold tracking-tight text-lg text-gray-900">{{ selectedPackage.name }}</p>
                                     <p class="text-lg font-bold text-gray-900 mb-2">
                                         {{ selectedPackage.price ? formatPrice(selectedPackage.price) : selectedPackage.price_suffix }}
                                     </p>
@@ -311,7 +311,7 @@ function formatPrice(price) {
                                 v-if="currentStep < STEPS.length"
                                 type="button"
                                 @click="next"
-                                class="bg-brand-600 text-white font-medium px-6 py-2.5 rounded-md hover:bg-brand-700"
+                                class="bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
                             >
                                 Lanjut &rarr;
                             </button>
@@ -319,7 +319,7 @@ function formatPrice(price) {
                                 v-else
                                 type="submit"
                                 :disabled="form.processing"
-                                class="bg-brand-600 text-white font-medium px-6 py-2.5 rounded-md hover:bg-brand-700 disabled:opacity-50"
+                                class="bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0"
                             >
                                 {{ form.processing ? "Mengirim..." : "Kirim" }}
                             </button>

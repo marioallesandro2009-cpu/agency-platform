@@ -52,9 +52,9 @@ function submit() {
 </script>
 
 <template>
-    <section class="contact-cta bg-charcoal py-16 md:py-20 overflow-hidden">
+    <section class="contact-cta bg-charcoal py-20 md:py-28 overflow-hidden">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
                 <!-- Illustration -->
                 <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
                     <img
@@ -86,10 +86,10 @@ function submit() {
 
                 <!-- Form -->
                 <div class="w-full md:w-3/5">
-                    <p v-if="eyebrow" v-scroll-reveal class="text-brand-400 font-semibold text-sm uppercase tracking-wide mb-2">
+                    <p v-if="eyebrow" v-scroll-reveal class="text-brand-400 font-semibold text-xs uppercase tracking-widest mb-3">
                         {{ eyebrow }}
                     </p>
-                    <h2 v-scroll-reveal="{ delay: 80 }" class="text-2xl md:text-3xl font-bold text-white mb-3">
+                    <h2 v-scroll-reveal="{ delay: 80 }" class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-4 [text-wrap:balance]">
                         {{ title }}
                     </h2>
                     <p v-if="description" v-scroll-reveal="{ delay: 120 }" class="text-gray-300 mb-8">

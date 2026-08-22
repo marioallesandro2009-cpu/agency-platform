@@ -41,7 +41,7 @@ const initialCategory = new URLSearchParams(window.location.search).get("kategor
                 <Link href="/konsultasi" class="text-brand-600 font-medium hover:underline">konsultasikan kebutuhan Anda</Link>.
             </p>
 
-            <div v-scroll-reveal class="flex items-start gap-3 bg-gray-50 border border-black/10 rounded-xl p-4 md:p-5">
+            <div v-scroll-reveal class="flex items-start gap-3 bg-gray-50 border border-black/10 rounded-lg p-4 md:p-5">
                 <Info class="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Biaya transaksi payment gateway, kuota API pihak ketiga (ongkir, notifikasi WhatsApp), dan

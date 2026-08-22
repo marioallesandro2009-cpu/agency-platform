@@ -62,27 +62,27 @@ const breadcrumbItems = computed(() => [
             :subtitle="service.short_description"
             :breadcrumb-items="breadcrumbItems"
         />
-        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="max-w-7xl mx-auto px-4 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
             <!-- Main content -->
             <div v-scroll-reveal class="lg:col-span-2">
                 <div class="prose max-w-none text-lg text-gray-700 leading-relaxed whitespace-pre-line" v-html="service.long_description || service.description"></div>
 
-                <div v-if="service.features?.length" class="mt-10">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Fitur</h2>
+                <div v-if="service.features?.length" class="mt-12">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-5">Fitur</h2>
                     <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base text-gray-600">
                         <li v-for="f in service.features" :key="f">- {{ f }}</li>
                     </ul>
                 </div>
 
-                <div v-if="service.benefits?.length" class="mt-10">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Manfaat</h2>
+                <div v-if="service.benefits?.length" class="mt-12">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-5">Manfaat</h2>
                     <ul class="space-y-3 text-base text-gray-600">
                         <li v-for="b in service.benefits" :key="b">- {{ b }}</li>
                     </ul>
                 </div>
 
-                <div class="mt-12 pt-8 border-t">
-                    <Link :href="service.cta_url || '/konsultasi'" class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700">
+                <div class="mt-12 pt-8 border-t border-gray-200">
+                    <Link :href="service.cta_url || '/konsultasi'" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
                         {{ service.cta_text || "Konsultasi Gratis Sekarang" }}
                     </Link>
                 </div>
@@ -92,7 +92,7 @@ const breadcrumbItems = computed(() => [
             <aside v-scroll-reveal="{ direction: 'right' }" class="space-y-8">
                 <!-- Related articles -->
                 <div v-if="relatedPosts?.length">
-                    <h3 class="text-base font-semibold text-gray-900 mb-4">Terkait</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Terkait</h3>
                     <div class="space-y-4">
                         <Link
                             v-for="post in relatedPosts"
@@ -108,7 +108,7 @@ const breadcrumbItems = computed(() => [
 
                 <!-- Portfolio (toggle-controlled) -->
                 <div v-if="relatedPortfolio?.length">
-                    <h3 class="text-base font-semibold text-gray-900 mb-4">Portfolio Terkait</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Portfolio Terkait</h3>
                     <div class="space-y-3">
                         <Link
                             v-for="project in relatedPortfolio"
@@ -126,7 +126,7 @@ const breadcrumbItems = computed(() => [
 
                 <!-- Other services -->
                 <div v-if="otherServices?.length">
-                    <h3 class="text-base font-semibold text-gray-900 mb-4">Layanan Lainnya</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">Layanan Lainnya</h3>
                     <div class="space-y-3">
                         <Link
                             v-for="s in otherServices"
@@ -140,7 +140,7 @@ const breadcrumbItems = computed(() => [
                 </div>
 
                 <!-- Mascot (per-service sidebar slot) -->
-                <div v-if="sidebarMascot.image_path" class="rounded-2xl overflow-hidden">
+                <div v-if="sidebarMascot.image_path" class="rounded-lg overflow-hidden">
                     <img
                         :src="sidebarMascot.image_path"
                         :alt="sidebarMascot.alt_text || ''"

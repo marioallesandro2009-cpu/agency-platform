@@ -129,13 +129,13 @@ function valueIcon(value) {
             </div>
         </section>
 
-        <section class="bg-brand-600 py-16">
+        <section class="bg-brand-600 py-20">
             <div v-scroll-reveal class="max-w-2xl mx-auto px-4 text-center">
-                <h2 class="text-2xl font-bold text-white mb-4">Mari Bekerja Sama</h2>
-                <p class="text-white/80 mb-6">Konsultasikan kebutuhan website Anda dengan tim kami.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-white mb-4">Mari Bekerja Sama</h2>
+                <p class="text-white/80 mb-8">Konsultasikan kebutuhan website Anda dengan tim kami.</p>
                 <Link
                     href="/konsultasi"
-                    class="inline-block bg-white text-brand-700 font-medium px-8 py-3 rounded-md transition-all duration-300 hover:bg-brand-50 hover:scale-105 hover:shadow-lg"
+                    class="inline-block bg-white text-brand-700 text-sm font-semibold uppercase tracking-wide px-8 py-3.5 rounded-md transition-all duration-200 hover:bg-brand-50 hover:-translate-y-0.5"
                 >
                     Konsultasi Gratis
                 </Link>
