@@ -2,7 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
-import { Link } from "@inertiajs/vue3";
+import Button from "@/Components/Public/Button.vue";
 import { ref, computed } from "vue";
 
 const props = defineProps({
@@ -114,9 +114,7 @@ const jsonLd = computed(() => ({
             <div v-scroll-reveal class="max-w-xl mx-auto px-4 text-center">
                 <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">Masih ada pertanyaan?</h2>
                 <p class="text-gray-500 mb-6">Tim kami siap membantu menjawab kebutuhan spesifik Anda.</p>
-                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
-                    Konsultasi Gratis
-                </Link>
+                <Button href="/konsultasi">Konsultasi Gratis</Button>
             </div>
         </section>
     </PublicLayout>

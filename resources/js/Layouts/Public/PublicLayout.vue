@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
+import Button from "@/Components/Public/Button.vue";
 
 const page = usePage();
 const settings = page.props.settings || {};
@@ -59,13 +60,13 @@ const year = new Date().getFullYear();
         </div>
 
         <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between">
-                <Link href="/" class="flex items-center gap-2">
+            <div class="max-w-7xl mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4">
+                <Link href="/" class="flex items-center gap-2 shrink-0">
                     <img v-if="settings.general?.logo" :src="settings.general.logo" width="180" height="48" class="h-10 md:h-11 w-auto" :alt="settings.general?.website_name" />
                     <span v-else class="font-bold text-xl tracking-tight text-gray-900">{{ settings.general?.website_name }}</span>
                 </Link>
 
-                <nav class="hidden md:flex items-center gap-8">
+                <nav class="hidden md:flex flex-1 items-center justify-center gap-8">
                     <Link v-if="homeItem" :href="homeItem.url" class="nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600">{{ homeItem.label }}</Link>
 
                     <div
@@ -84,7 +85,7 @@ const year = new Date().getFullYear();
                             <span aria-hidden="true" class="text-xs normal-case transition-transform duration-200" :class="servicesDropdownOpen ? '-rotate-180' : ''">v</span>
                         </button>
                         <div v-if="servicesDropdownOpen" id="services-dropdown" class="absolute left-0 top-full pt-3 w-72">
-                            <div class="bg-white shadow-elevated rounded-lg border border-gray-100 py-2">
+                            <div class="bg-white shadow-elevated rounded-lg border border-black/10 py-2">
                                 <Link
                                     v-for="service in navServices"
                                     :key="service.id"
@@ -107,56 +108,71 @@ const year = new Date().getFullYear();
                     </Link>
                 </nav>
 
-                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" rel="noopener" class="hidden md:inline-flex items-center bg-brand-600 text-white text-xs font-semibold uppercase tracking-wide px-5 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">Konsultasi Gratis</a>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div v-if="settings.contact?.whatsapp_number" class="hidden md:block">
+                        <Button :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" external>
+                            Konsultasi Gratis
+                        </Button>
+                    </div>
 
-                <button
-                    @click="mobileMenuOpen = !mobileMenuOpen"
-                    :aria-expanded="mobileMenuOpen"
-                    aria-controls="mobile-menu-panel"
-                    aria-label="Menu"
-                    class="md:hidden text-gray-700 p-1"
-                >
-                    <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    <button
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        :aria-expanded="mobileMenuOpen"
+                        aria-controls="mobile-menu-panel"
+                        aria-label="Menu"
+                        class="md:hidden text-gray-700 p-1"
+                    >
+                        <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <div v-if="mobileMenuOpen" id="mobile-menu-panel" class="md:hidden border-t px-4 py-3 space-y-1">
-                <Link v-if="homeItem" :href="homeItem.url" class="block text-sm font-medium text-gray-700 py-1.5">{{ homeItem.label }}</Link>
+            <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 -translate-y-2"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 -translate-y-2"
+            >
+                <div v-if="mobileMenuOpen" id="mobile-menu-panel" class="md:hidden border-t px-4 py-3 space-y-1">
+                    <Link v-if="homeItem" :href="homeItem.url" class="block text-sm font-medium text-gray-700 py-1.5">{{ homeItem.label }}</Link>
 
-                <button
-                    @click="mobileServicesOpen = !mobileServicesOpen"
-                    :aria-expanded="mobileServicesOpen"
-                    aria-controls="mobile-services-panel"
-                    class="w-full flex items-center justify-between text-sm font-medium text-gray-700 py-1.5"
-                >
-                    Jasa &amp; Layanan
-                    <span aria-hidden="true" class="text-xs">{{ mobileServicesOpen ? "^" : "v" }}</span>
-                </button>
-                <div v-if="mobileServicesOpen" id="mobile-services-panel" class="pl-3 space-y-1 border-l ml-1">
-                    <Link
-                        v-for="service in navServices"
-                        :key="service.id"
-                        :href="'/' + service.slug"
-                        class="block text-sm text-gray-600 py-1"
+                    <button
+                        @click="mobileServicesOpen = !mobileServicesOpen"
+                        :aria-expanded="mobileServicesOpen"
+                        aria-controls="mobile-services-panel"
+                        class="w-full flex items-center justify-between text-sm font-medium text-gray-700 py-1.5"
                     >
-                        {{ service.name }}
+                        Jasa &amp; Layanan
+                        <span aria-hidden="true" class="text-xs">{{ mobileServicesOpen ? "^" : "v" }}</span>
+                    </button>
+                    <div v-if="mobileServicesOpen" id="mobile-services-panel" class="pl-3 space-y-1 border-l ml-1">
+                        <Link
+                            v-for="service in navServices"
+                            :key="service.id"
+                            :href="'/' + service.slug"
+                            class="block text-sm text-gray-600 py-1"
+                        >
+                            {{ service.name }}
+                        </Link>
+                    </div>
+
+                    <Link
+                        v-for="item in menu"
+                        :key="item.id"
+                        :href="item.url"
+                        class="block text-sm font-medium text-gray-700 py-1.5"
+                    >
+                        {{ item.label }}
                     </Link>
                 </div>
-
-                <Link
-                    v-for="item in menu"
-                    :key="item.id"
-                    :href="item.url"
-                    class="block text-sm font-medium text-gray-700 py-1.5"
-                >
-                    {{ item.label }}
-                </Link>
-            </div>
+            </Transition>
         </header>
 
         <main class="flex-1">

@@ -44,6 +44,19 @@ export default {
                  * never bleeds above an element's own top edge (same math
                  * that fixed the Portfolio/Show.vue cover-image bleed) —
                  * safe to use even when an element overlaps a dark section.
+                 *
+                 * Site-wide rule: `soft` is the resting elevation for cards
+                 * and images; `elevated` is reserved for emphasized/lifted
+                 * elements (a featured pricing tier, the nav dropdown,
+                 * anything overlapping a dark section). Don't reach for
+                 * stock Tailwind shadow-sm/md/lg on public pages — pick one
+                 * of these two instead, so shadow weight stays meaningful.
+                 *
+                 * Border rule (no token needed, just convention):
+                 * `border-black/10` for card/container borders,
+                 * `border-gray-200`/`border-gray-100` stays reserved for
+                 * plain dividers/hairlines — that's a real semantic split,
+                 * not just two ways to draw the same line.
                  */
                 soft: '0 2px 8px -2px rgb(26 26 26 / 0.08), 0 1px 3px -1px rgb(26 26 26 / 0.06)',
                 elevated: '0 20px 25px -5px rgb(26 26 26 / 0.12), 0 8px 10px -6px rgb(26 26 26 / 0.08)',
