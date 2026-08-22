@@ -159,28 +159,30 @@ function toggleFaq(id) {
             </section>
 
             <!-- Process -->
-            <section v-else-if="type === 'process' && process" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
-                <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                    <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ process.subtitle }}</p>
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ process.title }}</h2>
-                </div>
-                <div class="relative">
-                    <div class="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-0.5 bg-brand-200"></div>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div
-                            v-for="(step, index) in process.steps"
-                            :key="step.title"
-                            v-scroll-reveal="{ delay: index * 80 }"
-                            class="relative text-center px-4"
-                        >
-                            <div class="process-icon-3d relative w-16 h-16 mx-auto mb-4" :style="{ animationDelay: index * 200 + 'ms' }">
-                                <div class="w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center">
-                                    <component :is="PROCESS_ICONS[index]" class="w-7 h-7" aria-hidden="true" />
+            <section v-else-if="type === 'process' && process" class="bg-canvas-tint py-20 md:py-24">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
+                        <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ process.subtitle }}</p>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ process.title }}</h2>
+                    </div>
+                    <div class="relative">
+                        <div class="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-0.5 bg-brand-200"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div
+                                v-for="(step, index) in process.steps"
+                                :key="step.title"
+                                v-scroll-reveal="{ delay: index * 80 }"
+                                class="relative text-center px-4"
+                            >
+                                <div class="process-icon-3d relative w-16 h-16 mx-auto mb-4" :style="{ animationDelay: index * 200 + 'ms' }">
+                                    <div class="w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center">
+                                        <component :is="PROCESS_ICONS[index]" class="w-7 h-7" aria-hidden="true" />
+                                    </div>
+                                    <span class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-white border-2 border-brand-600 text-brand-600 text-xs font-bold flex items-center justify-center">{{ index + 1 }}</span>
                                 </div>
-                                <span class="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-white border-2 border-brand-600 text-brand-600 text-xs font-bold flex items-center justify-center">{{ index + 1 }}</span>
+                                <h3 class="font-bold tracking-tight text-gray-900 mb-2">{{ step.title }}</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">{{ step.description }}</p>
                             </div>
-                            <h3 class="font-bold tracking-tight text-gray-900 mb-2">{{ step.title }}</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">{{ step.description }}</p>
                         </div>
                     </div>
                 </div>
@@ -255,33 +257,37 @@ function toggleFaq(id) {
             </section>
 
             <!-- Blog -->
-            <section v-else-if="type === 'blog' && latestPosts?.length" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
-                <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
-                    <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ blogSection?.subtitle || "Blog" }}</p>
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ blogSection?.title || "Artikel & Insight Terbaru" }}</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <article v-for="(post, index) in latestPosts" :key="post.id" v-scroll-reveal="{ delay: index * 80 }" class="group">
-                        <Link :href="'/blog/' + post.slug" class="block">
-                            <div class="aspect-[5/3] rounded-lg overflow-hidden bg-gray-100 mb-4">
-                                <img
-                                    v-if="post.featured_image"
-                                    :src="post.featured_image"
-                                    :alt="post.title"
-                                    width="400"
-                                    height="240"
-                                    loading="lazy"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                            </div>
-                            <p v-if="post.category" class="text-xs text-brand-600 font-semibold uppercase tracking-wide mb-2">{{ post.category.name }}</p>
-                            <h3 class="font-bold tracking-tight text-gray-900 mb-2 line-clamp-2 transition-colors group-hover:text-brand-600">{{ post.title }}</h3>
-                            <p class="text-xs text-gray-500">{{ formatDate(post.published_at) }}</p>
-                        </Link>
-                    </article>
-                </div>
-                <div class="text-center mt-12">
-                    <Link href="/blog" class="text-brand-600 font-semibold text-sm hover:underline">Lihat semua artikel -&gt;</Link>
+            <section v-else-if="type === 'blog' && latestPosts?.length" class="bg-canvas-off py-20 md:py-24">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
+                        <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ blogSection?.subtitle || "Blog" }}</p>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ blogSection?.title || "Artikel & Insight Terbaru" }}</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <article v-for="(post, index) in latestPosts" :key="post.id" v-scroll-reveal="{ delay: index * 80 }" class="group">
+                            <Link :href="'/blog/' + post.slug" class="block">
+                                <div v-image-reveal class="aspect-[5/3] rounded-lg overflow-hidden bg-gray-100 mb-4">
+                                    <img
+                                        v-if="post.featured_image"
+                                        :src="post.featured_image"
+                                        :alt="post.title"
+                                        width="400"
+                                        height="240"
+                                        loading="lazy"
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <p v-if="post.category" class="text-xs text-brand-600 font-semibold uppercase tracking-wide mb-2">{{ post.category.name }}</p>
+                                <h3 class="font-bold tracking-tight text-gray-900 mb-2 line-clamp-2 transition-colors group-hover:text-brand-600">{{ post.title }}</h3>
+                                <p class="text-xs text-gray-500">{{ formatDate(post.published_at) }}</p>
+                            </Link>
+                        </article>
+                    </div>
+                    <div class="text-center mt-12">
+                        <Button variant="ghost" href="/blog" class="group">
+                            Lihat semua artikel <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">-&gt;</span>
+                        </Button>
+                    </div>
                 </div>
             </section>
 

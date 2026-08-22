@@ -36,6 +36,19 @@ export default {
                     900: '#1a2e05',
                 },
                 charcoal: '#1a1a1a',
+                /**
+                 * Background system (kept deliberately tiny — two steps,
+                 * used sparingly): near-invisible variation so pages don't
+                 * read as flat #FFFFFF block after flat #FFFFFF block.
+                 * `off` for a neutral off-white, `tint` for the rare section
+                 * that wants a barely-there brand-green cast instead of
+                 * gray. Both are close enough to white that swapping them
+                 * in doesn't change any contrast-ratio math elsewhere.
+                 */
+                canvas: {
+                    off: '#fafbf8',
+                    tint: '#f7f9f4',
+                },
             },
             boxShadow: {
                 /**
