@@ -19,7 +19,7 @@ const mascots = usePage().props.mascots || {};
                     <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-5 leading-[1.05] text-left [text-wrap:balance]">
                         {{ about.title }}
                     </h2>
-                    <p class="text-gray-600 text-left leading-relaxed mb-8 max-w-md">
+                    <p class="text-gray-600 text-left leading-relaxed mb-8">
                         {{ about.description }}
                     </p>
                     <Link
