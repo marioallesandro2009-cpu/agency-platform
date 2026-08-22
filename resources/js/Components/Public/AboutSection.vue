@@ -14,7 +14,7 @@ const mascots = usePage().props.mascots || {};
             <div class="grid grid-cols-1 lg:grid-cols-12 lg:items-center gap-8 lg:gap-0">
                 <div
                     v-scroll-reveal="{ direction: 'right', delay: 150 }"
-                    class="lg:col-start-6 lg:col-span-6 lg:row-start-1 relative z-10 bg-white rounded-lg shadow-elevated p-8 md:p-12 mx-4 lg:mx-0"
+                    class="lg:col-start-6 lg:col-span-7 lg:row-start-1 relative z-10 bg-white rounded-lg shadow-elevated p-8 md:p-12 mx-4 lg:mx-0"
                 >
                     <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-5 leading-[1.05] text-left [text-wrap:balance]">
                         {{ about.title }}
