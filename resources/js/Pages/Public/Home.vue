@@ -20,6 +20,12 @@ const PROCESS_ICONS = [MessageCircle, PenTool, Code, Rocket];
 // below-the-fold section that a given homepage config may not even render.
 const AccordionGallery = defineAsyncComponent(() => import("@/Components/Public/AccordionGallery.vue"));
 
+// Same reasoning for the hero's WebGL background: it's decorative (the
+// hero's actual text/CTAs render immediately regardless), so ogl — not
+// otherwise needed on the homepage — loads in its own chunk instead of
+// blocking/bloating the critical bundle.
+const WaveBackground = defineAsyncComponent(() => import("@/Components/Public/WaveBackground.vue"));
+
 const page = usePage();
 
 const props = defineProps({
@@ -71,12 +77,12 @@ function toggleFaq(id) {
         <template v-for="type in sections" :key="type">
             <!-- Hero -->
             <section v-if="type === 'hero' && hero" class="relative bg-charcoal text-white overflow-hidden">
+                <WaveBackground class="z-0" />
                 <div
-                    class="absolute inset-0 opacity-[0.06] pointer-events-none"
+                    class="absolute inset-0 z-[5] pointer-events-none"
                     aria-hidden="true"
-                    style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 32px 32px;"
+                    style="background: linear-gradient(115deg, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.55) 45%, rgba(10,10,10,0.35) 100%);"
                 ></div>
-                <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
                 <div class="max-w-7xl mx-auto px-4 py-24 sm:py-32 lg:py-36 relative z-10">
                     <div class="grid grid-cols-1 gap-14 lg:gap-20" :class="hero.image ? 'lg:grid-cols-2 lg:items-center' : ''">
                         <div :class="hero.image ? '' : 'text-center max-w-3xl mx-auto'">
