@@ -41,7 +41,7 @@ const breadcrumbItems = computed(() => [
         </PageHeaderScanner>
 
         <div class="max-w-4xl mx-auto px-4">
-            <div v-scroll-reveal="{ delay: 100 }" class="relative h-64 md:h-96 bg-gray-100 -mt-8 rounded-xl overflow-hidden shadow-xl">
+            <div v-scroll-reveal="{ delay: 100 }" class="relative h-64 md:h-96 bg-gray-100 -mt-8 rounded-xl overflow-hidden shadow-elevated">
                 <img
                     v-if="project.cover_image"
                     :src="project.cover_image"
