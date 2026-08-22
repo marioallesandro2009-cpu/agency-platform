@@ -45,13 +45,13 @@ defineProps({
                 <p
                     v-if="eyebrow"
                     v-scroll-reveal
-                    class="text-brand-400 font-semibold text-sm uppercase tracking-wide mb-4"
+                    class="text-brand-400 font-semibold text-xs uppercase tracking-widest mb-4"
                 >
                     {{ eyebrow }}
                 </p>
                 <h1
                     v-scroll-reveal="{ delay: 80 }"
-                    class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] sm:leading-[1.05] mb-4 sm:mb-6 text-left [text-wrap:balance]"
+                    class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-4 sm:mb-6 text-left [text-wrap:balance]"
                 >
                     {{ title }}
                 </h1>

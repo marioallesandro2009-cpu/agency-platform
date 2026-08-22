@@ -58,15 +58,15 @@ const year = new Date().getFullYear();
             </div>
         </div>
 
-        <header class="sticky top-0 z-40 bg-white shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+        <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between">
                 <Link href="/" class="flex items-center gap-2">
-                    <img v-if="settings.general?.logo" :src="settings.general.logo" width="180" height="48" class="h-12 w-auto" :alt="settings.general?.website_name" />
-                    <span v-else class="font-bold text-2xl text-gray-900">{{ settings.general?.website_name }}</span>
+                    <img v-if="settings.general?.logo" :src="settings.general.logo" width="180" height="48" class="h-10 md:h-11 w-auto" :alt="settings.general?.website_name" />
+                    <span v-else class="font-bold text-xl tracking-tight text-gray-900">{{ settings.general?.website_name }}</span>
                 </Link>
 
-                <nav class="hidden md:flex items-center gap-6">
-                    <Link v-if="homeItem" :href="homeItem.url" class="nav-underline text-sm font-medium text-gray-600 hover:text-brand-600">{{ homeItem.label }}</Link>
+                <nav class="hidden md:flex items-center gap-8">
+                    <Link v-if="homeItem" :href="homeItem.url" class="nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600">{{ homeItem.label }}</Link>
 
                     <div
                         class="relative"
@@ -78,20 +78,22 @@ const year = new Date().getFullYear();
                         <button
                             :aria-expanded="servicesDropdownOpen"
                             aria-controls="services-dropdown"
-                            class="nav-underline flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-brand-600"
+                            class="nav-underline flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600"
                         >
                             Jasa &amp; Layanan
-                            <span aria-hidden="true" class="text-xs">v</span>
+                            <span aria-hidden="true" class="text-xs normal-case transition-transform duration-200" :class="servicesDropdownOpen ? '-rotate-180' : ''">v</span>
                         </button>
-                        <div v-if="servicesDropdownOpen" id="services-dropdown" class="absolute left-0 top-full w-72 bg-white shadow-lg rounded-lg border border-gray-100 py-2">
-                            <Link
-                                v-for="service in navServices"
-                                :key="service.id"
-                                :href="'/' + service.slug"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600"
-                            >
-                                {{ service.name }}
-                            </Link>
+                        <div v-if="servicesDropdownOpen" id="services-dropdown" class="absolute left-0 top-full pt-3 w-72">
+                            <div class="bg-white shadow-elevated rounded-lg border border-gray-100 py-2">
+                                <Link
+                                    v-for="service in navServices"
+                                    :key="service.id"
+                                    :href="'/' + service.slug"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600"
+                                >
+                                    {{ service.name }}
+                                </Link>
+                            </div>
                         </div>
                     </div>
 
@@ -99,13 +101,13 @@ const year = new Date().getFullYear();
                         v-for="item in menu"
                         :key="item.id"
                         :href="item.url"
-                        class="nav-underline text-sm font-medium text-gray-600 hover:text-brand-600"
+                        class="nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600"
                     >
                         {{ item.label }}
                     </Link>
                 </nav>
 
-                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" rel="noopener" class="hidden md:inline-block bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-brand-700">Konsultasi Gratis</a>
+                                <a v-if="settings.contact?.whatsapp_number" :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" target="_blank" rel="noopener" class="hidden md:inline-flex items-center bg-brand-600 text-white text-xs font-semibold uppercase tracking-wide px-5 py-2.5 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">Konsultasi Gratis</a>
 
                 <button
                     @click="mobileMenuOpen = !mobileMenuOpen"
@@ -183,36 +185,36 @@ const year = new Date().getFullYear();
         </a>
 
         <footer class="bg-charcoal text-gray-400">
-            <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="max-w-7xl mx-auto px-4 py-16 md:py-20 grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
                 <div>
-                    <h3 class="text-white font-bold text-lg mb-3">{{ settings.general?.website_name }}</h3>
-                    <p class="text-sm">{{ settings.general?.description }}</p>
+                    <h3 class="text-white font-bold text-xl tracking-tight mb-3">{{ settings.general?.website_name }}</h3>
+                    <p class="text-sm leading-relaxed max-w-xs">{{ settings.general?.description }}</p>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-3 text-sm">Layanan</h4>
-                    <ul class="space-y-2 text-sm">
+                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Layanan</h4>
+                    <ul class="space-y-2.5 text-sm">
                         <li v-for="service in navServices" :key="service.id">
-                            <Link :href="'/' + service.slug" class="hover:text-white">{{ service.name }}</Link>
+                            <Link :href="'/' + service.slug" class="hover:text-white transition-colors">{{ service.name }}</Link>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-3 text-sm">Kontak</h4>
-                    <ul class="space-y-2 text-sm">
+                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Kontak</h4>
+                    <ul class="space-y-2.5 text-sm">
                         <li v-if="settings.contact?.address">{{ settings.contact.address }}</li>
                         <li v-if="settings.contact?.phone">{{ settings.contact.phone }}</li>
                         <li v-if="settings.contact?.email">{{ settings.contact.email }}</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-3 text-sm">Ikuti Kami</h4>
-                    <div class="flex gap-3 text-sm">
-                        <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
-                        <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" rel="noopener" class="hover:text-white">Facebook</a>
+                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Ikuti Kami</h4>
+                    <div class="flex gap-4 text-sm">
+                        <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" rel="noopener" class="hover:text-white transition-colors">Instagram</a>
+                        <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-800 py-4 text-center text-xs space-y-1">
+            <div class="border-t border-white/10 py-5 text-center text-xs space-y-1">
                 <p>(c) {{ year }} {{ settings.general?.website_name }}. All rights reserved.</p>
                 <p class="text-gray-500">{{ settings.general?.footer_disclaimer }}</p>
             </div>

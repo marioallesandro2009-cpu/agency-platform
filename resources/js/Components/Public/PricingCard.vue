@@ -31,7 +31,7 @@ const TIER_STYLES = {
         pill: "bg-white text-brand-700",
         price: "text-white",
         prefix: "text-white/80",
-        card: "border-brand-700 border-2 shadow-xl md:-translate-y-2",
+        card: "border-brand-700 border-2 shadow-elevated md:-translate-y-2",
     },
     scale: {
         header: "bg-charcoal",
@@ -55,13 +55,13 @@ function formatPrice(price) {
     <div class="relative flex flex-col h-full">
         <span
             v-if="isGrowth"
-            class="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-brand-700 text-white text-xs font-bold uppercase tracking-wide px-4 py-1.5 rounded-full shadow-md whitespace-nowrap"
+            class="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-brand-700 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full whitespace-nowrap"
         >
             {{ pkg.badge || "Best Value" }}
         </span>
 
         <div
-            :class="['rounded-2xl overflow-hidden border bg-white flex flex-col flex-1 transition-transform duration-300', style.card]"
+            :class="['rounded-lg overflow-hidden border bg-white flex flex-col flex-1 transition-transform duration-300', style.card]"
         >
             <div :class="['px-6 pt-8 pb-6 text-center', style.header]">
                 <span :class="['inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide', style.pill]">
@@ -85,7 +85,7 @@ function formatPrice(price) {
 
                 <Link
                     :href="orderUrl"
-                    class="block w-full text-center rounded-full py-3 font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors"
+                    class="block w-full text-center rounded-md py-3 text-sm font-semibold uppercase tracking-wide bg-brand-600 text-white transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
                 >
                     {{ pkg.cta_text || "Pesan Website" }}
                 </Link>

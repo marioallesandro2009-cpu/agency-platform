@@ -52,9 +52,9 @@ function formatPrice(price) {
 <template>
     <section class="bg-gray-50 py-20">
         <div class="max-w-7xl mx-auto px-4">
-            <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-10">
-                <p v-if="subtitle" class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-2">{{ subtitle }}</p>
-                <h2 class="text-3xl font-bold text-gray-900">{{ title }}</h2>
+            <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
+                <p v-if="subtitle" class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ subtitle }}</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ title }}</h2>
             </div>
 
             <div class="flex flex-wrap justify-center gap-2 mb-12">
@@ -84,7 +84,7 @@ function formatPrice(price) {
             </div>
             <p v-else class="text-center text-gray-500 py-12">Paket untuk kategori ini akan segera hadir.</p>
 
-            <div v-if="activePackages.length" v-scroll-reveal class="mt-14 bg-white border border-black/10 rounded-2xl p-6 md:p-8">
+            <div v-if="activePackages.length" v-scroll-reveal class="mt-14 bg-white border border-black/10 rounded-lg p-6 md:p-8">
                 <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Harga Renewal per Tier</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                     <div

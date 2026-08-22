@@ -44,9 +44,9 @@ function formatPrice(price) {
 <template>
     <section class="bg-gray-50 py-20">
         <div class="max-w-7xl mx-auto px-4">
-            <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                <p v-if="subtitle" class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-2">{{ subtitle }}</p>
-                <h2 class="text-3xl font-bold text-gray-900">{{ title }}</h2>
+            <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
+                <p v-if="subtitle" class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ subtitle }}</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ title }}</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -54,12 +54,12 @@ function formatPrice(price) {
                     v-for="(card, index) in cards"
                     :key="card.value"
                     v-scroll-reveal="{ delay: index * 80 }"
-                    class="bg-white rounded-xl border border-black/10 p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-brand-300"
+                    class="bg-white rounded-lg border border-black/10 p-6 flex flex-col transition-colors duration-200 hover:border-brand-300"
                 >
-                    <div class="w-11 h-11 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center mb-4">
+                    <div class="w-10 h-10 rounded-md bg-brand-50 text-brand-700 flex items-center justify-center mb-4">
                         <component :is="card.icon" class="w-5 h-5" />
                     </div>
-                    <h3 class="font-semibold text-gray-900 mb-3">{{ card.label }}</h3>
+                    <h3 class="font-bold tracking-tight text-gray-900 mb-3">{{ card.label }}</h3>
                     <div class="mb-5 flex-1">
                         <p class="text-xs text-gray-500">Mulai dari</p>
                         <p class="text-xl font-bold text-gray-900">

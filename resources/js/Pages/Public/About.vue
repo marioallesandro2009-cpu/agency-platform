@@ -50,7 +50,7 @@ function valueIcon(value) {
                         loading="lazy"
                         class="w-20 h-20 object-contain mb-4"
                     />
-                    <p class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-3">Profil Kami</p>
+                    <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-3">Profil Kami</p>
                     <p class="text-left text-gray-600 leading-relaxed text-lg">
                         {{ about.description }}
                     </p>
@@ -69,47 +69,47 @@ function valueIcon(value) {
             </div>
         </section>
 
-        <section v-if="about?.mission || about?.vision" class="bg-gray-50 py-16">
+        <section v-if="about?.mission || about?.vision" class="bg-gray-50 py-20 md:py-24">
             <div class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div
                     v-if="about.mission"
                     v-scroll-reveal="{ direction: 'left' }"
-                    class="bg-white border-l-4 border-brand-600 rounded-xl p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                    class="bg-white rounded-lg p-10 md:p-12"
                 >
-                    <div class="w-14 h-14 rounded-full flex items-center justify-center mb-5 bg-gradient-to-br from-lime-100 to-lime-200 shadow-sm">
-                        <LucideIcon :name="about.mission_icon || 'target'" class="w-7 h-7 text-brand-600" />
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-brand-50">
+                        <LucideIcon :name="about.mission_icon || 'target'" class="w-6 h-6 text-brand-600" />
                     </div>
-                    <h2 class="font-semibold text-xl text-gray-900 mb-2">Misi</h2>
-                    <p class="text-sm text-gray-600 leading-relaxed">{{ about.mission }}</p>
+                    <h2 class="font-bold tracking-tight text-2xl text-gray-900 mb-3">Misi</h2>
+                    <p class="text-gray-600 leading-relaxed">{{ about.mission }}</p>
                 </div>
                 <div
                     v-if="about.vision"
                     v-scroll-reveal="{ direction: 'right', delay: 100 }"
-                    class="bg-charcoal border-l-4 border-lime-400 rounded-xl p-8 shadow-sm md:mt-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                    class="bg-charcoal rounded-lg p-10 md:p-12 md:mt-10"
                 >
-                    <div class="w-14 h-14 rounded-full flex items-center justify-center mb-5 bg-white/10">
-                        <LucideIcon :name="about.vision_icon || 'compass'" class="w-7 h-7 text-lime-400" />
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-white/10">
+                        <LucideIcon :name="about.vision_icon || 'compass'" class="w-6 h-6 text-lime-400" />
                     </div>
-                    <h2 class="font-semibold text-xl text-white mb-2">Visi</h2>
-                    <p class="text-sm text-gray-300 leading-relaxed">{{ about.vision }}</p>
+                    <h2 class="font-bold tracking-tight text-2xl text-white mb-3">Visi</h2>
+                    <p class="text-gray-300 leading-relaxed">{{ about.vision }}</p>
                 </div>
             </div>
         </section>
 
-        <section v-if="about?.values?.length" class="max-w-7xl mx-auto px-4 py-16">
-            <h2 v-scroll-reveal class="text-2xl font-bold text-gray-900 text-center mb-10">Nilai-Nilai Kami</h2>
-            <div class="flex flex-wrap justify-center gap-6">
+        <section v-if="about?.values?.length" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
+            <h2 v-scroll-reveal class="text-3xl font-bold tracking-tight text-gray-900 text-center mb-14">Nilai-Nilai Kami</h2>
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-10">
                 <div
                     v-for="(value, index) in about.values"
                     :key="value.title"
                     v-scroll-reveal="{ delay: index * 80 }"
-                    class="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] text-center bg-white border border-black/10 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
+                    class="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] text-center"
                 >
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-lime-100 to-lime-200">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 bg-brand-50">
                         <LucideIcon :name="valueIcon(value)" class="w-6 h-6 text-brand-600" />
                     </div>
-                    <h3 class="font-semibold text-gray-900 mb-2">{{ value.title }}</h3>
-                    <p class="text-sm text-gray-500">{{ value.description }}</p>
+                    <h3 class="font-bold tracking-tight text-gray-900 mb-2">{{ value.title }}</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">{{ value.description }}</p>
                 </div>
             </div>
         </section>

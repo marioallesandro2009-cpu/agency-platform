@@ -74,20 +74,20 @@ const jsonLd = computed(() => ({
                 Belum ada FAQ untuk kategori ini.
             </div>
 
-            <div v-else class="space-y-3">
+            <div v-else class="border-t border-gray-200">
                 <div
                     v-for="(faq, index) in filteredFaqs"
                     :key="faq.id"
                     v-scroll-reveal="{ delay: Math.min(index, 6) * 80 }"
-                    class="bg-white border border-black/10 rounded-lg overflow-hidden transition-colors duration-300 hover:border-brand-300"
+                    class="border-b border-gray-200"
                 >
                     <button
                         @click="toggleFaq(faq.id)"
                         :aria-expanded="openFaq === faq.id"
                         :aria-controls="'faq-answer-' + faq.id"
-                        class="w-full flex items-center justify-between px-5 py-4 text-left"
+                        class="group w-full flex items-center justify-between py-5 text-left"
                     >
-                        <span class="font-medium text-gray-900 text-sm">{{ faq.question }}</span>
+                        <span class="font-semibold text-gray-900 transition-colors group-hover:text-brand-600">{{ faq.question }}</span>
                         <span
                             aria-hidden="true"
                             class="text-brand-600 text-lg flex-shrink-0 ml-3 inline-block transition-transform duration-300"
@@ -102,7 +102,7 @@ const jsonLd = computed(() => ({
                         leave-from-class="opacity-100 translate-y-0"
                         leave-to-class="opacity-0 -translate-y-1"
                     >
-                        <div v-if="openFaq === faq.id" :id="'faq-answer-' + faq.id" class="px-5 pb-4 text-sm text-gray-600">
+                        <div v-if="openFaq === faq.id" :id="'faq-answer-' + faq.id" class="pb-5 text-gray-600 leading-relaxed">
                             {{ faq.answer }}
                         </div>
                     </Transition>
@@ -110,11 +110,11 @@ const jsonLd = computed(() => ({
             </div>
         </section>
 
-        <section class="bg-gray-50 py-16">
+        <section class="bg-gray-50 py-20">
             <div v-scroll-reveal class="max-w-xl mx-auto px-4 text-center">
-                <h2 class="text-xl font-semibold text-gray-900 mb-2">Masih ada pertanyaan?</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">Masih ada pertanyaan?</h2>
                 <p class="text-gray-500 mb-6">Tim kami siap membantu menjawab kebutuhan spesifik Anda.</p>
-                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700">
+                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
                     Konsultasi Gratis
                 </Link>
             </div>

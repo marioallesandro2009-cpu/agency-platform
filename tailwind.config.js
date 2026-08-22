@@ -37,6 +37,17 @@ export default {
                 },
                 charcoal: '#1a1a1a',
             },
+            boxShadow: {
+                /**
+                 * Tinted-charcoal replacements for Tailwind's default gray
+                 * shadow-*. Both layers keep offset-y >= blur so the shadow
+                 * never bleeds above an element's own top edge (same math
+                 * that fixed the Portfolio/Show.vue cover-image bleed) —
+                 * safe to use even when an element overlaps a dark section.
+                 */
+                soft: '0 2px 8px -2px rgb(26 26 26 / 0.08), 0 1px 3px -1px rgb(26 26 26 / 0.06)',
+                elevated: '0 20px 25px -5px rgb(26 26 26 / 0.12), 0 8px 10px -6px rgb(26 26 26 / 0.08)',
+            },
             keyframes: {
                 blob: {
                     '0%, 100%': { transform: 'translate(0, 0) scale(1)' },

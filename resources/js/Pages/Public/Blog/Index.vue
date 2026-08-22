@@ -23,20 +23,20 @@ function formatDate(date) {
         :description="activeCategory ? `Kumpulan artikel seputar ${activeCategory.name}.` : 'Artikel dan insight seputar pembuatan website, UMKM, dan bisnis online.'"
     />
     <PublicLayout>
-        <section class="max-w-7xl mx-auto px-4 py-16">
-            <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                <p class="text-brand-600 font-semibold text-sm uppercase tracking-wide mb-2">Blog</p>
-                <h1 class="text-3xl font-bold text-gray-900">
+        <section class="max-w-7xl mx-auto px-4 py-20">
+            <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
+                <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">Blog</p>
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
                     {{ activeCategory ? "Kategori: " + activeCategory.name : "Artikel & Insight" }}
                 </h1>
             </div>
 
             <!-- Category filter -->
-            <div class="flex flex-wrap gap-2 justify-center mb-12">
+            <div class="flex flex-wrap gap-2 justify-center mb-14">
                 <Link
                     href="/blog"
                     :class="!activeCategory ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-                    class="text-sm px-4 py-1.5 rounded-full"
+                    class="text-sm px-4 py-1.5 rounded-full transition-colors"
                 >
                     Semua
                 </Link>
@@ -45,7 +45,7 @@ function formatDate(date) {
                     :key="cat.id"
                     :href="'/blog/category/' + cat.slug"
                     :class="activeCategory?.id === cat.id ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-                    class="text-sm px-4 py-1.5 rounded-full"
+                    class="text-sm px-4 py-1.5 rounded-full transition-colors"
                 >
                     {{ cat.name }}
                 </Link>
@@ -56,24 +56,27 @@ function formatDate(date) {
                 Belum ada artikel di kategori ini.
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <article
-                    v-for="(post, index) in posts"
-                    :key="post.id"
-                    v-scroll-reveal="{ delay: Math.min(index, 6) * 80 }"
-                    class="border border-black/10 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
-                >
-                    <div class="h-48 bg-gray-100">
-                        <img v-if="post.featured_image" :src="post.featured_image" :alt="post.title" width="400" height="192" loading="lazy" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="p-5">
-                        <p v-if="post.category" class="text-xs text-brand-600 font-medium mb-2">{{ post.category.name }}</p>
-                        <h2 class="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">
-                            <Link :href="'/blog/' + post.slug" class="hover:text-brand-600">{{ post.title }}</Link>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+                <article v-for="(post, index) in posts" :key="post.id" v-scroll-reveal="{ delay: Math.min(index, 6) * 80 }" class="group">
+                    <Link :href="'/blog/' + post.slug" class="block">
+                        <div class="aspect-[5/3] rounded-lg overflow-hidden bg-gray-100 mb-4">
+                            <img
+                                v-if="post.featured_image"
+                                :src="post.featured_image"
+                                :alt="post.title"
+                                width="400"
+                                height="240"
+                                loading="lazy"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                        </div>
+                        <p v-if="post.category" class="text-xs text-brand-600 font-semibold uppercase tracking-wide mb-2">{{ post.category.name }}</p>
+                        <h2 class="font-bold text-lg tracking-tight text-gray-900 mb-2 line-clamp-2 transition-colors group-hover:text-brand-600">
+                            {{ post.title }}
                         </h2>
-                        <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ post.excerpt }}</p>
+                        <p class="text-sm text-gray-500 mb-3 line-clamp-2 leading-relaxed">{{ post.excerpt }}</p>
                         <p class="text-xs text-gray-500">{{ formatDate(post.published_at) }}</p>
-                    </div>
+                    </Link>
                 </article>
             </div>
         </section>

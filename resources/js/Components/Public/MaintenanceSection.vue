@@ -81,7 +81,7 @@ function waLink(planName) {
     <section v-if="plans.length" class="py-20">
         <div class="max-w-7xl mx-auto px-4">
             <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Paket Maintenance Lanjutan</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 mb-3">Paket Maintenance Lanjutan</h2>
                 <p class="text-sm text-gray-500">
                     Setelah masa maintenance gratis habis, pilih paket lanjutan sesuai kebutuhan Anda — atau tetap tanpa
                     paket, dengan garansi bug-fixing dasar tetap berlaku.
@@ -93,9 +93,9 @@ function waLink(planName) {
                     v-for="(plan, index) in plans"
                     :key="plan.id"
                     v-scroll-reveal="{ delay: index * 80 }"
-                    class="bg-white rounded-xl border border-black/10 p-6 flex flex-col"
+                    class="bg-white rounded-lg border border-black/10 p-6 flex flex-col"
                 >
-                    <h3 class="font-semibold text-gray-900">{{ plan.name }}</h3>
+                    <h3 class="font-bold tracking-tight text-gray-900">{{ plan.name }}</h3>
 
                     <div v-if="plan.price_yearly" class="inline-flex items-center gap-0.5 bg-gray-100 rounded-full p-0.5 mt-3 mb-4 self-start">
                         <button
@@ -144,7 +144,7 @@ function waLink(planName) {
                         :href="waLink(plan.name)"
                         target="_blank"
                         rel="noopener"
-                        class="block text-center text-sm font-medium py-2.5 rounded-full border border-brand-600 text-brand-600 hover:bg-brand-50 transition-colors"
+                        class="block text-center text-sm font-semibold py-2.5 rounded-md border border-brand-600 text-brand-600 transition-colors hover:bg-brand-50"
                     >
                         {{ plan.cta_text || "Tanya Lebih Lanjut" }}
                     </a>

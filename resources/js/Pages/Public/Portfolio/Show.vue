@@ -53,32 +53,32 @@ const breadcrumbItems = computed(() => [
             </div>
         </div>
 
-        <section class="max-w-4xl mx-auto px-4 py-16 space-y-12">
+        <section class="max-w-4xl mx-auto px-4 py-20 space-y-16">
             <div v-if="project.description">
-                <h2 class="text-xl font-semibold text-gray-900 mb-3">Tentang Proyek</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Tentang Proyek</h2>
                 <p class="text-gray-600 leading-relaxed">{{ project.description }}</p>
             </div>
 
             <div v-if="project.challenge" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                    <h2 class="text-xl font-semibold text-gray-900 mb-3">Tantangan</h2>
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Tantangan</h2>
                     <p class="text-gray-600 leading-relaxed">{{ project.challenge }}</p>
                 </div>
                 <div v-if="project.solution">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-3">Solusi</h2>
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Solusi</h2>
                     <p class="text-gray-600 leading-relaxed">{{ project.solution }}</p>
                 </div>
             </div>
 
             <div v-if="project.features?.length">
-                <h2 class="text-xl font-semibold text-gray-900 mb-3">Fitur</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Fitur</h2>
                 <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                     <li v-for="feature in project.features" :key="feature">- {{ feature }}</li>
                 </ul>
             </div>
 
             <div v-if="project.technologies?.length">
-                <h2 class="text-xl font-semibold text-gray-900 mb-3">Teknologi</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-3">Teknologi</h2>
                 <div class="flex flex-wrap gap-2">
                     <span
                         v-for="tech in project.technologies"
@@ -101,39 +101,37 @@ const breadcrumbItems = computed(() => [
                 </a>
             </div>
 
-            <div class="bg-gray-50 rounded-xl p-8 text-center">
-                <h2 class="text-xl font-semibold text-gray-900 mb-2">Tertarik dengan hasil serupa?</h2>
+            <div class="bg-gray-50 rounded-lg p-8 text-center">
+                <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-2">Tertarik dengan hasil serupa?</h2>
                 <p class="text-gray-500 mb-4">Konsultasikan kebutuhan website Anda secara gratis.</p>
-                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white font-medium px-6 py-3 rounded-md hover:bg-brand-700">
+                <Link href="/konsultasi" class="inline-block bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-6 py-3 rounded-md transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5">
                     Konsultasi Gratis
                 </Link>
             </div>
 
             <div v-if="related.length">
-                <h2 class="text-xl font-semibold text-gray-900 mb-6">Proyek Terkait</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-8">Proyek Terkait</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <Link
                         v-for="(item, index) in related"
                         :key="item.id"
                         :href="'/portfolio/' + item.slug"
                         v-scroll-reveal="{ delay: index * 80 }"
-                        class="group block bg-white border border-black/10 rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
+                        class="group block"
                     >
-                        <div class="h-32 bg-gray-100">
+                        <div class="aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 mb-4">
                             <img
                                 v-if="item.thumbnail"
                                 :src="item.thumbnail"
                                 :alt="item.name"
                                 width="400"
-                                height="128"
+                                height="300"
                                 loading="lazy"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                         </div>
-                        <div class="p-4">
-                            <p class="text-xs text-brand-600 font-medium mb-1">{{ item.category }}</p>
-                            <h3 class="font-semibold text-gray-900 text-sm">{{ item.name }}</h3>
-                        </div>
+                        <p class="text-xs text-brand-600 font-semibold uppercase tracking-wide mb-1">{{ item.category }}</p>
+                        <h3 class="font-bold text-gray-900 tracking-tight transition-colors group-hover:text-brand-600">{{ item.name }}</h3>
                     </Link>
                 </div>
             </div>

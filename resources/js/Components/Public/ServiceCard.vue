@@ -1,10 +1,10 @@
 <script setup>
 /**
- * Service card: image header (16:9, placeholder fallback), numbered
- * watermark, green border-left accent, icon in a soft-tint circle, hover
- * lift. Unlike WhyUsCard, description/features stay always visible here —
- * there's already an image + "Pelajari lebih lanjut" CTA doing the work,
- * so hover-hiding the copy would hurt rather than help scannability.
+ * Service row: editorial numbered-list treatment (01 — Service Name) instead
+ * of a bordered/shadowed card. Divider-led list so the Services section reads
+ * differently from WhyUsCard's grid below it — image stays but is de-framed
+ * (no card wrapper), features/CTA always visible since there's already an
+ * image + "Pelajari lebih lanjut" CTA doing the scannability work.
  */
 import { Link } from "@inertiajs/vue3";
 import LucideIcon from "./LucideIcon.vue";
@@ -14,96 +14,46 @@ defineProps({
     index: { type: Number, default: 0 },
 });
 
-const PLACEHOLDER = "https://placehold.co/640x360?text=%20";
+const PLACEHOLDER = "https://placehold.co/640x400?text=%20";
 </script>
 
 <template>
-    <div class="service-card group relative bg-white rounded-xl shadow-sm overflow-hidden border-l-4 border-brand-600 flex flex-col h-full">
-        <div class="aspect-[16/9] bg-gray-100 overflow-hidden">
-            <img
-                :src="service.image || PLACEHOLDER"
-                :alt="service.image ? service.name : ''"
-                :aria-hidden="!service.image"
-                width="640"
-                height="360"
-                class="w-full h-full object-cover service-card__img"
-                loading="lazy"
-            />
-        </div>
-
-        <div class="relative p-6 flex flex-col flex-1">
-            <span class="service-card__number" aria-hidden="true">{{ String(index + 1).padStart(2, "0") }}</span>
-
-            <div class="service-card__icon relative z-10 w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center mb-4">
-                <LucideIcon :name="service.icon" class="w-6 h-6 text-brand-600" />
+    <div class="group relative py-10 md:py-12 border-t border-gray-200 first:border-t-0">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+            <div class="lg:col-span-1">
+                <span class="text-sm font-semibold text-gray-400 tabular-nums">{{ String(index + 1).padStart(2, "0") }}</span>
             </div>
 
-            <h3 class="relative z-10 font-semibold text-lg text-gray-900 mb-2">{{ service.name }}</h3>
-            <p class="relative z-10 text-sm text-gray-500 mb-4">{{ service.short_description }}</p>
-            <ul class="relative z-10 text-xs text-gray-600 space-y-1 mb-4">
-                <li v-for="feature in service.features?.slice(0, 3)" :key="feature">- {{ feature }}</li>
-            </ul>
+            <div class="lg:col-span-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <LucideIcon :name="service.icon" class="w-5 h-5 text-brand-600 shrink-0" />
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight transition-colors group-hover:text-brand-600">
+                        {{ service.name }}
+                    </h3>
+                </div>
+                <p class="text-gray-500 leading-relaxed mb-4 max-w-md">{{ service.short_description }}</p>
+                <ul class="text-sm text-gray-600 space-y-1.5 mb-5">
+                    <li v-for="feature in service.features?.slice(0, 3)" :key="feature">- {{ feature }}</li>
+                </ul>
+                <Link :href="'/' + service.slug" class="inline-flex items-center gap-1.5 text-brand-600 text-sm font-semibold">
+                    Pelajari lebih lanjut
+                    <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">-&gt;</span>
+                </Link>
+            </div>
 
-            <Link :href="'/' + service.slug" class="relative z-10 mt-auto text-brand-600 text-sm font-medium hover:underline">
-                Pelajari lebih lanjut
-            </Link>
+            <div class="lg:col-span-5">
+                <div class="aspect-[16/10] rounded-lg overflow-hidden bg-gray-100">
+                    <img
+                        :src="service.image || PLACEHOLDER"
+                        :alt="service.image ? service.name : ''"
+                        :aria-hidden="!service.image"
+                        width="640"
+                        height="400"
+                        loading="lazy"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                </div>
+            </div>
         </div>
     </div>
 </template>
-
-<style scoped>
-.service-card__number {
-    position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-    font-size: 3rem;
-    line-height: 1;
-    font-weight: 800;
-    color: #4d7c0f;
-    opacity: 0.12;
-    pointer-events: none;
-    user-select: none;
-}
-@media (min-width: 768px) {
-    .service-card__number {
-        font-size: 3.5rem;
-    }
-}
-
-.service-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.service-card__icon {
-    transition: transform 0.3s ease;
-}
-.service-card__img {
-    transition: transform 0.3s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .service-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        border-color: #84cc16;
-    }
-    .service-card:hover .service-card__icon {
-        transform: scale(1.1);
-    }
-    .service-card:hover .service-card__img {
-        transform: scale(1.05);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .service-card,
-    .service-card__icon,
-    .service-card__img {
-        transition: none;
-    }
-}
-
-.service-card:focus-within {
-    outline: 2px solid #84cc16;
-    outline-offset: 2px;
-}
-</style>
