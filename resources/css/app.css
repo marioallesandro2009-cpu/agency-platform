@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Shared ambient-motion utilities. Companion to the v-scroll-reveal /
+ * v-line-reveal / v-image-reveal directives (resources/js/directives/) —
+ * those handle scroll-triggered, once-only reveals; these handle continuous
+ * idle motion (floating, slow background drift) that runs independently of
+ * scroll or hover. Use sparingly — hero/CTA-scale sections only, never every
+ * section (see the "don't animate everything" note in each component that
+ * uses these).
+ */
+@layer utilities {
+    /* Idle float for brand-character elements (mascots, small decorative
+       illustrations). Small, slow, continuous. */
+    .ambient-float {
+        animation: ambient-float 5s ease-in-out infinite;
+    }
+    @keyframes ambient-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    /* CSS-only line-grid texture, no image request. Very low opacity by
+       design — it's a texture, not a pattern anyone should consciously see. */
+    .bg-grid-subtle {
+        background-image:
+            repeating-linear-gradient(to right, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 48px),
+            repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 48px);
+    }
+    .bg-grid-subtle--dark {
+        background-image:
+            repeating-linear-gradient(to right, rgba(26, 26, 26, 0.045) 0 1px, transparent 1px 48px),
+            repeating-linear-gradient(to bottom, rgba(26, 26, 26, 0.045) 0 1px, transparent 1px 48px);
+    }
+
+    /* Slow-panning radial glow for hero/CTA sections only. background-size
+       is deliberately oversized so animating background-position actually
+       pans the glow's visible portion (animating position on an "at X% Y%"
+       radial-gradient directly does not move it — this is the fix). */
+    .bg-glow-drift {
+        background-image: radial-gradient(circle, rgba(132, 204, 22, 0.09), transparent 45%);
+        background-size: 160% 160%;
+        background-position: 30% 30%;
+        animation: bg-glow-drift 20s ease-in-out infinite alternate;
+    }
+    @keyframes bg-glow-drift {
+        0% { background-position: 30% 30%; }
+        100% { background-position: 38% 38%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ambient-float,
+        .bg-glow-drift {
+            animation: none;
+        }
+    }
+}

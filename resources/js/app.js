@@ -6,6 +6,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { vScrollReveal } from './directives/scrollReveal';
+import { vLineReveal } from './directives/lineReveal';
+import { vImageReveal } from './directives/imageReveal';
 
 createInertiaApp({
     resolve: (name) =>
@@ -18,6 +20,8 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .directive('scroll-reveal', vScrollReveal)
+            .directive('line-reveal', vLineReveal)
+            .directive('image-reveal', vImageReveal)
             .mount(el);
     },
     progress: {
