@@ -3,7 +3,7 @@ import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
 import LucideIcon from "@/Components/Public/LucideIcon.vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 
 defineProps({
     about: Object,
@@ -126,19 +126,6 @@ function valueIcon(value) {
                         {{ tech }}
                     </span>
                 </div>
-            </div>
-        </section>
-
-        <section class="bg-brand-600 py-20">
-            <div v-scroll-reveal class="max-w-2xl mx-auto px-4 text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-white mb-4">Mari Bekerja Sama</h2>
-                <p class="text-white/80 mb-8">Konsultasikan kebutuhan website Anda dengan tim kami.</p>
-                <Link
-                    href="/konsultasi"
-                    class="inline-block bg-white text-brand-700 text-sm font-semibold uppercase tracking-wide px-8 py-3.5 rounded-md transition-all duration-200 hover:bg-brand-50 hover:-translate-y-0.5"
-                >
-                    Konsultasi Gratis
-                </Link>
             </div>
         </section>
     </PublicLayout>
