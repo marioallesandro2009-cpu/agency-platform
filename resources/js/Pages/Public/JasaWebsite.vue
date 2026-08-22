@@ -43,7 +43,7 @@ function formatPrice(price) {
                     class="group flex items-center justify-between gap-6 border-b border-gray-200 py-6"
                 >
                     <div class="flex items-baseline gap-5">
-                        <span class="text-sm font-semibold text-gray-400 tabular-nums">{{ String(index + 1).padStart(2, "0") }}</span>
+                        <span class="text-sm font-semibold text-gray-500 tabular-nums">{{ String(index + 1).padStart(2, "0") }}</span>
                         <div>
                             <h3 class="font-bold text-lg text-gray-900 tracking-tight transition-colors group-hover:text-brand-600">{{ service.name }}</h3>
                             <p class="text-sm text-gray-500 mt-1 max-w-md">{{ service.short_description }}</p>

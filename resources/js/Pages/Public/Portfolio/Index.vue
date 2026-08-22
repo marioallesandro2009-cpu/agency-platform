@@ -43,7 +43,7 @@ function domainLabel(url) {
                 >
                     <div v-scroll-reveal="{ direction: 'left' }" :class="index % 2 === 1 ? 'md:order-2' : 'md:order-1'">
                         <div class="flex items-center gap-3 mb-4">
-                            <span class="text-xs font-semibold text-gray-400 tabular-nums">
+                            <span class="text-xs font-semibold text-gray-500 tabular-nums">
                                 {{ String(index + 1).padStart(2, "0") }} / {{ String(projects.length).padStart(2, "0") }}
                             </span>
                             <span

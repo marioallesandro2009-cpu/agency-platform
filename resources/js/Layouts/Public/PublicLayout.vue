@@ -207,7 +207,7 @@ const year = new Date().getFullYear();
                     <p class="text-sm leading-relaxed max-w-xs">{{ settings.general?.description }}</p>
                 </div>
                 <div>
-                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Layanan</h4>
+                    <h4 class="text-gray-400 font-semibold mb-4 text-xs uppercase tracking-widest">Layanan</h4>
                     <ul class="space-y-2.5 text-sm">
                         <li v-for="service in navServices" :key="service.id">
                             <Link :href="'/' + service.slug" class="hover:text-white transition-colors">{{ service.name }}</Link>
@@ -215,7 +215,7 @@ const year = new Date().getFullYear();
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Kontak</h4>
+                    <h4 class="text-gray-400 font-semibold mb-4 text-xs uppercase tracking-widest">Kontak</h4>
                     <ul class="space-y-2.5 text-sm">
                         <li v-if="settings.contact?.address">{{ settings.contact.address }}</li>
                         <li v-if="settings.contact?.phone">{{ settings.contact.phone }}</li>
@@ -223,7 +223,7 @@ const year = new Date().getFullYear();
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-gray-500 font-semibold mb-4 text-xs uppercase tracking-widest">Ikuti Kami</h4>
+                    <h4 class="text-gray-400 font-semibold mb-4 text-xs uppercase tracking-widest">Ikuti Kami</h4>
                     <div class="flex gap-4 text-sm">
                         <a v-if="settings.social?.instagram" :href="settings.social.instagram" target="_blank" rel="noopener" class="hover:text-white transition-colors">Instagram</a>
                         <a v-if="settings.social?.facebook" :href="settings.social.facebook" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
