@@ -2,6 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import AboutSection from "@/Components/Public/AboutSection.vue";
+import Button from "@/Components/Public/Button.vue";
 import ContactCtaForm from "@/Components/ContactCtaForm.vue";
 import ServiceCard from "@/Components/Public/ServiceCard.vue";
 import WhyUsCard from "@/Components/Public/WhyUsCard.vue";
@@ -76,7 +77,7 @@ function toggleFaq(id) {
                             <p v-scroll-reveal class="text-brand-400 font-semibold text-xs uppercase tracking-widest mb-4">{{ hero.eyebrow }}</p>
                             <h1
                                 v-scroll-reveal="{ delay: 80 }"
-                                class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-tight mb-6 [text-wrap:balance]"
+                                class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[0.92] tracking-tight mb-6 [text-wrap:balance]"
                             >
                                 {{ hero.title }}
                             </h1>
@@ -88,18 +89,8 @@ function toggleFaq(id) {
                                 {{ hero.subtitle }}
                             </p>
                             <div v-scroll-reveal="{ delay: 240 }" class="flex flex-col sm:flex-row gap-4" :class="hero.image ? '' : 'justify-center'">
-                                <Link
-                                    :href="hero.cta_primary_url"
-                                    class="bg-brand-600 text-white text-sm font-semibold uppercase tracking-wide px-7 py-3.5 rounded-md text-center transition-all duration-200 hover:bg-brand-700 hover:-translate-y-0.5"
-                                >
-                                    {{ hero.cta_primary_text }}
-                                </Link>
-                                <Link
-                                    :href="hero.cta_secondary_url"
-                                    class="border border-white/30 text-white text-sm font-semibold uppercase tracking-wide px-7 py-3.5 rounded-md text-center transition-all duration-200 hover:border-white hover:-translate-y-0.5"
-                                >
-                                    {{ hero.cta_secondary_text }}
-                                </Link>
+                                <Button :href="hero.cta_primary_url" size="large">{{ hero.cta_primary_text }}</Button>
+                                <Button :href="hero.cta_secondary_url" variant="outline" size="large">{{ hero.cta_secondary_text }}</Button>
                             </div>
                         </div>
 
@@ -116,7 +107,7 @@ function toggleFaq(id) {
             <AboutSection v-else-if="type === 'about' && about" :about="about" />
 
             <!-- Services -->
-            <section v-else-if="type === 'services'" class="max-w-7xl mx-auto px-4 py-20">
+            <section v-else-if="type === 'services'" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
                 <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                     <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ servicesSection?.subtitle || "Layanan Kami" }}</p>
                     <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ servicesSection?.title || "Solusi Website untuk Setiap Kebutuhan" }}</h2>
@@ -129,7 +120,7 @@ function toggleFaq(id) {
             </section>
 
             <!-- Portfolio -->
-            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="max-w-6xl mx-auto px-4 py-20">
+            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="max-w-6xl mx-auto px-4 py-20 md:py-24">
                 <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                     <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ portfolioSection?.subtitle || "Portfolio" }}</p>
                     <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ portfolioSection?.title || "Hasil Karya Kami" }}</h2>
@@ -143,25 +134,13 @@ function toggleFaq(id) {
             </section>
 
             <!-- Why Us -->
-            <section v-else-if="type === 'why_us' && whyUs" class="bg-gray-50 py-20">
+            <section v-else-if="type === 'why_us' && whyUs" class="bg-gray-50 py-20 md:py-24">
                 <div class="max-w-7xl mx-auto px-4">
                     <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                         <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ whyUs.subtitle }}</p>
                         <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ whyUs.title }}</h2>
                     </div>
-                    <template v-if="whyUs.items.length > 2">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto mb-8">
-                            <div v-for="(item, index) in whyUs.items.slice(0, 2)" :key="item.title" v-scroll-reveal="{ delay: index * 80 }">
-                                <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index" />
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                            <div v-for="(item, index) in whyUs.items.slice(2)" :key="item.title" v-scroll-reveal="{ delay: (index + 2) * 80 }">
-                                <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index + 2" />
-                            </div>
-                        </div>
-                    </template>
-                    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div v-for="(item, index) in whyUs.items" :key="item.title" v-scroll-reveal="{ delay: index * 80 }">
                             <WhyUsCard :title="item.title" :description="item.description" :icon="item.icon" :index="index" />
                         </div>
@@ -170,7 +149,7 @@ function toggleFaq(id) {
             </section>
 
             <!-- Process -->
-            <section v-else-if="type === 'process' && process" class="max-w-7xl mx-auto px-4 py-20">
+            <section v-else-if="type === 'process' && process" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
                 <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                     <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ process.subtitle }}</p>
                     <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ process.title }}</h2>

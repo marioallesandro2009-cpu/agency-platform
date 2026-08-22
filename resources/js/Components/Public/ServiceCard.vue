@@ -5,8 +5,15 @@
  * differently from WhyUsCard's grid below it — image stays but is de-framed
  * (no card wrapper), features/CTA always visible since there's already an
  * image + "Pelajari lebih lanjut" CTA doing the scannability work.
+ *
+ * Text/image sides alternate by index parity (order-1/order-2 swap) so the
+ * section doesn't read as the same layout repeated N times. The numeral
+ * lives inside the text block (not its own grid column) so the swap only
+ * has to flip two zones, and stays neutral gray (not the WhyUsCard brand-200
+ * treatment) to keep the two sections visually distinct, per the intent
+ * above.
  */
-import { Link } from "@inertiajs/vue3";
+import Button from "./Button.vue";
 import LucideIcon from "./LucideIcon.vue";
 
 defineProps({
@@ -19,12 +26,11 @@ const PLACEHOLDER = "https://placehold.co/640x400?text=%20";
 
 <template>
     <div class="group relative py-10 md:py-12 border-t border-gray-200 first:border-t-0">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
-            <div class="lg:col-span-1">
-                <span class="text-sm font-semibold text-gray-400 tabular-nums">{{ String(index + 1).padStart(2, "0") }}</span>
-            </div>
-
-            <div class="lg:col-span-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            <div class="lg:col-span-6" :class="index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'">
+                <span class="block text-4xl md:text-5xl font-extrabold text-gray-200 leading-none mb-3 tabular-nums" aria-hidden="true">
+                    {{ String(index + 1).padStart(2, "0") }}
+                </span>
                 <div class="flex items-center gap-3 mb-3">
                     <LucideIcon :name="service.icon" class="w-5 h-5 text-brand-600 shrink-0" />
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight transition-colors group-hover:text-brand-600">
@@ -35,14 +41,14 @@ const PLACEHOLDER = "https://placehold.co/640x400?text=%20";
                 <ul class="text-sm text-gray-600 space-y-1.5 mb-5">
                     <li v-for="feature in service.features?.slice(0, 3)" :key="feature">- {{ feature }}</li>
                 </ul>
-                <Link :href="'/' + service.slug" class="inline-flex items-center gap-1.5 text-brand-600 text-sm font-semibold">
+                <Button variant="ghost" :href="'/' + service.slug">
                     Pelajari lebih lanjut
                     <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">-&gt;</span>
-                </Link>
+                </Button>
             </div>
 
-            <div class="lg:col-span-5">
-                <div class="aspect-[16/10] rounded-lg overflow-hidden bg-gray-100">
+            <div class="lg:col-span-6" :class="index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'">
+                <div class="aspect-[16/10] rounded-lg overflow-hidden shadow-soft bg-gray-100">
                     <img
                         :src="service.image || PLACEHOLDER"
                         :alt="service.image ? service.name : ''"
