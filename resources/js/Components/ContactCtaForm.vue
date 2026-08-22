@@ -52,8 +52,9 @@ function submit() {
 </script>
 
 <template>
-    <section class="contact-cta bg-charcoal py-20 md:py-28 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4">
+    <section class="contact-cta relative bg-charcoal py-20 md:py-28 overflow-hidden">
+        <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
+        <div class="max-w-6xl mx-auto px-4 relative">
             <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
                 <!-- Illustration -->
                 <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
@@ -65,17 +66,16 @@ function submit() {
                     />
                     <svg v-else viewBox="0 0 360 320" class="w-full max-w-sm" role="img" aria-label="Ilustrasi kirim pesan">
                         <g id="dots" fill="#a3e635">
-                            <circle id="dot1" class="dot" cx="60" cy="60" r="6" />
-                            <circle id="dot2" class="dot" cx="300" cy="50" r="5" />
-                            <circle id="dot3" class="dot" cx="320" cy="140" r="6" />
-                            <circle id="dot4" class="dot" cx="30" cy="165" r="5" />
-                            <circle id="dot5" class="dot" cx="280" cy="235" r="6" />
-                            <circle id="dot6" class="dot" cx="55" cy="245" r="5" />
+                            <circle id="dot1" class="dot" cx="60" cy="60" r="3" />
+                            <circle id="dot2" class="dot" cx="300" cy="50" r="2.5" />
+                            <circle id="dot3" class="dot" cx="320" cy="140" r="3" />
+                            <circle id="dot4" class="dot" cx="30" cy="165" r="2.5" />
+                            <circle id="dot5" class="dot" cx="280" cy="235" r="3" />
                         </g>
 
                         <circle cx="180" cy="175" r="120" fill="#65a30d" opacity="0.12" />
 
-                        <g id="plane">
+                        <g id="plane" class="ambient-float-lg">
                             <polygon points="90,205 285,120 195,168" fill="#a3e635" />
                             <polygon points="195,168 285,120 215,235" fill="#4d7c0f" />
                             <line x1="195" y1="168" x2="285" y2="120" stroke="#1a2e05" stroke-width="3" stroke-linecap="round" />
@@ -183,57 +183,44 @@ function submit() {
 </template>
 
 <style scoped>
-/* ---- plane float ---- */
+/* #plane's float now comes from the shared .ambient-float-lg utility
+   (app.css) — see class on the <g id="plane"> element. */
 #plane {
-    animation: plane-float 4s ease-in-out infinite;
     transform-origin: center;
 }
-@keyframes plane-float {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
 
-/* ---- dot blink, staggered ---- */
+/* ---- ambient dot float, staggered ---- */
 .dot {
-    animation: dot-blink 1.8s ease-in-out infinite;
+    animation: dot-float 6s ease-in-out infinite;
 }
 #dot1 {
     animation-delay: 0s;
 }
 #dot2 {
-    animation-delay: 0.3s;
-}
-#dot3 {
-    animation-delay: 0.6s;
-}
-#dot4 {
-    animation-delay: 0.9s;
-}
-#dot5 {
     animation-delay: 1.2s;
 }
-#dot6 {
-    animation-delay: 1.5s;
+#dot3 {
+    animation-delay: 2.4s;
 }
-@keyframes dot-blink {
+#dot4 {
+    animation-delay: 3.6s;
+}
+#dot5 {
+    animation-delay: 4.8s;
+}
+@keyframes dot-float {
     0%,
     100% {
-        opacity: 0.25;
-        transform: scale(0.85);
+        opacity: 0.1;
+        transform: translateY(0);
     }
     50% {
-        opacity: 1;
-        transform: scale(1.1);
+        opacity: 0.25;
+        transform: translateY(-9px);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #plane,
     .dot {
         animation: none;
     }

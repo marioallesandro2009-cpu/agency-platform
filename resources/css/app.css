@@ -22,6 +22,17 @@
         50% { transform: translateY(-5px); }
     }
 
+    /* Same idea, larger excursion — for illustration-scale elements (a
+       hero/CTA graphic) where the default 5px read as too subtle to
+       register at that size. */
+    .ambient-float-lg {
+        animation: ambient-float-lg 4s ease-in-out infinite;
+    }
+    @keyframes ambient-float-lg {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
     /* CSS-only line-grid texture, no image request. Very low opacity by
        design — it's a texture, not a pattern anyone should consciously see. */
     .bg-grid-subtle {
@@ -52,6 +63,7 @@
 
     @media (prefers-reduced-motion: reduce) {
         .ambient-float,
+        .ambient-float-lg,
         .bg-glow-drift {
             animation: none;
         }

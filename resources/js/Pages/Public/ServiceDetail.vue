@@ -86,7 +86,7 @@ const breadcrumbItems = computed(() => [
                     <div class="flex flex-wrap items-center gap-6 sm:gap-8">
                         <Button :href="service.cta_url || '/konsultasi'">{{ service.cta_text || "Konsultasi Gratis Sekarang" }}</Button>
 
-                        <div v-if="sidebarMascot.image_path" class="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48 mascot-float">
+                        <div v-if="sidebarMascot.image_path" class="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48 ambient-float">
                             <div class="absolute inset-2 -z-10 rounded-full bg-brand-50" aria-hidden="true"></div>
                             <img
                                 :src="sidebarMascot.image_path"
@@ -157,24 +157,3 @@ const breadcrumbItems = computed(() => [
         </div>
     </PublicLayout>
 </template>
-
-<style scoped>
-/* Very subtle brand-companion float for the CTA-row mascot — slow and
-   small so it reads as "alive" without competing with the CTA button. */
-.mascot-float {
-    animation: mascot-float 5s ease-in-out infinite;
-}
-@keyframes mascot-float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-4px);
-    }
-}
-@media (prefers-reduced-motion: reduce) {
-    .mascot-float {
-        animation: none;
-    }
-}
-</style>
