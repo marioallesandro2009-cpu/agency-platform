@@ -2,7 +2,6 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
-import LucideIcon from "@/Components/Public/LucideIcon.vue";
 import CircularLogoLoop from "@/Components/CircularLogoLoop.vue";
 import WhyUsCard from "@/Components/Public/WhyUsCard.vue";
 import ContactCtaForm from "@/Components/ContactCtaForm.vue";
@@ -25,6 +24,11 @@ const techLogos = computed(() =>
 );
 
 const mascots = usePage().props.mascots || {};
+
+// Single subtle background accent for the Misi/Visi hero-typography section
+// (see below) — a low-opacity scrolling word strip, not tied to any DB data
+// since it's pure brand copy, not a statistic.
+const tickerText = "Terpercaya • Cepat • Profesional • ".repeat(6);
 
 // Sensible default icons for the 4 known "Nilai-Nilai" cards, used only
 // until an admin picks a real icon via the new picker (content.values.*.icon
@@ -91,38 +95,38 @@ function valueIcon(value) {
             </div>
         </section>
 
-        <section v-if="about?.mission || about?.vision" class="relative overflow-hidden py-20 md:py-24">
-            <img
-                v-if="mascots.misi_visi_tentang_kami?.image_path"
-                :src="mascots.misi_visi_tentang_kami.image_path"
-                :alt="mascots.misi_visi_tentang_kami.alt_text || ''"
-                :aria-hidden="!mascots.misi_visi_tentang_kami.alt_text"
-                loading="lazy"
-                class="hidden lg:block absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 w-40 xl:w-52 h-auto object-contain pointer-events-none select-none"
-            />
-            <div class="relative z-10 max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div
-                    v-if="about.mission"
-                    v-scroll-reveal="{ direction: 'left' }"
-                    class="bg-gray-50 rounded-lg p-10 md:p-12"
-                >
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-brand-50">
-                        <LucideIcon :name="about.mission_icon || 'target'" class="w-6 h-6 text-brand-600" />
-                    </div>
-                    <h2 class="font-bold tracking-tight text-2xl text-gray-900 mb-3">Misi</h2>
-                    <p class="text-gray-600 leading-relaxed">{{ about.mission }}</p>
+        <!-- Misi & Visi: big-typography hero treatment — no icons/cards,
+             text itself is the visual element. Misi sits top-left, Visi
+             bottom-right, separated by a single green marquee divider line
+             (the one background accent) instead of icons/cards.
+             The admin-editable mascot slot (mascots.misi_visi_tentang_kami)
+             is intentionally not rendered here since an overlaid
+             illustration would compete with the type; the upload slot in
+             /admin/maskot is untouched in case a future design wants it. -->
+        <section v-if="about?.mission || about?.vision" class="bg-white">
+            <div v-if="about.mission" v-scroll-reveal="{ direction: 'left' }" class="max-w-5xl mx-auto py-20 md:py-28 px-4">
+                <p class="text-brand-600 font-semibold text-xs md:text-sm uppercase tracking-[0.3em] mb-4">Misi Kami</p>
+                <h2 class="font-extrabold text-gray-900 leading-[1.05] mb-6 text-[clamp(2.5rem,7vw,5.5rem)]">
+                    <span class="border-b-[6px] md:border-b-8 border-brand-500">Misi</span>
+                </h2>
+                <p class="text-gray-600 leading-relaxed max-w-2xl text-[clamp(1.125rem,2vw,1.5rem)]">{{ about.mission }}</p>
+            </div>
+
+            <!-- Single subtle accent: a bold green scrolling word strip
+                 dividing the two blocks, standing in for icons/cards. -->
+            <div class="ticker-row" aria-hidden="true">
+                <div class="ticker-track flex whitespace-nowrap">
+                    <span class="ticker-item">{{ tickerText }}</span>
+                    <span class="ticker-item">{{ tickerText }}</span>
                 </div>
-                <div
-                    v-if="about.vision"
-                    v-scroll-reveal="{ direction: 'right', delay: 100 }"
-                    class="bg-charcoal rounded-lg p-10 md:p-12"
-                >
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-white/10">
-                        <LucideIcon :name="about.vision_icon || 'compass'" class="w-6 h-6 text-lime-400" />
-                    </div>
-                    <h2 class="font-bold tracking-tight text-2xl text-white mb-3">Visi</h2>
-                    <p class="text-gray-300 leading-relaxed">{{ about.vision }}</p>
-                </div>
+            </div>
+
+            <div v-if="about.vision" v-scroll-reveal="{ direction: 'right', delay: 100 }" class="max-w-5xl mx-auto py-20 md:py-28 px-4 text-right">
+                <p class="text-brand-600 font-semibold text-xs md:text-sm uppercase tracking-[0.3em] mb-4">Visi Kami</p>
+                <h2 class="font-extrabold text-gray-900 leading-[1.05] mb-6 text-[clamp(2.5rem,7vw,5.5rem)]">
+                    <span class="border-b-[6px] md:border-b-8 border-brand-500">Visi</span>
+                </h2>
+                <p class="text-gray-600 leading-relaxed max-w-2xl ml-auto text-[clamp(1.125rem,2vw,1.5rem)]">{{ about.vision }}</p>
             </div>
         </section>
 
@@ -149,3 +153,43 @@ function valueIcon(value) {
         />
     </PublicLayout>
 </template>
+
+<style scoped>
+.ticker-row {
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.ticker-track {
+    width: max-content;
+    animation: ticker-scroll 28s linear infinite;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding-right: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #4d7c0f;
+    font-size: clamp(1rem, 2.6vw, 1.75rem);
+}
+
+@keyframes ticker-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+    }
+}
+</style>
