@@ -60,7 +60,17 @@ const META = {
         label: "Intro Tentang Kami",
         description: "Pengisi ruang bagian atas section profil, sebelum paragraf deskripsi.",
     },
+    misi_visi_tentang_kami: {
+        label: "Misi & Visi (Tentang Kami)",
+        description: "Ilustrasi dekoratif di samping card Misi/Visi. Wajib PNG transparan, tanpa background sendiri — akan tampil menyatu di atas halaman, bukan di dalam kotak.",
+    },
 };
+
+// Slots that render transparent/borderless on the public page (no card
+// background of their own) get PNG-only upload + a live mockup preview of
+// the actual section instead of the generic neutral-gray preview box, so
+// the admin can see whether the image really blends in before saving.
+const TRANSPARENT_PNG_SLOTS = ["misi_visi_tentang_kami"];
 
 const rows = reactive(
     props.assets.map((asset) => ({
@@ -213,8 +223,30 @@ function destroyImage(row) {
                 <h2 class="font-semibold text-gray-900">{{ META[row.placement_key]?.label || row.placement_key }}</h2>
                 <p class="text-xs text-gray-500 mt-1 mb-4">{{ META[row.placement_key]?.description }}</p>
 
+                <!-- Live mockup preview: only for slots that render transparent
+                     directly on the page background (no card of their own). -->
+                <div
+                    v-if="TRANSPARENT_PNG_SLOTS.includes(row.placement_key)"
+                    class="mb-4 rounded-lg bg-white border border-gray-200 p-4 pl-16 relative overflow-hidden"
+                >
+                    <p class="text-[11px] font-medium text-gray-400 uppercase tracking-wide mb-2">Preview di atas background asli</p>
+                    <div class="grid grid-cols-2 gap-2 relative z-10">
+                        <div class="h-16 rounded-md bg-gray-50"></div>
+                        <div class="h-16 rounded-md bg-charcoal"></div>
+                    </div>
+                    <img
+                        v-if="row.previewUrl || row.image_path"
+                        :src="row.previewUrl || row.image_path"
+                        class="absolute left-0 top-0 h-full w-14 object-contain"
+                        alt=""
+                    />
+                    <p v-else class="absolute left-0 top-0 h-full w-14 flex items-center justify-center text-[9px] text-gray-300 text-center leading-tight px-1">
+                        Belum ada gambar
+                    </p>
+                </div>
+
                 <div class="flex gap-4">
-                    <div class="w-24 h-24 rounded-md border border-gray-200 bg-gray-50 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                    <div v-if="!TRANSPARENT_PNG_SLOTS.includes(row.placement_key)" class="w-24 h-24 rounded-md border border-gray-200 bg-gray-50 flex-shrink-0 overflow-hidden flex items-center justify-center">
                         <img v-if="row.previewUrl || row.image_path" :src="row.previewUrl || row.image_path" class="w-full h-full object-cover" alt="" />
                         <span v-else class="text-xs text-gray-300 text-center px-2">Belum ada gambar</span>
                     </div>
@@ -223,7 +255,12 @@ function destroyImage(row) {
                         <div class="flex flex-wrap items-center gap-2">
                             <label class="inline-flex items-center gap-2 text-xs bg-brand-600 text-white px-3 py-1.5 rounded-md cursor-pointer hover:bg-brand-700">
                                 Unggah / Ganti Gambar
-                                <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="pickFile(row, $event)" />
+                                <input
+                                    type="file"
+                                    :accept="TRANSPARENT_PNG_SLOTS.includes(row.placement_key) ? 'image/png' : 'image/jpeg,image/png,image/webp'"
+                                    class="hidden"
+                                    @change="pickFile(row, $event)"
+                                />
                             </label>
                             <button
                                 v-if="row.image_path && !row.previewUrl"
@@ -235,7 +272,9 @@ function destroyImage(row) {
                                 {{ row.deleting ? "Menghapus..." : "Hapus Gambar" }}
                             </button>
                         </div>
-                        <p class="text-[11px] text-gray-400">JPG/PNG/WEBP, maks 2MB.</p>
+                        <p class="text-[11px] text-gray-400">
+                            {{ TRANSPARENT_PNG_SLOTS.includes(row.placement_key) ? "PNG transparan saja, min. 300x300px, maks 2MB." : "JPG/PNG/WEBP, maks 2MB." }}
+                        </p>
                         <p v-if="row.transparencyWarning" class="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-1.5">
                             <strong>Peringatan:</strong> gambar ini terdeteksi tidak memiliki background transparan. Background solid akan ikut tampil di halaman publik. Yakin ingin lanjut upload?
                         </p>

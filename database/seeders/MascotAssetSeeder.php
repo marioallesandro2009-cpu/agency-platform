@@ -24,6 +24,7 @@ class MascotAssetSeeder extends Seeder
             "empty_state_blog",
             "kontak_konfirmasi",
             "intro_tentang_kami",
+            "misi_visi_tentang_kami",
         ];
 
         foreach ($keys as $key) {

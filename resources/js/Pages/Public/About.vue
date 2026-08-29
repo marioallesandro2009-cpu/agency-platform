@@ -91,8 +91,16 @@ function valueIcon(value) {
             </div>
         </section>
 
-        <section v-if="about?.mission || about?.vision" class="py-20 md:py-24">
-            <div class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section v-if="about?.mission || about?.vision" class="relative overflow-hidden py-20 md:py-24">
+            <img
+                v-if="mascots.misi_visi_tentang_kami?.image_path"
+                :src="mascots.misi_visi_tentang_kami.image_path"
+                :alt="mascots.misi_visi_tentang_kami.alt_text || ''"
+                :aria-hidden="!mascots.misi_visi_tentang_kami.alt_text"
+                loading="lazy"
+                class="hidden lg:block absolute left-4 xl:left-10 top-1/2 -translate-y-1/2 w-40 xl:w-52 h-auto object-contain pointer-events-none select-none"
+            />
+            <div class="relative z-10 max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div
                     v-if="about.mission"
                     v-scroll-reveal="{ direction: 'left' }"
