@@ -7,6 +7,7 @@
  */
 import { computed } from "vue";
 import Button from "./Button.vue";
+import DottedPattern from "@/Components/DottedPattern.vue";
 import { Rocket, Building2, ShoppingCart, Database } from "lucide-vue-next";
 import { PRICING_CATEGORIES } from "@/constants/pricing";
 
@@ -42,8 +43,9 @@ function formatPrice(price) {
 </script>
 
 <template>
-    <section class="bg-gray-50 py-20 md:py-24">
-        <div class="max-w-7xl mx-auto px-4">
+    <section class="relative bg-gray-100 py-20 md:py-24">
+        <DottedPattern color="rgba(77, 124, 15, 0.08)" />
+        <div class="relative z-10 max-w-7xl mx-auto px-4">
             <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
                 <p v-if="subtitle" class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ subtitle }}</p>
                 <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ title }}</h2>

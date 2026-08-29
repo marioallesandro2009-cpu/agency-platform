@@ -3,6 +3,10 @@
 .env
 .env.backup
 .env.production
+# Stray duplicate of a fresh-install .env (not read by the app — Laravel
+# only loads .env) that still has a real, unused APP_KEY baked in. Excluded
+# rather than deleted since it's harmless on disk, just shouldn't be pushed.
+/env
 .phpactor.json
 .phpunit.result.cache
 /.fleet

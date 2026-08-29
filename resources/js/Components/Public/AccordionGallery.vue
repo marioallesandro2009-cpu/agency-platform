@@ -218,7 +218,7 @@ onUnmounted(() => {
             ></div>
             <span
                 v-if="item.badge"
-                class="absolute left-5 top-5 bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full"
+                class="absolute left-5 top-5 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm"
             >
                 {{ item.badge }}
             </span>

@@ -2,6 +2,7 @@
 import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import AboutSection from "@/Components/Public/AboutSection.vue";
+import DottedPattern from "@/Components/DottedPattern.vue";
 import Button from "@/Components/Public/Button.vue";
 import ContactCtaForm from "@/Components/ContactCtaForm.vue";
 import ServiceCard from "@/Components/Public/ServiceCard.vue";
@@ -68,10 +69,36 @@ const openFaq = ref(null);
 function toggleFaq(id) {
     openFaq.value = openFaq.value === id ? null : id;
 }
+
+const organizationJsonLd = computed(() => {
+    const general = page.props.settings?.general || {};
+    const contact = page.props.settings?.contact || {};
+    const social = page.props.settings?.social || {};
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const toAbsolute = (path) => (path && !/^https?:\/\//.test(path) ? origin + path : path);
+
+    const sameAs = [social.instagram, social.facebook, social.linkedin, social.youtube, social.tiktok].filter(Boolean);
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": general.website_name,
+        "url": origin,
+        "logo": toAbsolute(general.logo),
+        "description": general.description || general.tagline,
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": contact.phone || contact.whatsapp_number || undefined,
+            "email": contact.email || undefined,
+            "contactType": "customer service",
+        },
+        "sameAs": sameAs.length ? sameAs : undefined,
+    };
+});
 </script>
 
 <template>
-    <SeoHead :title="page.props.settings?.general?.tagline" />
+    <SeoHead :title="page.props.settings?.general?.tagline" :json-ld="organizationJsonLd" />
     <PublicLayout>
         <LiveTicker :activities="recentActivity" />
         <template v-for="type in sections" :key="type">
@@ -119,21 +146,25 @@ function toggleFaq(id) {
             <AboutSection v-else-if="type === 'about' && about" :about="about" />
 
             <!-- Services -->
-            <section v-else-if="type === 'services'" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
-                <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
-                    <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ servicesSection?.subtitle || "Layanan Kami" }}</p>
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ servicesSection?.title || "Solusi Website untuk Setiap Kebutuhan" }}</h2>
-                </div>
-                <div class="max-w-5xl mx-auto">
-                    <div v-for="(service, index) in services" :key="service.id" v-scroll-reveal="{ delay: index * 60 }">
-                        <ServiceCard :service="service" :index="index" />
+            <section v-else-if="type === 'services'" class="relative max-w-7xl mx-auto px-4 py-20 md:py-24">
+                <DottedPattern color="rgba(77, 124, 15, 0.08)" />
+                <div class="relative z-10">
+                    <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
+                        <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ servicesSection?.subtitle || "Layanan Kami" }}</p>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ servicesSection?.title || "Solusi Website untuk Setiap Kebutuhan" }}</h2>
+                    </div>
+                    <div class="max-w-5xl mx-auto">
+                        <div v-for="(service, index) in services" :key="service.id" v-scroll-reveal="{ delay: index * 60 }">
+                            <ServiceCard :service="service" :index="index" />
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Portfolio -->
-            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="bg-gray-50 py-20 md:py-24">
-                <div class="max-w-6xl mx-auto px-4">
+            <section v-else-if="type === 'portfolio' && portfolioProjects?.length" class="relative bg-gray-100 py-20 md:py-24">
+                <DottedPattern color="rgba(77, 124, 15, 0.08)" />
+                <div class="relative z-10 max-w-6xl mx-auto px-4">
                     <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                         <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ portfolioSection?.subtitle || "Portfolio" }}</p>
                         <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ portfolioSection?.title || "Hasil Karya Kami" }}</h2>
@@ -150,8 +181,9 @@ function toggleFaq(id) {
             </section>
 
             <!-- Why Us -->
-            <section v-else-if="type === 'why_us' && whyUs" class="bg-gray-50 py-20 md:py-24">
-                <div class="max-w-7xl mx-auto px-4">
+            <section v-else-if="type === 'why_us' && whyUs" class="relative bg-gray-100 py-20 md:py-24">
+                <DottedPattern color="rgba(77, 124, 15, 0.08)" />
+                <div class="relative z-10 max-w-7xl mx-auto px-4">
                     <div v-scroll-reveal class="text-center max-w-2xl mx-auto mb-12">
                         <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ whyUs.subtitle }}</p>
                         <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ whyUs.title }}</h2>
@@ -221,7 +253,7 @@ function toggleFaq(id) {
             </section>
 
             <!-- FAQ -->
-            <section v-else-if="type === 'faq'" class="bg-gray-50 py-20">
+            <section v-else-if="type === 'faq'" class="bg-gray-100 py-20">
                 <div class="max-w-3xl mx-auto px-4">
                     <div v-scroll-reveal class="text-center mb-14">
                         <p class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ faqSection?.subtitle || "FAQ" }}</p>

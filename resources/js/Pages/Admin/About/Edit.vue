@@ -21,9 +21,16 @@ const form = useForm({
         vision: props.section.content?.vision || "",
         vision_icon: props.section.content?.vision_icon || "",
         values: (props.section.content?.values || []).map((v) => ({ title: v.title || "", description: v.description || "", icon: v.icon || "" })),
-        technologies: (props.section.content?.technologies || []).join(", "),
+        stats: (props.section.content?.stats || []).map((s) => ({ key: s.key, label: s.label || "", is_visible: s.is_visible ?? true })),
     },
 });
+
+const STAT_KEY_HINT = {
+    portfolio: "Dihitung otomatis dari jumlah proyek Portfolio yang published.",
+    blog: "Dihitung otomatis dari jumlah artikel Blog yang published.",
+    techstack: "Dihitung otomatis dari jumlah Tech Stack yang aktif.",
+    rating: "Dihitung otomatis dari rata-rata rating Testimonial published.",
+};
 
 function addCard() {
     form.content.values.push({ title: "", description: "", icon: "" });
@@ -34,16 +41,7 @@ function removeCard(index) {
 }
 
 function submit() {
-    form.transform((data) => ({
-        ...data,
-        content: {
-            ...data.content,
-            technologies: data.content.technologies
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean),
-        },
-    })).put(route("admin.about.update"), {
+    form.put(route("admin.about.update"), {
         preserveScroll: true,
     });
 }
@@ -154,15 +152,24 @@ function submit() {
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow p-6 space-y-2">
-                <h2 class="font-semibold text-gray-900">Teknologi yang Digunakan</h2>
-                <p class="text-xs text-gray-500 mb-2">Pisahkan dengan koma.</p>
-                <input
-                    v-model="form.content.technologies"
-                    type="text"
-                    class="w-full border rounded-md px-3 py-2 text-sm"
-                    placeholder="Laravel, Vue.js, Tailwind CSS"
-                />
+            <div class="bg-white rounded-lg shadow p-6 space-y-4">
+                <div>
+                    <h2 class="font-semibold text-gray-900">Statistik</h2>
+                    <p class="text-xs text-gray-500">
+                        Tampil di halaman Tentang Kami sebagai angka pencapaian. Angkanya dihitung otomatis dari data asli —
+                        Anda cuma bisa mengubah label atau menyembunyikannya, tidak bisa mengisi angka manual.
+                    </p>
+                </div>
+                <div v-for="stat in form.content.stats" :key="stat.key" class="flex items-start gap-4 border border-gray-200 rounded-md p-3">
+                    <label class="flex items-center gap-2 pt-2 shrink-0">
+                        <input v-model="stat.is_visible" type="checkbox" />
+                        <span class="text-xs font-medium text-gray-600">Tampilkan</span>
+                    </label>
+                    <div class="flex-1 min-w-0">
+                        <input v-model="stat.label" type="text" class="w-full border rounded-md px-3 py-2 text-sm mb-1" />
+                        <p class="text-xs text-gray-400">{{ STAT_KEY_HINT[stat.key] }}</p>
+                    </div>
+                </div>
             </div>
 
             <div class="flex justify-end">

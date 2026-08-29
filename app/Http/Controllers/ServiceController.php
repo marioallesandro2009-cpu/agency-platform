@@ -27,13 +27,15 @@ class ServiceController extends Controller
             "otherServices" => Service::published()
                 ->where("id", "!=", $service->id)
                 ->ordered()
-                ->get(["id", "name", "slug", "short_description"]),
+                ->get(["id", "name", "slug", "short_description", "icon", "image"]),
             "relatedPosts" => $relatedPosts,
             "relatedPortfolio" => $service->show_portfolio
                 ? PortfolioProject::published()
-                    ->where("category", $service->name)
+                    ->where("service_id", $service->id)
+                    ->orderByDesc("is_featured")
+                    ->ordered()
                     ->limit(3)
-                    ->get(["id", "name", "slug", "category", "thumbnail"])
+                    ->get(["id", "name", "slug", "category", "short_description", "thumbnail"])
                 : collect(),
         ]);
     }

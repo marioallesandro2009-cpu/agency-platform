@@ -32,6 +32,7 @@ const form = reactive({
     excerpt: "",
     content: "",
     featured_image: "",
+    featured_image_alt: "",
     status: "draft",
     seo_title: "",
     seo_description: "",
@@ -41,7 +42,7 @@ const form = reactive({
 function resetForm() {
     Object.assign(form, {
         title: "", slug: "", blog_category_id: "", excerpt: "", content: "",
-        featured_image: "", status: "draft", seo_title: "", seo_description: "", focus_keyword: "",
+        featured_image: "", featured_image_alt: "", status: "draft", seo_title: "", seo_description: "", focus_keyword: "",
     });
 }
 
@@ -60,6 +61,7 @@ function openEdit(post) {
         excerpt: post.excerpt || "",
         content: post.content || "",
         featured_image: post.featured_image || "",
+        featured_image_alt: post.featured_image_alt || "",
         status: post.status,
         seo_title: post.seo_title || "",
         seo_description: post.seo_description || "",
@@ -206,6 +208,18 @@ function postSeoScore(post) {
                         <div>
                             <label class="block text-sm font-medium mb-1">Featured Image</label>
                             <MediaPicker v-model="form.featured_image" />
+                        </div>
+                        <div v-if="form.featured_image">
+                            <label class="block text-sm font-medium mb-1">
+                                Alt Text Featured Image <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                v-model="form.featured_image_alt"
+                                type="text"
+                                required
+                                placeholder="Deskripsi singkat gambar untuk SEO & aksesibilitas"
+                                class="w-full border rounded-md px-3 py-2 text-sm"
+                            />
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Status</label>

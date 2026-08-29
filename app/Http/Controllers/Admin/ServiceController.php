@@ -56,12 +56,16 @@ class ServiceController extends Controller
         $validated = $request->validate([
             "name" => "required|string|max:255",
             "short_description" => "nullable|string|max:500",
+            "badge_label" => "nullable|string|max:50",
             "description" => "nullable|string",
             "long_description" => "nullable|string",
             "icon" => "nullable|string|max:100",
             "image" => "nullable|string|max:500",
             "features" => "nullable|array",
             "benefits" => "nullable|array",
+            "target_audience" => "nullable|string|max:1000",
+            "process_steps" => "nullable|array",
+            "faqs_raw" => "nullable|string",
             "cta_text" => "nullable|string|max:100",
             "cta_url" => "nullable|string|max:255",
             "is_featured" => "boolean",
@@ -74,6 +78,22 @@ class ServiceController extends Controller
 
         $validated["description"] = HtmlSanitizer::clean($validated["description"] ?? null);
         $validated["long_description"] = HtmlSanitizer::clean($validated["long_description"] ?? null);
+
+        // Admin enters FAQs as one "Question :: Answer" pair per line (no
+        // repeater component in this codebase's admin UI convention) — parse
+        // that into the {question, answer} shape the public page expects.
+        $faqsRaw = $validated["faqs_raw"] ?? "";
+        unset($validated["faqs_raw"]);
+        $validated["faqs"] = collect(explode("\n", $faqsRaw))
+            ->map(fn ($line) => trim($line))
+            ->filter()
+            ->map(function ($line) {
+                [$question, $answer] = array_pad(explode("::", $line, 2), 2, "");
+                return ["question" => trim($question), "answer" => trim($answer)];
+            })
+            ->filter(fn ($faq) => $faq["question"] !== "" && $faq["answer"] !== "")
+            ->values()
+            ->all();
 
         return $validated;
     }

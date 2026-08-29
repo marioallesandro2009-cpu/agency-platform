@@ -10,7 +10,7 @@ class PortfolioProject extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name", "slug", "category", "short_description", "description",
+        "name", "slug", "category", "service_id", "short_description", "description",
         "challenge", "solution", "features", "technologies", "client_label", "project_type",
         "thumbnail", "cover_image", "gallery", "live_url",
         "seo_title", "seo_description", "is_featured", "is_published", "order",
@@ -23,6 +23,11 @@ class PortfolioProject extends Model
         "is_featured" => "boolean",
         "is_published" => "boolean",
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 
     public function scopePublished($query)
     {

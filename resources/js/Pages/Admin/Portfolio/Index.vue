@@ -8,6 +8,7 @@ import { confirmDialog } from "@/composables/useConfirmDialog";
 
 const props = defineProps({
     projects: Array,
+    services: Array,
 });
 
 const showForm = ref(false);
@@ -17,6 +18,7 @@ const form = useForm({
     name: "",
     slug: "",
     category: "",
+    service_id: "",
     short_description: "",
     description: "",
     challenge: "",
@@ -46,6 +48,7 @@ function openEdit(project) {
     form.name = project.name;
     form.slug = project.slug;
     form.category = project.category || "";
+    form.service_id = project.service_id || "";
     form.short_description = project.short_description || "";
     form.description = project.description || "";
     form.challenge = project.challenge || "";
@@ -119,6 +122,13 @@ async function destroy(project) {
                         <div>
                             <label class="block text-xs font-medium text-gray-600 mb-1">Kategori</label>
                             <input v-model="form.category" type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Layanan Terkait (buat section "Portfolio Terkait")</label>
+                            <select v-model="form.service_id" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option value="">- Tidak ada -</option>
+                                <option v-for="s in services" :key="s.id" :value="s.id">{{ s.name }}</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-600 mb-1">Client Label</label>

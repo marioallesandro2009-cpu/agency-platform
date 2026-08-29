@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PortfolioProject;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -13,7 +14,8 @@ class PortfolioController extends Controller
     public function index()
     {
         return Inertia::render("Admin/Portfolio/Index", [
-            "projects" => PortfolioProject::ordered()->get(),
+            "projects" => PortfolioProject::with("service")->ordered()->get(),
+            "services" => Service::orderBy("name")->get(["id", "name"]),
         ]);
     }
 
@@ -57,6 +59,7 @@ class PortfolioController extends Controller
             "name" => "required|string|max:255",
             "slug" => "nullable|string|max:255|unique:portfolio_projects,slug," . $ignoreId,
             "category" => "nullable|string|max:255",
+            "service_id" => "nullable|exists:services,id",
             "short_description" => "nullable|string|max:255",
             "description" => "nullable|string",
             "challenge" => "nullable|string",

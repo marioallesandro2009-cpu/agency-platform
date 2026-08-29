@@ -11,7 +11,7 @@ class BlogPost extends Model
 
     protected $fillable = [
         "blog_category_id", "author_id", "title", "slug", "excerpt", "content",
-        "featured_image", "status", "published_at",
+        "featured_image", "featured_image_alt", "status", "published_at",
         "seo_title", "seo_description", "focus_keyword",
     ];
 

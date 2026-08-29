@@ -64,7 +64,7 @@ function formatDate(date) {
                             <img
                                 v-if="post.featured_image"
                                 :src="post.featured_image"
-                                :alt="post.title"
+                                :alt="post.featured_image_alt || post.title"
                                 width="400"
                                 height="240"
                                 loading="lazy"

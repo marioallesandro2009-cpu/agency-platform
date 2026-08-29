@@ -65,6 +65,7 @@ class BlogPostController extends Controller
             "excerpt" => "nullable|string|max:500",
             "content" => "nullable|string",
             "featured_image" => "nullable|string|max:500",
+            "featured_image_alt" => "required_with:featured_image|nullable|string|max:255",
             "status" => "required|in:draft,published,scheduled",
             "published_at" => "nullable|date",
             "seo_title" => "nullable|string|max:255",

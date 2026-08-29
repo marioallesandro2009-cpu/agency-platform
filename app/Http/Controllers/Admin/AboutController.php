@@ -9,6 +9,16 @@ use Inertia\Inertia;
 
 class AboutController extends Controller
 {
+    // Admin can only relabel or hide each stats row — the number itself is
+    // always computed live from real data in the public AboutController, so
+    // there's no way to type in a fabricated stat here.
+    private const DEFAULT_STATS = [
+        ["key" => "portfolio", "label" => "Proyek Portfolio", "is_visible" => true],
+        ["key" => "blog", "label" => "Artikel Blog", "is_visible" => true],
+        ["key" => "techstack", "label" => "Tech Stack Digunakan", "is_visible" => true],
+        ["key" => "rating", "label" => "Rating Klien", "is_visible" => true],
+    ];
+
     public function edit()
     {
         $section = PageSection::firstOrCreate(
@@ -23,12 +33,19 @@ class AboutController extends Controller
                     "vision" => null,
                     "vision_icon" => null,
                     "values" => [],
-                    "technologies" => [],
+                    "stats" => self::DEFAULT_STATS,
                 ],
                 "is_visible" => true,
                 "order" => 0,
             ]
         );
+
+        // Pre-existing rows (created before "stats" existed) won't have it
+        // in their stored content — fall back to the default set instead of
+        // showing an empty admin form.
+        if (empty($section->content["stats"])) {
+            $section->content = [...$section->content, "stats" => self::DEFAULT_STATS];
+        }
 
         return Inertia::render("Admin/About/Edit", [
             "section" => $section,
@@ -51,8 +68,10 @@ class AboutController extends Controller
             "content.values.*.title" => "required_with:content.values|string|max:100",
             "content.values.*.description" => "nullable|string|max:500",
             "content.values.*.icon" => "nullable|string|max:100",
-            "content.technologies" => "nullable|array",
-            "content.technologies.*" => "string|max:100",
+            "content.stats" => "nullable|array",
+            "content.stats.*.key" => "required_with:content.stats|string|max:50",
+            "content.stats.*.label" => "required_with:content.stats|string|max:100",
+            "content.stats.*.is_visible" => "boolean",
         ]);
 
         $section = PageSection::firstOrCreate(

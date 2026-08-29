@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MascotAssetController;
 use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TechStackController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\GeneralServiceController;
 use App\Http\Controllers\HomeController;
@@ -127,6 +128,13 @@ Route::middleware(["auth", "admin"])->prefix("admin")->name("admin.")->group(fun
     Route::post("/media", [App\Http\Controllers\Admin\MediaController::class, "store"])->name("media.store");
     Route::post("/media/from-url", [App\Http\Controllers\Admin\MediaController::class, "storeFromUrl"])->name("media.store-from-url");
     Route::delete("/media/{media:id}", [App\Http\Controllers\Admin\MediaController::class, "destroy"])->name("media.destroy");
+
+    Route::get("/tech-stacks", [TechStackController::class, "index"])->name("tech-stacks.index");
+    Route::post("/tech-stacks", [TechStackController::class, "store"])->name("tech-stacks.store");
+    Route::put("/tech-stacks/{techStack}", [TechStackController::class, "update"])->name("tech-stacks.update");
+    Route::delete("/tech-stacks/{techStack}", [TechStackController::class, "destroy"])->name("tech-stacks.destroy");
+    Route::patch("/tech-stacks/{techStack}/toggle-active", [TechStackController::class, "toggleActive"])->name("tech-stacks.toggle-active");
+    Route::post("/tech-stacks/reorder", [TechStackController::class, "reorder"])->name("tech-stacks.reorder");
 
     Route::get("/navigation", [App\Http\Controllers\Admin\NavItemController::class, "index"])->name("navigation.index");
     Route::post("/navigation", [App\Http\Controllers\Admin\NavItemController::class, "store"])->name("navigation.store");

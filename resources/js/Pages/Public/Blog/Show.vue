@@ -76,7 +76,7 @@ const breadcrumbItems = computed(() => [
                 v-if="post.featured_image"
                 v-scroll-reveal="{ delay: 100 }"
                 :src="post.featured_image"
-                :alt="post.title"
+                :alt="post.featured_image_alt || post.title"
                 width="1200"
                 height="675"
                 class="w-full rounded-xl mb-8 object-cover max-h-96"

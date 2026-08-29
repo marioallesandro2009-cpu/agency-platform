@@ -26,11 +26,15 @@ useFocusTrap(showForm, modalRef);
 const form = reactive({
     name: "",
     short_description: "",
+    badge_label: "",
     long_description: "",
     icon: "",
     image: "",
     features: "",
     benefits: "",
+    target_audience: "",
+    process_steps: "",
+    faqs_raw: "",
     cta_text: "Konsultasi Gratis Sekarang",
     cta_url: "/konsultasi",
     blog_category_id: "",
@@ -43,7 +47,8 @@ const form = reactive({
 
 function resetForm() {
     Object.assign(form, {
-        name: "", short_description: "", long_description: "", icon: "", image: "", features: "", benefits: "",
+        name: "", short_description: "", badge_label: "", long_description: "", icon: "", image: "", features: "", benefits: "",
+        target_audience: "", process_steps: "", faqs_raw: "",
         cta_text: "Konsultasi Gratis Sekarang", cta_url: "/konsultasi", blog_category_id: "",
         show_portfolio: true, is_featured: false, order: 0, seo_title: "", seo_description: "",
     });
@@ -60,11 +65,15 @@ function openEdit(s) {
     Object.assign(form, {
         name: s.name,
         short_description: s.short_description || "",
+        badge_label: s.badge_label || "",
         long_description: s.long_description || "",
         icon: s.icon || "",
         image: s.image || "",
         features: (s.features || []).join(", "),
         benefits: (s.benefits || []).join(", "),
+        target_audience: s.target_audience || "",
+        process_steps: (s.process_steps || []).join(", "),
+        faqs_raw: (s.faqs || []).map((f) => `${f.question} :: ${f.answer}`).join("\n"),
         cta_text: s.cta_text || "",
         cta_url: s.cta_url || "",
         blog_category_id: s.blog_category_id || "",
@@ -82,6 +91,7 @@ function submit() {
         ...form,
         features: form.features.split(",").map((f) => f.trim()).filter(Boolean),
         benefits: form.benefits.split(",").map((f) => f.trim()).filter(Boolean),
+        process_steps: form.process_steps.split(",").map((f) => f.trim()).filter(Boolean),
     };
 
     if (editingId.value) {
@@ -153,6 +163,10 @@ async function destroyService(s) {
                         <textarea v-model="form.short_description" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
                     </div>
                     <div>
+                        <label class="block text-sm font-medium mb-1">Badge (opsional, tampil di atas nomor urut homepage)</label>
+                        <input v-model="form.badge_label" type="text" placeholder="mis. Paling Populer" class="w-full border rounded-md px-3 py-2 text-sm" />
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium mb-1">Konten Lengkap (ditampilkan gaya blog)</label>
                         <RichTextEditor v-model="form.long_description" />
                     </div>
@@ -176,6 +190,18 @@ async function destroyService(s) {
                     <div>
                         <label class="block text-sm font-medium mb-1">Manfaat (pisahkan koma)</label>
                         <input v-model="form.benefits" type="text" class="w-full border rounded-md px-3 py-2 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Target Audiens</label>
+                        <textarea v-model="form.target_audience" placeholder="mis. Pelaku UMKM dan usaha kecil yang baru mulai membangun kehadiran online" class="w-full border rounded-md px-3 py-2 text-sm" rows="2"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Proses Pengerjaan (pisahkan koma, berurutan)</label>
+                        <input v-model="form.process_steps" type="text" placeholder="Konsultasi, Desain, Development, Testing, Launching" class="w-full border rounded-md px-3 py-2 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">FAQ (satu baris per pertanyaan, format: Pertanyaan :: Jawaban)</label>
+                        <textarea v-model="form.faqs_raw" placeholder="Berapa lama pengerjaan? :: Umumnya 2-4 minggu tergantung kompleksitas." class="w-full border rounded-md px-3 py-2 text-sm font-mono text-xs" rows="4"></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>

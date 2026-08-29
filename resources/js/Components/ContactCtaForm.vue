@@ -253,6 +253,9 @@ function submit() {
     color: #fff;
     font-size: 0.875rem;
 }
+textarea.field-input {
+    resize: vertical;
+}
 .field-input::placeholder {
     color: #9ca3af;
 }

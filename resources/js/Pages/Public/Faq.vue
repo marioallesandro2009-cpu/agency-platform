@@ -110,7 +110,7 @@ const jsonLd = computed(() => ({
             </div>
         </section>
 
-        <section class="bg-gray-50 py-20">
+        <section class="bg-gray-100 py-20">
             <div v-scroll-reveal class="max-w-xl mx-auto px-4 text-center">
                 <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-2">Masih ada pertanyaan?</h2>
                 <p class="text-gray-500 mb-6">Tim kami siap membantu menjawab kebutuhan spesifik Anda.</p>

@@ -30,6 +30,7 @@ const menu = [
     { label: "Portfolio", route: "admin.portfolio.index", icon: "portfolio" },
     { label: "Blog", route: "admin.blog.index", icon: "blog" },
     { label: "Tentang Kami", route: "admin.about.edit", icon: "about" },
+    { label: "Tech Stack", route: "admin.tech-stacks.index", icon: "techstack" },
     { label: "Leads", route: "admin.leads.index", icon: "leads" }, // Kontak
     { label: "Testimonials", route: "admin.testimonials.index", icon: "testimonials" },
     { label: "FAQ", route: "admin.faqs.index", icon: "faq" },

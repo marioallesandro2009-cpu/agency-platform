@@ -50,7 +50,7 @@ function formatPrice(price) {
 </script>
 
 <template>
-    <section class="bg-gray-50 py-20 md:py-24">
+    <section class="bg-gray-100 py-20 md:py-24">
         <div class="max-w-7xl mx-auto px-4">
             <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
                 <p v-if="subtitle" class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ subtitle }}</p>

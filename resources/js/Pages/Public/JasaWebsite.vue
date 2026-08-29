@@ -55,7 +55,7 @@ function formatPrice(price) {
         </section>
 
         <!-- Why website matters -->
-        <section class="bg-gray-50 py-20 md:py-24">
+        <section class="bg-gray-100 py-20 md:py-24">
             <div class="max-w-4xl mx-auto px-4">
                 <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Kenapa Bisnis Anda Butuh Website</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -109,7 +109,7 @@ function formatPrice(price) {
         </section>
 
         <!-- Pricing teaser -->
-        <section v-if="pricingPackages.length" class="bg-gray-50 py-20 md:py-24">
+        <section v-if="pricingPackages.length" class="bg-gray-100 py-20 md:py-24">
             <div class="max-w-7xl mx-auto px-4">
                 <h2 v-scroll-reveal class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 text-center mb-14">Estimasi Harga</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">

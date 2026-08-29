@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 /*
+ * Safety net against horizontal page overflow. In particular, any full-bleed
+ * element using the `w-screen` trick (see ServiceCard.vue) renders slightly
+ * wider than the visible viewport on desktop browsers with a non-overlay
+ * scrollbar (100vw includes the scrollbar's own width), which otherwise
+ * shows up as a page-level horizontal scrollbar. Scoped to overflow-x only
+ * so it doesn't interfere with vertical scrolling or `position: sticky`
+ * elements (e.g. PublicLayout's sticky header).
+ */
+html, body {
+    overflow-x: hidden;
+}
+
+/*
  * Shared ambient-motion utilities. Companion to the v-scroll-reveal /
  * v-line-reveal / v-image-reveal directives (resources/js/directives/) —
  * those handle scroll-triggered, once-only reveals; these handle continuous

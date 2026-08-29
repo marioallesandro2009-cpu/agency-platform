@@ -3,11 +3,26 @@ import PublicLayout from "@/Layouts/Public/PublicLayout.vue";
 import SeoHead from "@/Components/SeoHead.vue";
 import PageHeaderScanner from "@/Components/Public/PageHeaderScanner.vue";
 import LucideIcon from "@/Components/Public/LucideIcon.vue";
+import CircularLogoLoop from "@/Components/CircularLogoLoop.vue";
+import WhyUsCard from "@/Components/Public/WhyUsCard.vue";
+import ContactCtaForm from "@/Components/ContactCtaForm.vue";
 import { usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
     about: Object,
+    techStacks: Array,
+    stats: Array,
 });
+
+const techLogos = computed(() =>
+    (props.techStacks || []).map((item) => ({
+        src: item.icon_url,
+        alt: item.name,
+        title: item.name,
+        href: item.link_url || undefined,
+    }))
+);
 
 const mascots = usePage().props.mascots || {};
 
@@ -67,14 +82,21 @@ function valueIcon(value) {
                     />
                 </div>
             </div>
+
+            <div v-if="stats?.length" class="grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-200 border-y border-gray-200 mt-16 md:mt-20 py-10">
+                <div v-for="(stat, index) in stats" :key="stat.label" v-scroll-reveal="{ delay: index * 80 }" class="text-center px-4">
+                    <p class="text-4xl md:text-5xl font-extrabold text-brand-600 tabular-nums">{{ stat.value }}</p>
+                    <p class="text-sm text-gray-500 mt-2">{{ stat.label }}</p>
+                </div>
+            </div>
         </section>
 
-        <section v-if="about?.mission || about?.vision" class="bg-gray-50 py-20 md:py-24">
+        <section v-if="about?.mission || about?.vision" class="py-20 md:py-24">
             <div class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div
                     v-if="about.mission"
                     v-scroll-reveal="{ direction: 'left' }"
-                    class="bg-white rounded-lg p-10 md:p-12"
+                    class="bg-gray-50 rounded-lg p-10 md:p-12"
                 >
                     <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-brand-50">
                         <LucideIcon :name="about.mission_icon || 'target'" class="w-6 h-6 text-brand-600" />
@@ -85,7 +107,7 @@ function valueIcon(value) {
                 <div
                     v-if="about.vision"
                     v-scroll-reveal="{ direction: 'right', delay: 100 }"
-                    class="bg-charcoal rounded-lg p-10 md:p-12 md:mt-10"
+                    class="bg-charcoal rounded-lg p-10 md:p-12"
                 >
                     <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-white/10">
                         <LucideIcon :name="about.vision_icon || 'compass'" class="w-6 h-6 text-lime-400" />
@@ -98,35 +120,24 @@ function valueIcon(value) {
 
         <section v-if="about?.values?.length" class="max-w-7xl mx-auto px-4 py-20 md:py-24">
             <h2 v-scroll-reveal class="text-3xl font-bold tracking-tight text-gray-900 text-center mb-14">Nilai-Nilai Kami</h2>
-            <div class="flex flex-wrap justify-center gap-x-6 gap-y-10">
-                <div
-                    v-for="(value, index) in about.values"
-                    :key="value.title"
-                    v-scroll-reveal="{ delay: index * 80 }"
-                    class="w-full sm:w-[calc(50%-0.75rem)] md:w-[calc(33.333%-1rem)] text-center"
-                >
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 bg-brand-50">
-                        <LucideIcon :name="valueIcon(value)" class="w-6 h-6 text-brand-600" />
-                    </div>
-                    <h3 class="font-bold tracking-tight text-gray-900 mb-2">{{ value.title }}</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">{{ value.description }}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div v-for="(value, index) in about.values" :key="value.title" v-scroll-reveal="{ delay: index * 80 }">
+                    <WhyUsCard :title="value.title" :description="value.description" :icon="valueIcon(value)" :index="index" />
                 </div>
             </div>
         </section>
 
-        <section v-if="about?.technologies?.length" class="bg-gray-50 py-16 md:py-20">
-            <div v-scroll-reveal class="max-w-3xl mx-auto px-4 text-center">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Teknologi yang Kami Gunakan</h2>
-                <div class="flex flex-wrap justify-center gap-2">
-                    <span
-                        v-for="tech in about.technologies"
-                        :key="tech"
-                        class="bg-white border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-full"
-                    >
-                        {{ tech }}
-                    </span>
-                </div>
+        <section v-if="techLogos.length" class="py-16 md:py-20 border-t border-gray-100">
+            <div v-scroll-reveal class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-2xl font-bold text-gray-900 mb-10">Teknologi yang Kami Gunakan</h2>
+                <CircularLogoLoop :logos="techLogos" :size="88" aria-label="Teknologi yang kami gunakan" />
             </div>
         </section>
+
+        <ContactCtaForm
+            eyebrow="Mulai Sekarang"
+            title="Siap Bekerja Sama dengan Kami?"
+            description="Ceritakan kebutuhan website Anda, tim kami akan bantu wujudkan dalam waktu singkat."
+        />
     </PublicLayout>
 </template>
