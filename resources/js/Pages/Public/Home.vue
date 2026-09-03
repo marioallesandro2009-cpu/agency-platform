@@ -61,7 +61,7 @@ const portfolioGalleryItems = computed(() =>
         image: project.thumbnail,
         label: project.name,
         link: "/portfolio/" + project.slug,
-        badge: project.project_type === "personal" ? "Personal Project" : null,
+        badge: project.project_type === "personal" ? "Contoh Kapabilitas" : null,
     }))
 );
 

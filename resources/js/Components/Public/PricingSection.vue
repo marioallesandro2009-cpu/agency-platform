@@ -5,8 +5,15 @@
  * instead — this component is /harga-only.
  */
 import { computed, ref } from "vue";
+import { CircleCheck } from "lucide-vue-next";
 import PricingCard from "./PricingCard.vue";
+import PricingComparisonTable from "./PricingComparisonTable.vue";
 import { PRICING_CATEGORIES, PRICING_TIERS, TIER_ORDER } from "@/constants/pricing";
+
+// Standard across every category/tier, so instead of repeating them on all
+// 12 cards they're called out once here. TODO: this is a placeholder —
+// intended to become its own admin-editable block in a follow-up task.
+const INCLUDED_IN_ALL = ["Email Bisnis Gratis (@namadomainanda.com)", "Desain Responsive", "Fondasi SEO Friendly", "Desain Custom (bukan template)"];
 
 const props = defineProps({
     packages: { type: Array, default: () => [] },
@@ -83,6 +90,24 @@ function formatPrice(price) {
                 />
             </div>
             <p v-else class="text-center text-gray-500 py-12">Paket untuk kategori ini akan segera hadir.</p>
+
+            <div v-if="activePackages.length" v-scroll-reveal class="mt-8 bg-white border border-black/10 rounded-lg p-6 md:p-8">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Sudah Termasuk di Semua Paket</h3>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                    <li v-for="item in INCLUDED_IN_ALL" :key="item" class="flex items-start gap-2 text-sm text-gray-700">
+                        <CircleCheck class="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />
+                        <span>{{ item }}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div v-if="activePackages.length" v-scroll-reveal class="mt-8 bg-gray-50 border border-black/10 rounded-lg px-6 py-4 text-center text-sm text-gray-600 leading-relaxed">
+                <strong class="text-gray-900">Pembayaran DP 50%</strong>, sisanya setelah website siap tayang ·
+                <strong class="text-gray-900">Garansi perbaikan bug 30 hari</strong> setelah serah terima ·
+                <strong class="text-gray-900">Konsultasi 30 menit gratis</strong>, tanpa komitmen
+            </div>
+
+            <PricingComparisonTable v-if="activePackages.length" :packages="activePackages" />
 
             <div v-if="activePackages.length" v-scroll-reveal class="mt-14 bg-white border border-black/10 rounded-lg p-6 md:p-8">
                 <h3 class="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Harga Renewal per Tier</h3>

@@ -67,6 +67,7 @@ class PageSectionSeeder extends Seeder
                         ["title" => "SEO Friendly", "description" => "Dibangun dengan fondasi SEO yang baik agar mudah ditemukan di Google."],
                         ["title" => "Support Berkelanjutan", "description" => "Kami dampingi setelah website live, bukan cuma serah terima."],
                         ["title" => "Harga Transparan", "description" => "Tidak ada biaya tersembunyi, semua dijelaskan di awal."],
+                        ["title" => "Kode Custom, Bukan Template", "description" => "Dibangun dari kode asli tanpa tumpukan plugin pihak ketiga, sehingga performa lebih cepat, celah keamanan lebih sedikit, dan fitur bisa disesuaikan penuh dengan kebutuhan bisnis Anda.", "icon" => "code"],
                     ],
                 ],
                 "is_visible" => true,

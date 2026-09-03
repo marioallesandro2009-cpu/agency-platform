@@ -50,7 +50,7 @@ function domainLabel(url) {
                                 v-if="project.project_type === 'personal'"
                                 class="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full"
                             >
-                                Personal Project
+                                Contoh Kapabilitas
                             </span>
                         </div>
                         <Link :href="'/portfolio/' + project.slug" class="block">

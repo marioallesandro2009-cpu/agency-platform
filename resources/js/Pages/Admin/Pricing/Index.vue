@@ -32,7 +32,10 @@ const form = useForm({
     price_prefix: "",
     price_suffix: "",
     renewal_price: "",
+    estimated_days: "",
+    value_note: "",
     features: "",
+    comparisonFeatures: "",
     badge: "",
     is_recommended: false,
     cta_text: "Pesan Website",
@@ -60,7 +63,10 @@ function openEdit(pkg) {
     form.price_prefix = pkg.price_prefix;
     form.price_suffix = pkg.price_suffix;
     form.renewal_price = pkg.renewal_price;
-    form.features = (pkg.features || []).join(", ");
+    form.estimated_days = pkg.estimated_days || "";
+    form.value_note = pkg.value_note || "";
+    form.features = (pkg.features || []).map((f) => (f.note ? `${f.label}: ${f.note}` : f.label)).join("\n");
+    form.comparisonFeatures = (pkg.comparison_features || []).map((row) => `${row.feature}: ${row.value}`).join("\n");
     form.badge = pkg.badge;
     form.is_recommended = pkg.is_recommended;
     form.cta_text = pkg.cta_text;
@@ -78,9 +84,28 @@ function tierLabel(value) {
 }
 
 function submit() {
+    const { comparisonFeatures, ...rest } = form.data();
     const payload = {
-        ...form.data(),
-        features: form.features.split(",").map((f) => f.trim()).filter(Boolean),
+        ...rest,
+        features: form.features
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .map((line) => {
+                const [label, ...noteParts] = line.split(":");
+                const note = noteParts.join(":").trim();
+                return { label: label.trim(), note: note || null };
+            })
+            .filter((row) => row.label),
+        comparison_features: comparisonFeatures
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .map((line) => {
+                const [feature, ...valueParts] = line.split(":");
+                return { feature: feature.trim(), value: valueParts.join(":").trim() };
+            })
+            .filter((row) => row.feature),
     };
 
     if (editingId.value) {
@@ -202,9 +227,39 @@ function formatPrice(price) {
                         <label class="block text-sm font-medium mb-1">Harga Renewal per Tahun (angka)</label>
                         <input v-model="form.renewal_price" type="number" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="mis. 400000" />
                     </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Estimasi Pengerjaan</label>
+                            <input v-model="form.estimated_days" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="mis. 7 hari kerja" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Catatan Nilai (di bawah harga)</label>
+                            <input v-model="form.value_note" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="Termasuk domain, hosting, dan email bisnis senilai Rp650rb" />
+                        </div>
+                    </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Benefit / Checklist (pisahkan koma)</label>
-                        <input v-model="form.features" type="text" class="w-full border rounded-md px-3 py-2 text-sm" placeholder="5 Halaman, SEO Friendly, Revisi 3x" />
+                        <label class="block text-sm font-medium mb-1">Benefit / Checklist (1 baris per fitur, format "Label: Catatan nilai")</label>
+                        <textarea
+                            v-model="form.features"
+                            rows="6"
+                            class="w-full border rounded-md px-3 py-2 text-sm font-mono"
+                            placeholder="5 Halaman&#10;Domain + Hosting 1 Tahun: senilai Rp500rb, gratis tahun pertama&#10;Revisi desain 3x"
+                        ></textarea>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Catatan nilai (setelah titik dua) opsional — tampil di bawah label dengan font lebih kecil. Baris "Revisi" sebaiknya diletakkan paling akhir.
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Tabel Perbandingan Fitur (1 baris per fitur, format "Fitur: Nilai")</label>
+                        <textarea
+                            v-model="form.comparisonFeatures"
+                            rows="6"
+                            class="w-full border rounded-md px-3 py-2 text-sm font-mono"
+                            placeholder="SSL Certificate: Gratis&#10;Jumlah Halaman: 5 Halaman&#10;Revisi Desain: 3x"
+                        ></textarea>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Gunakan label fitur yang sama persis di ketiga tier (Seed/Growth/Scale) kategori ini agar barisnya sejajar di tabel perbandingan halaman Harga.
+                        </p>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>

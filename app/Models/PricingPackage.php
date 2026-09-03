@@ -11,11 +11,13 @@ class PricingPackage extends Model
 
     protected $fillable = [
         "name", "slug", "category", "tier", "tagline", "description", "image", "price", "price_prefix", "price_suffix",
-        "renewal_price", "features", "badge", "is_recommended", "cta_text", "cta_url", "order", "is_published",
+        "renewal_price", "estimated_days", "value_note", "features", "comparison_features", "badge", "is_recommended",
+        "cta_text", "cta_url", "order", "is_published",
     ];
 
     protected $casts = [
         "features" => "array",
+        "comparison_features" => "array",
         "is_recommended" => "boolean",
         "is_published" => "boolean",
         "price" => "integer",

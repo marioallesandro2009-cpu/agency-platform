@@ -45,8 +45,10 @@ const initialCategory = new URLSearchParams(window.location.search).get("kategor
                 <Info class="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Biaya transaksi payment gateway, kuota API pihak ketiga (ongkir, notifikasi WhatsApp), dan
-                    langganan layanan eksternal ditanggung terpisah oleh klien sesuai pemakaian aktual. Domain &
-                    hosting dapat diperpanjang tahunan sesuai harga berlaku saat itu.
+                    langganan layanan eksternal ditanggung terpisah oleh klien sesuai pemakaian aktual. Setup dan
+                    pengelolaan domain & hosting kami tangani penuh — Anda tidak perlu membuat akun atau mengelola
+                    panel sendiri, dan domain tetap terdaftar atas nama Anda (WHOIS Anda). Domain & hosting dapat
+                    diperpanjang tahunan sesuai harga berlaku saat itu.
                 </p>
             </div>
         </div>

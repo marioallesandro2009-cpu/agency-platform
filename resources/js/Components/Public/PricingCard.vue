@@ -7,7 +7,7 @@
  * is no "not included" state by design (see PricingSection.vue).
  */
 import { computed } from "vue";
-import { CircleCheck } from "lucide-vue-next";
+import { CircleCheck, Clock } from "lucide-vue-next";
 import Button from "./Button.vue";
 import { PRICING_TIERS } from "@/constants/pricing";
 
@@ -73,13 +73,21 @@ function formatPrice(price) {
                     {{ pkg.price ? formatPrice(pkg.price) : pkg.price_suffix }}
                 </p>
                 <p v-if="pkg.price && pkg.price_suffix" :class="['mt-1 text-xs', style.prefix]">{{ pkg.price_suffix }}</p>
+                <p v-if="pkg.value_note" :class="['mt-3 text-xs leading-snug', style.prefix]">{{ pkg.value_note }}</p>
+                <p v-if="pkg.estimated_days" :class="['mt-1.5 text-xs flex items-center justify-center gap-1', style.prefix]">
+                    <Clock class="w-3 h-3 shrink-0" />
+                    Selesai dalam {{ pkg.estimated_days }}
+                </p>
             </div>
 
             <div class="p-6 flex flex-col flex-1">
                 <ul class="space-y-3 flex-1 mb-6">
-                    <li v-for="feature in pkg.features" :key="feature" class="flex items-start gap-2 text-sm text-gray-700">
+                    <li v-for="(feature, index) in pkg.features" :key="index" class="flex items-start gap-2 text-sm text-gray-700">
                         <CircleCheck class="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
-                        <span>{{ feature }}</span>
+                        <span>
+                            {{ feature.label }}
+                            <span v-if="feature.note" class="block text-xs text-gray-400 mt-0.5">{{ feature.note }}</span>
+                        </span>
                     </li>
                 </ul>
 

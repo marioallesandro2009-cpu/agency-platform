@@ -138,7 +138,7 @@ async function destroy(project) {
                             <label class="block text-xs font-medium text-gray-600 mb-1">Jenis Proyek</label>
                             <select v-model="form.project_type" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
                                 <option value="client">Client Project</option>
-                                <option value="personal">Personal/Internal Project</option>
+                                <option value="personal">Contoh Kapabilitas / Internal</option>
                             </select>
                         </div>
                     </div>
@@ -238,7 +238,7 @@ async function destroy(project) {
                                 v-if="project.project_type === 'personal'"
                                 class="bg-gray-100 text-gray-600 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full"
                             >
-                                Personal
+                                Contoh Kapabilitas
                             </span>
                         </p>
                         <p class="text-xs text-gray-400">
