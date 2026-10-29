@@ -49,7 +49,7 @@
                         <div class="hud-frame relative p-2">
                             <div class="aspect-[16/9] rounded-lg overflow-hidden bg-space-panel">
                                 @if ($featured->featured_image)
-                                    <img src="{{ $featured->featured_image }}" alt="{{ $featured->featured_image_alt ?: $featured->title }}" width="800" height="450" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
+                                    <img src="{{ \App\Support\Img::url($featured->featured_image, 960) }}" srcset="{{ \App\Support\Img::srcset($featured->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 55vw, 100vw" alt="{{ $featured->featured_image_alt ?: $featured->title }}" width="800" height="450" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                 @else
                                     <div class="w-full h-full bg-grid-subtle flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35" aria-hidden="true">LOG-001</div>
                                 @endif
@@ -90,7 +90,7 @@
                             <a href="/blog/{{ $post->slug }}" data-tilt class="tilt-card block">
                                 <div class="relative {{ $shapes[$index % count($shapes)] }} rounded-2xl overflow-hidden bg-space-panel ring-1 ring-white/10 mb-6 transition-shadow group-hover:ring-brand-400/40">
                                     @if ($post->featured_image)
-                                        <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" width="560" height="420" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
+                                        <img src="{{ \App\Support\Img::url($post->featured_image, 960) }}" srcset="{{ \App\Support\Img::srcset($post->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 40vw, 100vw" alt="{{ $post->featured_image_alt ?: $post->title }}" width="560" height="420" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 bg-[repeating-linear-gradient(135deg,transparent_0_14px,rgb(255_255_255/0.04)_14px_15px)]" aria-hidden="true">LOG-{{ str_pad($index + 2, 3, '0', STR_PAD_LEFT) }}</div>
                                     @endif

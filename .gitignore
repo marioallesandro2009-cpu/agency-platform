@@ -41,3 +41,6 @@ Thumbs.db
 /.agents/skills
 /made.zip
 /horizon-next-1.0.0 (1).zip
+
+# Generated responsive image cache (ImageController)
+/public/img

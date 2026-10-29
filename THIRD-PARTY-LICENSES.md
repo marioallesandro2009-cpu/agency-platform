@@ -46,3 +46,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+
+## Self-hosted web fonts (public/fonts)
+
+Raleway, Unbounded and JetBrains Mono, latin-subset WOFF2 files as distributed
+by fonts.bunny.net (mirroring Google Fonts). All three are licensed under the
+SIL Open Font License, Version 1.1 — https://openfontlicense.org

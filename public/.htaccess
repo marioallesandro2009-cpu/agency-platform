@@ -31,6 +31,14 @@
 # filename per upload rather than overwriting an existing path in place — in
 # both cases, a given URL's content never changes, so there's no stale-cache
 # risk from caching it for a year.
+# Text compression: HTML/CSS/JS/JSON/SVG are sent gzip'd (typically ~75-85%
+# smaller). Images and fonts are already compressed formats and are skipped.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript text/javascript
+    AddOutputFilterByType DEFLATE application/json application/ld+json application/xml image/svg+xml
+</IfModule>
+
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/css "access plus 1 year"

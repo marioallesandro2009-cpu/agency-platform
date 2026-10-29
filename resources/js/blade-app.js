@@ -1,5 +1,6 @@
-import "../css/app.css";
-import "./bootstrap";
+import "../css/public.css";
+import { mountStarField } from "./space/starfield";
+import { canRunPlanet } from "./space/capability";
 
 // Entry point for the hybrid-Blade public pages (Home, /harga, jasa,
 // blog) — everything here is vanilla JS / small standalone Vue mounts,
@@ -280,10 +281,6 @@ async function initWebglIslands() {
     const components = {
         ScannerBackground: () => import("./Components/Public/ScannerBackground.vue"),
         WaveBackground: () => import("./Components/Public/WaveBackground.vue"),
-        // Space theme (homepage): same no-Inertia-coupling rule applies.
-        Planet: () => import("./Components/Public/Planet.vue"),
-        StarField: () => import("./Components/Public/StarField.vue"),
-        SpacePreloader: () => import("./Components/Public/SpacePreloader.vue"),
     };
 
     mounts.forEach(async (el) => {
@@ -294,6 +291,25 @@ async function initWebglIslands() {
         const mod = await loader();
         createApp(mod.default, props).mount(el);
     });
+}
+
+// ---- Space theme visuals (no Vue needed) --------------------------------
+// The starfield is tiny and mounts right away. The planet hero shows a
+// pre-rendered poster (CSS) first; the WebGL version (ogl chunk) is only
+// fetched after the page has fully loaded and the browser is idle, and
+// planet.js itself skips it on phones / low-end devices.
+function initSpaceVisuals() {
+    const stars = document.querySelector("[data-starfield]");
+    if (stars) mountStarField(stars);
+
+    const planet = document.querySelector("[data-planet]");
+    if (planet && canRunPlanet()) {
+        const start = () => import("./space/planet").then(({ mountPlanet }) => mountPlanet(planet));
+        const whenIdle = () =>
+            "requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2000 }) : setTimeout(start, 500);
+        if (document.readyState === "complete") whenIdle();
+        else window.addEventListener("load", whenIdle, { once: true });
+    }
 }
 
 // ---- Space theme: header glass-on-scroll + live HUD clock ---------------
@@ -338,6 +354,258 @@ function initGlowCards() {
             card.style.setProperty("--gx", `${e.clientX - rect.left}px`);
             card.style.setProperty("--gy", `${e.clientY - rect.top}px`);
         });
+    });
+}
+
+// /konsultasi + /kontak: 4-step lead wizard. Client-side checks gate steps
+// 1-2 (same rules as LeadController::store), step 4 shows a summary, and the
+// submit goes through fetch; a 422 jumps back to the step holding the first
+// invalid field.
+const WHATSAPP_PATTERN = /^[0-9+\-\s()]{8,30}$/;
+
+function initLeadWizard() {
+    const form = document.querySelector("[data-lead-wizard]");
+    if (!form) return;
+
+    const steps = [...form.querySelectorAll("[data-step]")];
+    const nodes = [...document.querySelectorAll("[data-step-node]")];
+    const counter = form.querySelector("[data-step-counter]");
+    const errorBox = form.querySelector("[data-step-error]");
+    const back = form.querySelector("[data-step-back]");
+    const next = form.querySelector("[data-step-next]");
+    const submit = form.querySelector("[data-step-submit]");
+    const budgetInput = form.querySelector("[data-budget-input]");
+    const field = (name) => form.elements.namedItem(name);
+    const total = steps.length;
+    let current = 1;
+
+    const fieldStep = { name: 1, whatsapp: 1, email: 1, service_interested: 2, budget_estimate: 2, address: 3, message: 3 };
+
+    function fillSummary() {
+        const v = (n) => (field(n)?.value || "").trim();
+        const set = (key, text) => {
+            const el = form.querySelector(`[data-summary="${key}"]`);
+            if (el) el.textContent = text;
+        };
+        set("identity", [v("name"), v("email"), v("whatsapp")].filter(Boolean).join(" · "));
+        set("needs", [v("service_interested"), v("budget_estimate")].filter(Boolean).join(" · "));
+        set("details", [v("address"), v("message")].filter(Boolean).join(" · ") || "Tidak diisi");
+    }
+
+    function show(step) {
+        current = step;
+        steps.forEach((s) => s.classList.toggle("hidden", Number(s.dataset.step) !== step));
+        nodes.forEach((n) => {
+            const i = Number(n.dataset.stepNode);
+            n.dataset.state = i < step ? "done" : i === step ? "active" : "upcoming";
+            if (i === step) n.setAttribute("aria-current", "step");
+            else n.removeAttribute("aria-current");
+        });
+        if (counter) counter.textContent = String(step).padStart(2, "0");
+        back.classList.toggle("invisible", step === 1);
+        next.classList.toggle("hidden", step === total);
+        submit.classList.toggle("hidden", step !== total);
+        if (step === total) fillSummary();
+        errorBox.textContent = "";
+    }
+
+    function stepValid(step) {
+        if (step === 1) {
+            if (!field("name").value.trim() || !WHATSAPP_PATTERN.test(field("whatsapp").value.trim())) {
+                errorBox.textContent = "Lengkapi Nama Perusahaan dan Nomor WA yang valid terlebih dahulu.";
+                return false;
+            }
+        }
+        if (step === 2 && !field("service_interested").value.trim()) {
+            errorBox.textContent = "Pilih Jenis Layanan terlebih dahulu.";
+            return false;
+        }
+        return true;
+    }
+
+    next.addEventListener("click", () => {
+        if (stepValid(current)) show(Math.min(current + 1, total));
+    });
+    back.addEventListener("click", () => show(Math.max(current - 1, 1)));
+    form.querySelectorAll("[data-step-goto]").forEach((btn) =>
+        btn.addEventListener("click", () => show(Number(btn.dataset.stepGoto)))
+    );
+    // Enter in a text field advances instead of submitting early.
+    form.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && e.target.tagName === "INPUT" && current < total) {
+            e.preventDefault();
+            next.click();
+        }
+    });
+
+    form.querySelectorAll("[data-budget]").forEach((btn) =>
+        btn.addEventListener("click", () => {
+            budgetInput.value = btn.dataset.budget;
+            form.querySelectorAll("[data-budget]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        })
+    );
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (current !== total) return;
+        form.querySelectorAll("[data-field-error]").forEach((el) => (el.textContent = ""));
+        submit.disabled = true;
+        const label = submit.innerHTML;
+        submit.textContent = "Mengirim...";
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { Accept: "application/json", "X-XSRF-TOKEN": getCookie("XSRF-TOKEN") },
+                body: new FormData(form),
+            });
+
+            if (response.status === 422) {
+                const data = await response.json();
+                const entries = Object.entries(data.errors || {});
+                entries.forEach(([name, messages]) => {
+                    const el = form.querySelector(`[data-field-error="${name}"]`);
+                    if (el) el.textContent = messages[0];
+                });
+                const firstStep = Math.min(...entries.map(([name]) => fieldStep[name] || total));
+                show(firstStep);
+                errorBox.textContent = "Periksa kembali isian yang ditandai.";
+                return;
+            }
+            if (!response.ok) throw new Error("Request failed");
+
+            const data = await response.json().catch(() => ({}));
+            const message = document.querySelector("[data-lead-success-message]");
+            if (message && data.message) message.textContent = data.message;
+            document.querySelector("[data-lead-body]")?.classList.add("hidden");
+            document.querySelector("[data-lead-success]")?.classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+        } catch (err) {
+            // eslint-disable-next-line no-console
+            console.error("Lead wizard submit failed", err);
+            errorBox.textContent = "Gagal mengirim. Silakan coba lagi atau hubungi kami lewat WhatsApp.";
+        } finally {
+            submit.disabled = false;
+            submit.innerHTML = label;
+        }
+    });
+
+    show(1);
+}
+
+// FAQ page: client-side search + category filter over the server-rendered
+// list; visible rows are renumbered and the live count updated.
+function initFaqFilter() {
+    const root = document.querySelector("[data-faq-filter]");
+    if (!root) return;
+    const items = [...root.querySelectorAll("[data-faq-item]")];
+    const search = root.querySelector("[data-faq-search]");
+    const count = root.querySelector("[data-faq-count]");
+    const empty = root.querySelector("[data-faq-empty]");
+    const cats = [...root.querySelectorAll("[data-faq-category]")];
+    let category = "";
+
+    const apply = () => {
+        const q = (search?.value || "").trim().toLowerCase();
+        let n = 0;
+        items.forEach((item) => {
+            const show = (!category || item.dataset.category === category) && (!q || item.dataset.search.includes(q));
+            item.classList.toggle("hidden", !show);
+            if (show) {
+                n++;
+                const num = item.querySelector("[data-faq-num]");
+                if (num) num.textContent = String(n).padStart(2, "0");
+            }
+            // the per-row category label is redundant once a category is chosen
+            item.querySelector("[data-faq-cat-label]")?.classList.toggle("hidden", Boolean(category));
+        });
+        if (count) count.textContent = String(n).padStart(2, "0");
+        empty?.classList.toggle("hidden", n > 0);
+    };
+
+    search?.addEventListener("input", apply);
+    cats.forEach((btn) =>
+        btn.addEventListener("click", () => {
+            category = btn.dataset.faqCategory;
+            cats.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+            apply();
+        })
+    );
+}
+
+// Tentang Kami values console: tabs that auto-advance every VALUE_DWELL ms
+// (the CSS progress bar runs for the same time), pause while hovered or
+// focused, and jump on click / arrow keys.
+const VALUE_DWELL = 4500;
+
+function initValuesConsole() {
+    document.querySelectorAll("[data-values-console]").forEach((root) => {
+        const tabs = [...root.querySelectorAll("[data-value-tab]")];
+        const panels = [...root.querySelectorAll("[data-value-panel]")];
+        const icons = [...root.querySelectorAll("[data-value-icon]")];
+        const counter = root.querySelector("[data-value-counter]");
+        if (!tabs.length) return;
+
+        root.style.setProperty("--value-dwell", `${VALUE_DWELL}ms`);
+        let active = 0;
+        let paused = false;
+        let timer = null;
+
+        const select = (i) => {
+            active = i;
+            tabs.forEach((t, n) => {
+                t.setAttribute("aria-selected", String(n === i));
+                t.tabIndex = n === i ? 0 : -1;
+            });
+            panels.forEach((p, n) => {
+                p.classList.toggle("hidden", n !== i);
+                p.classList.toggle("is-active", n === i);
+            });
+            icons.forEach((ic, n) => ic.classList.toggle("hidden", n !== i));
+            if (counter) counter.textContent = String(i + 1).padStart(2, "0");
+            // restart the progress bar animation on the new tab
+            const bar = tabs[i].querySelector(".value-progress");
+            if (bar) {
+                bar.style.animation = "none";
+                void bar.offsetWidth;
+                bar.style.animation = "";
+            }
+        };
+
+        const schedule = () => {
+            clearInterval(timer);
+            if (prefersReducedMotion()) return;
+            timer = setInterval(() => {
+                if (!paused) select((active + 1) % tabs.length);
+            }, VALUE_DWELL);
+        };
+
+        tabs.forEach((tab, i) => {
+            tab.addEventListener("click", () => {
+                select(i);
+                schedule();
+            });
+            tab.addEventListener("keydown", (e) => {
+                if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+                e.preventDefault();
+                const next = (i + (e.key === "ArrowDown" ? 1 : -1) + tabs.length) % tabs.length;
+                select(next);
+                tabs[next].focus();
+                schedule();
+            });
+        });
+        const pause = (on) => {
+            paused = on;
+            root.classList.toggle("is-paused", on);
+        };
+        root.addEventListener("mouseenter", () => pause(true));
+        root.addEventListener("mouseleave", () => pause(false));
+        root.addEventListener("focusin", () => pause(true));
+        root.addEventListener("focusout", () => pause(false));
+
+        select(0);
+        schedule();
     });
 }
 
@@ -409,12 +677,16 @@ function initHudClock() {
 
 document.addEventListener("DOMContentLoaded", () => {
     initScrollReveal();
+    initSpaceVisuals();
     initSpaceHeader();
     initThemeToggle();
     initHudClock();
     initGlowCards();
     initRadar();
     initTilt();
+    initValuesConsole();
+    initFaqFilter();
+    initLeadWizard();
     initNavbar();
     initPricingTabs();
     initBillingToggle();

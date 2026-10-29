@@ -45,6 +45,12 @@
 
 <x-layouts.public theme="space" :seo-title="$settings['general']['tagline'] ?? null" :seo-json-ld="$organizationJsonLd">
 
+    @push('head')
+        {{-- The planet poster is the hero's first (and on phones only) visual: fetch it early. --}}
+        <link rel="preload" as="image" href="/images/planet-poster-desktop.webp" type="image/webp" media="(min-width: 768px)" fetchpriority="high">
+        <link rel="preload" as="image" href="/images/planet-poster-mobile.webp" type="image/webp" media="(max-width: 767px)" fetchpriority="high">
+    @endpush
+
     @if (!empty($recentActivity))
         {{-- Floating HUD pill (bottom-left) instead of a full-width bar, so it doesn't sit on top of the full-screen hero. --}}
         <div
@@ -66,7 +72,7 @@
         {{-- Hero: full-screen dot-matrix planet --}}
         @if ($type === 'hero' && $hero)
             <section class="space-hero force-dark relative min-h-[100svh] flex flex-col overflow-hidden bg-space-void text-white">
-                <div class="absolute inset-0 z-0" data-vue-island="Planet"></div>
+                <div class="planet-bg z-0" data-planet aria-hidden="true"></div>
                 <div class="space-hero__scrim absolute inset-0 z-[1] pointer-events-none" aria-hidden="true"></div>
 
                 {{-- HUD: object label beside the planet --}}
@@ -96,7 +102,7 @@
                         <p data-reveal data-reveal-delay="160" class="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mb-10">
                             {{ $hero['subtitle'] ?? '' }}
                         </p>
-                        <div data-reveal data-reveal-delay="240" class="flex flex-wrap gap-3">
+                        <div data-reveal data-reveal-delay="240" class="flex flex-col sm:flex-row sm:flex-wrap items-start gap-3">
                             <a href="{{ $hero['cta_primary_url'] ?? '/konsultasi' }}" class="btn-space btn-space--lg btn-space--pill">
                                 {{ $hero['cta_primary_text'] ?? 'Konsultasi Gratis' }} <span class="btn-space__arrow" aria-hidden="true">&rarr;</span>
                             </a>
@@ -156,7 +162,7 @@
                         <div class="lg:col-start-1 lg:col-span-7 lg:row-start-1">
                             <div class="rounded-2xl overflow-hidden aspect-[4/3] lg:aspect-[3/4] bg-space-panel ring-1 ring-white/10">
                                 @if (!empty($about['image']))
-                                    <img data-reveal-image src="{{ $about['image'] }}" alt="{{ $about['title'] ?? '' }}" width="700" height="875" loading="lazy" class="w-full h-full object-cover">
+                                    <img data-reveal-image src="{{ \App\Support\Img::url($about['image'], 960) }}" srcset="{{ \App\Support\Img::srcset($about['image'], [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 50vw, 100vw" alt="{{ $about['title'] ?? '' }}" width="700" height="875" loading="lazy" class="w-full h-full object-cover">
                                 @endif
                             </div>
                         </div>
@@ -204,7 +210,7 @@
                                 <div class="lg:col-span-6 order-1 {{ $index % 2 === 1 ? 'lg:order-1' : 'lg:order-2' }}">
                                     <div class="hud-frame relative p-2">
                                         <div class="aspect-[16/10] rounded-lg overflow-hidden bg-space-panel">
-                                            <img data-reveal-image src="{{ $service->image ?: 'https://placehold.co/640x400/0b0d14/0b0d14?text=%20' }}" alt="{{ $service->image ? $service->name : '' }}" width="640" height="400" loading="lazy" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
+                                            <img data-reveal-image src="{{ $service->image ? \App\Support\Img::url($service->image, 960) : 'https://placehold.co/640x400/0b0d14/0b0d14?text=%20' }}" alt="{{ $service->image ? $service->name : '' }}" width="640" height="400" loading="lazy" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                         </div>
                                         <span class="absolute -bottom-5 right-2 font-mono text-[9px] uppercase tracking-[0.2em] text-white/30" aria-hidden="true">SVC-{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }} / {{ $service->slug }}</span>
                                     </div>
@@ -229,7 +235,7 @@
                         @foreach ($portfolioProjects as $project)
                             <a href="/portfolio/{{ $project->slug }}" class="gallery-panel relative overflow-hidden rounded-2xl block h-64 sm:h-[480px] bg-space-panel ring-1 ring-white/10">
                                 @if ($project->thumbnail)
-                                    <img src="{{ $project->thumbnail }}" alt="{{ $project->name }}" width="400" height="500" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
+                                    <img src="{{ \App\Support\Img::url($project->thumbnail, 640) }}" alt="{{ $project->name }}" width="400" height="500" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
                                 @endif
                                 <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, transparent 45%, rgb(var(--space-void)) 100%);"></div>
                                 @if ($project->project_type === 'personal')
@@ -508,7 +514,7 @@
                         <article data-reveal class="group lg:col-span-7 xl:col-start-2">
                             <a href="/blog/{{ $leadPost->slug }}" data-tilt class="tilt-card relative block rounded-3xl overflow-hidden ring-1 ring-white/10 bg-space-panel aspect-[4/5] md:aspect-[5/4]">
                                 @if ($leadPost->featured_image)
-                                    <img src="{{ $leadPost->featured_image }}" alt="{{ $leadPost->title }}" width="800" height="640" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
+                                    <img src="{{ \App\Support\Img::url($leadPost->featured_image, 960) }}" srcset="{{ \App\Support\Img::srcset($leadPost->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 55vw, 100vw" alt="{{ $leadPost->title }}" width="800" height="640" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                 @endif
                                 <div class="absolute inset-0 bg-gradient-to-t from-space-void via-space-void/40 to-transparent" aria-hidden="true"></div>
                                 <span class="absolute top-5 left-5 font-mono text-[10px] uppercase tracking-[0.2em] bg-brand-400 text-space-void px-3 py-1 rounded-full">Log &middot; 01</span>
@@ -542,7 +548,7 @@
                                                 <span class="block font-display font-semibold text-white tracking-tight leading-snug line-clamp-2 transition-colors group-hover:text-brand-300">{{ $post->title }}</span>
                                             </span>
                                             @if ($post->featured_image)
-                                                <img src="{{ $post->featured_image }}" alt="" aria-hidden="true" width="64" height="64" loading="lazy" class="w-16 h-16 rounded-full object-cover shrink-0 ring-1 ring-white/15 opacity-60 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110">
+                                                <img src="{{ \App\Support\Img::url($post->featured_image, 320) }}" alt="" aria-hidden="true" width="64" height="64" loading="lazy" class="w-16 h-16 rounded-full object-cover shrink-0 ring-1 ring-white/15 opacity-60 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110">
                                             @endif
                                         </a>
                                     </li>

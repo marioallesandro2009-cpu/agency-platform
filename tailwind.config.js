@@ -14,10 +14,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+                sans: ['Raleway', '"Raleway Fallback"', ...defaultTheme.fontFamily.sans],
                 // "Space" theme (homepage): wide geometric display face for
                 // the oversized headlines, mono for the HUD-style micro labels.
-                display: ['Unbounded', 'Raleway', ...defaultTheme.fontFamily.sans],
+                display: ['Unbounded', '"Unbounded Fallback"', ...defaultTheme.fontFamily.sans],
                 mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
             },
             colors: {

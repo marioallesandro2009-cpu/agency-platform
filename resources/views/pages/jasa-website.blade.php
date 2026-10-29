@@ -42,7 +42,7 @@
                     <div class="hidden md:block md:col-span-4">
                         <div class="aspect-[16/9] rounded-xl overflow-hidden bg-space-panel ring-1 ring-white/10 opacity-40 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0">
                             @if ($service->image)
-                                <img src="{{ $service->image }}" alt="" aria-hidden="true" width="320" height="180" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <img src="{{ \App\Support\Img::url($service->image, 480) }}" alt="" aria-hidden="true" width="320" height="180" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                             @else
                                 {{-- No image uploaded yet: HUD placeholder instead of an empty box --}}
                                 <div class="w-full h-full bg-grid-subtle flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35" aria-hidden="true">
@@ -101,7 +101,7 @@
                         <div class="hud-frame relative p-2 mb-5">
                             <div class="{{ $stripShape[$index % count($stripShape)] }} rounded-lg overflow-hidden bg-space-panel">
                                 @if ($project->thumbnail)
-                                    <img src="{{ $project->thumbnail }}" alt="{{ $project->name }}" width="600" height="450" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
+                                    <img src="{{ \App\Support\Img::url($project->thumbnail, 960) }}" srcset="{{ \App\Support\Img::srcset($project->thumbnail, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 45vw, 100vw" alt="{{ $project->name }}" width="600" height="450" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
                                 @endif
                             </div>
                         </div>

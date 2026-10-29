@@ -3,7 +3,6 @@ import { Head, Link, usePage } from "@inertiajs/vue3";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import Button from "@/Components/Public/Button.vue";
 import StarField from "@/Components/Public/StarField.vue";
-import SpacePreloader from "@/Components/Public/SpacePreloader.vue";
 
 /**
  * theme="space" is the dark, cinematic homepage look (fixed transparent
@@ -98,7 +97,6 @@ const headerClass = computed(() => {
     <Head>
         <component :is="'script'" type="application/ld+json" :nonce="page.props.cspNonce">{{ organizationJsonLd }}</component>
     </Head>
-    <SpacePreloader v-if="space" />
     <div class="min-h-screen flex flex-col" :class="space ? 'theme-space bg-space-void text-white' : 'bg-white'">
         <StarField v-if="space" class="z-0" />
         <div v-if="!space" class="bg-charcoal text-gray-300 text-xs">

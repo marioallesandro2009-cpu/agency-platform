@@ -7,7 +7,6 @@ use App\Models\PageSection;
 use App\Models\PortfolioProject;
 use App\Models\TechStack;
 use App\Models\Testimonial;
-use Inertia\Inertia;
 
 class AboutController extends Controller
 {
@@ -17,7 +16,7 @@ class AboutController extends Controller
             ->where("section_type", "about_main")
             ->first();
 
-        return Inertia::render("Public/About", [
+        return view("pages.about", [
             "about" => $section ? [
                 "title" => $section->title,
                 "subtitle" => $section->subtitle,

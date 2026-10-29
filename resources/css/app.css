@@ -732,7 +732,7 @@ html[data-theme="light"] .space-header {
     position: absolute;
     right: -2vw;
     bottom: -0.18em;
-    font-family: "Unbounded", "Raleway", sans-serif;
+    font-family: "Unbounded", "Unbounded Fallback", sans-serif;
     font-weight: 800;
     text-transform: uppercase;
     font-size: clamp(5rem, 19vw, 18rem);
@@ -788,4 +788,263 @@ html[data-theme="light"] .space-header {
 .ladder-beam {
     background: linear-gradient(90deg, rgb(var(--lime-400) / 0.15), rgb(var(--lime-400)));
     box-shadow: 0 0 14px rgb(var(--lime-400) / 0.6);
+}
+
+/* Planet hero container (space/planet.js mounts its canvas inside). */
+.planet-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+/* Pre-rendered frame of the planet shader: the hero on phones / low-end
+   devices, and what desktop shows until the WebGL canvas fades in. */
+.planet-bg {
+    background: #05060a url("/images/planet-poster-desktop.webp") center / cover no-repeat;
+}
+@media (max-width: 767px) {
+    .planet-bg {
+        background-image: url("/images/planet-poster-mobile.webp");
+        background-position: center top;
+    }
+}
+
+/*
+ * Metric-matched local fallbacks (no download): while the web fonts load,
+ * text renders in Arial scaled to the real font's width/height, so the swap
+ * doesn't re-wrap headlines and shift the page (CLS). Ratios measured
+ * against the real fonts at 600/400 weight.
+ */
+@font-face {
+    font-family: "Unbounded Fallback";
+    src: local("Arial");
+    size-adjust: 128%;
+    ascent-override: 78%;
+    descent-override: 19.5%;
+    line-gap-override: 0%;
+}
+@font-face {
+    font-family: "Raleway Fallback";
+    src: local("Arial");
+    size-adjust: 101.6%;
+}
+
+/* ---- Tentang Kami (Blade) ------------------------------------------------ */
+.about-ticker {
+    overflow: hidden;
+    padding: 0.5rem 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.about-ticker__track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: about-ticker 36s linear infinite;
+}
+@keyframes about-ticker {
+    to { transform: translateX(-50%); }
+}
+.about-ticker__word {
+    font-family: "Unbounded", "Unbounded Fallback", sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: clamp(1.75rem, 5vw, 4rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--ink) / 0.2);
+}
+.about-ticker__sep {
+    color: rgb(var(--lime-400));
+    font-size: clamp(1rem, 2.5vw, 2rem);
+    padding: 0 clamp(1rem, 2.5vw, 2rem);
+}
+
+/* Values console: tab states, dwell-time progress bar, orbiting icon,
+   panel entrance. initValuesConsole (blade-app.js) toggles the states. */
+.value-tab__num { color: rgb(var(--ink) / 0.3); transition: color 300ms ease; }
+.value-tab__title { color: rgb(var(--ink) / 0.25); }
+.value-tab:hover .value-tab__title { color: rgb(var(--ink) / 0.6); }
+.value-tab[aria-selected="true"] .value-tab__num { color: rgb(var(--lime-400)); }
+.value-tab[aria-selected="true"] .value-tab__title { color: rgb(var(--ink)); transform: translateX(0.25rem); }
+.value-tab:focus-visible .value-tab__title { text-decoration: underline; text-decoration-color: rgb(var(--lime-400)); }
+.value-progress {
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.value-tab[aria-selected="true"] .value-progress {
+    animation: value-progress var(--value-dwell, 4500ms) linear forwards;
+}
+[data-values-console].is-paused .value-progress {
+    animation-play-state: paused;
+}
+@keyframes value-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+.value-orbit {
+    animation: value-orbit 18s linear infinite;
+}
+@keyframes value-orbit {
+    to { transform: rotate(360deg); }
+}
+.value-panel.is-active {
+    animation: value-panel-in 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes value-panel-in {
+    from { opacity: 0; transform: translateY(1rem); filter: blur(4px); }
+    to { opacity: 1; transform: none; filter: none; }
+}
+
+/* Tech stack marquee: logo chips on light discs so dark marks stay legible. */
+.tech-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.tech-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: about-ticker 40s linear infinite;
+}
+.tech-marquee:hover .tech-marquee__track {
+    animation-play-state: paused;
+}
+.tech-chip {
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    padding: 1.1rem;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.92);
+    box-shadow: 0 0 0 1px rgb(var(--ink) / 0.1), 0 0 30px -10px rgb(var(--lime-400) / 0.5);
+    transition: transform 300ms ease;
+}
+.tech-chip:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+.tech-chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+@media (prefers-reduced-motion: reduce) {
+    .about-ticker__track,
+    .tech-marquee__track,
+    .value-orbit,
+    .value-tab[aria-selected="true"] .value-progress,
+    .value-panel.is-active {
+        animation: none;
+    }
+    .value-tab[aria-selected="true"] .value-progress {
+        transform: scaleX(1);
+    }
+}
+
+/* FAQ page rows: open state comes from the toggle's aria-expanded. */
+.faq-row__num { color: rgb(var(--ink) / 0.35); }
+.faq-row__q { color: rgb(var(--ink) / 0.85); }
+.faq-row__icon { border-color: rgb(var(--ink) / 0.15); color: rgb(var(--lime-400)); }
+.faq-row:has([aria-expanded="true"]) { background: rgb(var(--ink) / 0.02); }
+.faq-row [aria-expanded="true"] .faq-row__num { color: rgb(var(--lime-400)); }
+.faq-row [aria-expanded="true"] .faq-row__q { color: rgb(var(--ink)); }
+.faq-row [aria-expanded="true"] .faq-row__icon {
+    background: rgb(var(--lime-400));
+    border-color: rgb(var(--lime-400));
+    color: rgb(var(--space-void));
+}
+
+/* Lead form step rail: horizontal on phones, vertical beside the form on
+   desktop. Steps keep their number in every state (no check marks); done =
+   filled lime node + lit connector. State comes from data-state. */
+.step-rail {
+    display: flex;
+    margin-bottom: 2.5rem;
+}
+.step-rail__item {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.step-rail__item:last-child { flex: 0 0 auto; }
+.step-rail__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 2.4rem;
+    right: 0.4rem;
+    top: 1rem;
+    height: 1px;
+    background: rgb(var(--ink) / 0.1);
+}
+.step-rail__item[data-state="done"]::after { background: rgb(var(--lime-400)); }
+.step-rail__node {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(var(--ink) / 0.15);
+    background: rgb(var(--space-void));
+    color: rgb(var(--ink) / 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    transition: all 300ms ease;
+}
+.step-rail__label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    max-width: 72px;
+    line-height: 1.3;
+    color: rgb(var(--ink) / 0.35);
+}
+.step-rail__item[data-state="done"] .step-rail__node {
+    background: rgb(var(--lime-400));
+    border-color: rgb(var(--lime-400));
+    color: rgb(var(--space-void));
+}
+.step-rail__item[data-state="done"] .step-rail__label { color: rgb(var(--ink) / 0.7); }
+.step-rail__item[data-state="active"] .step-rail__node {
+    background: rgb(var(--space-deep));
+    border-color: rgb(var(--lime-400));
+    color: rgb(var(--lime-300));
+    box-shadow: 0 0 24px -4px rgb(var(--lime-400) / 0.6);
+}
+.step-rail__item[data-state="active"] .step-rail__label { color: rgb(var(--ink)); }
+@media (min-width: 1024px) {
+    .step-rail {
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    .step-rail__item {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-bottom: 2rem;
+    }
+    .step-rail__item:not(:last-child)::after {
+        left: 1.125rem;
+        right: auto;
+        top: 2.6rem;
+        bottom: 0.3rem;
+        width: 1px;
+        height: auto;
+    }
+    .step-rail__node {
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 11px;
+        flex-shrink: 0;
+    }
+    .step-rail__label {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        max-width: none;
+        padding-top: 0.65rem;
+    }
 }

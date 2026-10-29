@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\PortfolioProject;
-use Inertia\Inertia;
 
 class PortfolioController extends Controller
 {
     public function index()
     {
-        return Inertia::render("Public/Portfolio/Index", [
+        return view("pages.portfolio.index", [
             "projects" => PortfolioProject::published()->ordered()->get([
-                "id", "name", "slug", "category", "short_description", "thumbnail", "is_featured", "project_type",
+                "id", "name", "slug", "category", "short_description", "thumbnail", "is_featured", "project_type", "live_url",
             ]),
         ]);
     }
@@ -27,7 +26,7 @@ class PortfolioController extends Controller
             ->limit(3)
             ->get(["id", "name", "slug", "category", "thumbnail"]);
 
-        return Inertia::render("Public/Portfolio/Show", [
+        return view("pages.portfolio.show", [
             "project" => $portfolioProject,
             "related" => $related,
         ]);

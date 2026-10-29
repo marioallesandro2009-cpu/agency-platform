@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
-use Inertia\Inertia;
 
 class FaqController extends Controller
 {
@@ -11,7 +10,7 @@ class FaqController extends Controller
     {
         $faqs = Faq::published()->ordered()->get();
 
-        return Inertia::render("Public/Faq", [
+        return view("pages.faq", [
             "faqs" => $faqs,
             "categories" => $faqs->pluck("category")->filter()->unique()->values(),
         ]);

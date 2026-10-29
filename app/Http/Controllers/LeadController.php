@@ -8,7 +8,6 @@ use App\Models\PricingPackage;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Inertia\Inertia;
 
 class LeadController extends Controller
 {
@@ -40,7 +39,7 @@ class LeadController extends Controller
             }
         }
 
-        return Inertia::render("Public/LeadForm", [
+        return view("pages.lead-form", [
             "context" => "konsultasi",
             "title" => "Konsultasi Gratis",
             "subtitle" => "Ceritakan kebutuhan website Anda, tim kami akan segera menghubungi lewat WhatsApp.",
@@ -51,7 +50,7 @@ class LeadController extends Controller
 
     public function kontak()
     {
-        return Inertia::render("Public/LeadForm", [
+        return view("pages.lead-form", [
             "context" => "kontak",
             "title" => "Hubungi Kami",
             "subtitle" => "Ada pertanyaan? Kirim pesan dan kami akan segera membalas lewat WhatsApp.",
@@ -92,6 +91,14 @@ class LeadController extends Controller
         // Lead-based business model: the team reaches out, the visitor isn't
         // auto-redirected into a WhatsApp chat. See project decision — this
         // replaced the previous Inertia::location() WA handoff.
-        return back()->with("success", "Terima kasih! Tim kami akan menghubungi Anda dalam 1x24 jam via WhatsApp.");
+        $message = "Terima kasih! Tim kami akan menghubungi Anda dalam 1x24 jam via WhatsApp.";
+
+        // The Blade forms submit via fetch (blade-app.js): answer with JSON
+        // instead of redirecting into a full page render nobody displays.
+        if ($request->expectsJson()) {
+            return response()->json(["message" => $message]);
+        }
+
+        return back()->with("success", $message);
     }
 }

@@ -22,10 +22,18 @@ use App\Http\Controllers\FaqController as PublicFaqController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/sitemap.xml", [SitemapController::class, "index"])->name("sitemap");
 Route::get("/robots.txt", [SitemapController::class, "robots"])->name("robots");
+
+// Responsive WebP derivatives of uploads; the first hit writes the file to
+// public/img/..., after that the web server serves it statically.
+Route::get("/img/{width}/{path}", [ImageController::class, "show"])
+    ->whereNumber("width")
+    ->where("path", ".+")
+    ->name("img");
 
 Route::middleware("track.visit")->group(function () {
     Route::get("/", [HomeController::class, "index"])->name("home");

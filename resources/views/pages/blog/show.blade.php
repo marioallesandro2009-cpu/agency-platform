@@ -70,7 +70,7 @@
         <article class="lg:col-span-8 min-w-0">
             @if ($post->featured_image)
                 <div data-reveal data-reveal-delay="100" class="hud-frame relative p-2 mb-12">
-                    <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" width="1200" height="675" class="w-full rounded-lg object-cover max-h-[28rem]">
+                    <img src="{{ \App\Support\Img::url($post->featured_image, 1280) }}" srcset="{{ \App\Support\Img::srcset($post->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 60vw, 100vw" alt="{{ $post->featured_image_alt ?: $post->title }}" width="1200" height="675" class="w-full rounded-lg object-cover max-h-[28rem]">
                 </div>
             @endif
 

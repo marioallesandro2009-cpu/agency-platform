@@ -43,8 +43,7 @@
             <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
         @endif
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=raleway:400,500,600,700,800|unbounded:300,400,600,800|jetbrains-mono:400,500&display=swap" rel="stylesheet" />
+        {{-- Fonts are self-hosted (resources/css/fonts.css, public/fonts). --}}
 
         @php
             $gaMeasurementId = \App\Models\Setting::get('ga_measurement_id');
@@ -68,15 +67,13 @@
                 document.documentElement.setAttribute("data-theme", t);
             })();
         </script>
+        @stack('head')
         @vite(['resources/js/blade-app.js'])
     </head>
     <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }}">
-        @if ($space)
-            <div data-vue-island="SpacePreloader"></div>
-        @endif
         <div class="min-h-screen flex flex-col {{ $space ? 'theme-space bg-space-void text-white' : 'bg-white' }}">
             @if ($space)
-                <div class="fixed inset-0 z-0 pointer-events-none" data-vue-island="StarField" aria-hidden="true"></div>
+                <canvas class="fixed inset-0 z-0 w-full h-full pointer-events-none" data-starfield aria-hidden="true"></canvas>
             @endif
 
             @include('partials.public.navbar', ['space' => $space])

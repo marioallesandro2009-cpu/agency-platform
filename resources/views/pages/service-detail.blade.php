@@ -66,7 +66,7 @@
             @if ($service->image)
                 <div data-reveal class="hud-frame relative p-2 mb-14">
                     <div class="aspect-[16/8] rounded-lg overflow-hidden bg-space-panel">
-                        <img src="{{ $service->image }}" alt="{{ $service->name }}" width="960" height="480" class="w-full h-full object-cover">
+                        <img src="{{ \App\Support\Img::url($service->image, 1280) }}" srcset="{{ \App\Support\Img::srcset($service->image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 60vw, 100vw" alt="{{ $service->name }}" width="960" height="480" class="w-full h-full object-cover">
                     </div>
                 </div>
             @endif
@@ -151,7 +151,7 @@
                             <a href="/portfolio/{{ $project->slug }}" class="group block rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden transition-colors hover:border-brand-400/40">
                                 <div class="aspect-[4/3] bg-space-panel overflow-hidden">
                                     @if ($project->thumbnail)
-                                        <img src="{{ $project->thumbnail }}" alt="{{ $project->name }}" width="320" height="240" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
+                                        <img src="{{ \App\Support\Img::url($project->thumbnail, 480) }}" alt="{{ $project->name }}" width="320" height="240" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
                                     @endif
                                 </div>
                                 <div class="p-5">

@@ -1,0 +1,9 @@
+/*
+ * Entry stylesheet for the public Blade pages (imported by blade-app.js).
+ * Identical styles to app.css, but generated with tailwind.public.config.js,
+ * which only scans the public templates, so it ships far fewer utilities.
+ * (@import has to come first; @config still applies to the whole entry.)
+ */
+@import "./fonts.css";
+@import "./app.css";
+@config "../../tailwind.public.config.js";

@@ -47,20 +47,29 @@ class AppServiceProvider extends ServiceProvider
         View::composer(
             ['components.layouts.public', 'partials.public.navbar', 'partials.public.footer', 'pages.*'],
             function ($view) {
-                $publicGroups = ['general', 'contact', 'social', 'branding', 'integrations'];
-                $settingsGrouped = Setting::allGrouped();
+                // The composer fires once per matching view (layout, navbar,
+                // footer, page...), so the queries are memoized with once()
+                // to run a single time per request instead of 4x.
+                $shared = once(function () {
+                    $publicGroups = ['general', 'contact', 'social', 'branding', 'integrations'];
+                    $settingsGrouped = Setting::allGrouped();
 
-                $view->with('settings', collect($publicGroups)
-                    ->mapWithKeys(fn (string $group) => [$group => $settingsGrouped[$group] ?? []])
-                    ->toArray());
-                $view->with('navServices', Service::published()->ordered()->get(['id', 'name', 'slug']));
-                $view->with('navMenu', NavItem::visible()->ordered()->get(['id', 'label', 'url']));
-                $view->with('mascots', MascotAsset::where('is_active', true)->get()->keyBy('placement_key')
-                    ->map(fn (MascotAsset $m) => [
-                        'image_path' => $m->image_path,
-                        'alt_text' => $m->alt_text,
-                        'caption' => $m->caption,
-                    ]));
+                    return [
+                        'settings' => collect($publicGroups)
+                            ->mapWithKeys(fn (string $group) => [$group => $settingsGrouped[$group] ?? []])
+                            ->toArray(),
+                        'navServices' => Service::published()->ordered()->get(['id', 'name', 'slug']),
+                        'navMenu' => NavItem::visible()->ordered()->get(['id', 'label', 'url']),
+                        'mascots' => MascotAsset::where('is_active', true)->get()->keyBy('placement_key')
+                            ->map(fn (MascotAsset $m) => [
+                                'image_path' => $m->image_path,
+                                'alt_text' => $m->alt_text,
+                                'caption' => $m->caption,
+                            ]),
+                    ];
+                });
+
+                $view->with($shared);
             }
         );
     }
