@@ -99,7 +99,7 @@
                 @foreach ($portfolioProjects as $index => $project)
                     <a href="/portfolio/{{ $project->slug }}" data-tilt class="tilt-card group block {{ $stripSpan[$index % count($stripSpan)] }}">
                         <div class="hud-frame relative p-2 mb-5">
-                            <div class="{{ $stripShape[$index % count($stripShape)] }} rounded-lg overflow-hidden bg-space-panel">
+                            <div class="{{ $stripShape[$index % count($stripShape)] }} rounded-lg overflow-hidden bg-space-panel art-frame">
                                 @if ($project->thumbnail)
                                     <img src="{{ \App\Support\Img::url($project->thumbnail, 960) }}" srcset="{{ \App\Support\Img::srcset($project->thumbnail, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 45vw, 100vw" alt="{{ $project->name }}" width="600" height="450" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
                                 @endif

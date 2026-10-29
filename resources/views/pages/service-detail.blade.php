@@ -65,7 +65,7 @@
         <div class="lg:col-span-8 min-w-0">
             @if ($service->image)
                 <div data-reveal class="hud-frame relative p-2 mb-14">
-                    <div class="aspect-[16/8] rounded-lg overflow-hidden bg-space-panel">
+                    <div class="aspect-[16/8] rounded-lg overflow-hidden bg-space-panel art-frame">
                         <img src="{{ \App\Support\Img::url($service->image, 1280) }}" srcset="{{ \App\Support\Img::srcset($service->image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 60vw, 100vw" alt="{{ $service->name }}" width="960" height="480" class="w-full h-full object-cover">
                     </div>
                 </div>

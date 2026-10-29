@@ -81,10 +81,6 @@
                     <p class="text-white/80">Planet {{ $settings['general']['website_name'] ?? '' }}</p>
                     <p>Orbit stabil &middot; 24/7 online</p>
                 </div>
-                {{-- HUD: vertical side label --}}
-                <p class="hidden lg:block absolute z-[2] right-6 top-1/2 -translate-y-1/2 [writing-mode:vertical-rl] font-mono text-[10px] uppercase tracking-[0.3em] text-white/30" aria-hidden="true">
-                    Est. web &middot; design &middot; engineering
-                </p>
 
                 <div class="relative z-10 flex-1 flex items-end max-w-[1440px] w-full mx-auto px-4 md:px-8 pt-32 pb-28 md:pb-32">
                     <div class="max-w-4xl">
@@ -93,11 +89,25 @@
                             <span class="h-px w-10 bg-white/25"></span>
                             {{ $hero['eyebrow'] ?? '' }}
                         </p>
-                        <h1 data-reveal data-reveal-delay="80" class="font-display uppercase leading-[0.95] tracking-tight mb-7 [text-wrap:balance]">
-                            @if ($heroLead)
-                                <span class="block font-light text-[2rem] sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[5.25rem] [overflow-wrap:anywhere] text-white/90">{{ $heroLead }}</span>
-                            @endif
-                            <span class="block font-extrabold text-[2rem] sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[5.25rem] [overflow-wrap:anywhere] space-hero__title-glow">{{ $heroTail }}</span>
+                        {{-- Words rise in on load (pure CSS, data-split="load"); the final
+                             word is the serif-italic accent. --}}
+                        @php
+                            $leadWords = $heroLead ? preg_split('/\s+/', $heroLead) : [];
+                            $tailWords = preg_split('/\s+/', $heroTail);
+                            $w = 0;
+                        @endphp
+                        <h1 data-split="load" class="font-display uppercase leading-[0.98] tracking-tight mb-7 [text-wrap:balance]">
+                            <span class="sr-only">{{ $hero['title'] ?? '' }}</span>
+                            <span aria-hidden="true">
+                                @if ($leadWords)
+                                    <span class="block font-light text-[2rem] sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[5.25rem] [overflow-wrap:anywhere] text-white/90">
+                                        @foreach ($leadWords as $word)<span class="split-word" style="--i: {{ $w++ }}"><span>{{ $word }}</span></span> @endforeach
+                                    </span>
+                                @endif
+                                <span class="block font-extrabold text-[2rem] sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[5.25rem] [overflow-wrap:anywhere] space-hero__title-glow">
+                                    @foreach ($tailWords as $j => $word)<span class="split-word" style="--i: {{ $w++ }}"><span class="{{ $loop->last && count($tailWords) > 1 ? 'headline-accent normal-case' : '' }}">{{ $word }}</span></span>@if (!$loop->last) @endif @endforeach
+                                </span>
+                            </span>
                         </h1>
                         <p data-reveal data-reveal-delay="160" class="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mb-10">
                             {{ $hero['subtitle'] ?? '' }}
@@ -209,10 +219,9 @@
                                 </div>
                                 <div class="lg:col-span-6 order-1 {{ $index % 2 === 1 ? 'lg:order-1' : 'lg:order-2' }}">
                                     <div class="hud-frame relative p-2">
-                                        <div class="aspect-[16/10] rounded-lg overflow-hidden bg-space-panel">
+                                        <div class="aspect-[16/10] rounded-lg overflow-hidden bg-space-panel art-frame">
                                             <img data-reveal-image src="{{ $service->image ? \App\Support\Img::url($service->image, 960) : 'https://placehold.co/640x400/0b0d14/0b0d14?text=%20' }}" alt="{{ $service->image ? $service->name : '' }}" width="640" height="400" loading="lazy" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                         </div>
-                                        <span class="absolute -bottom-5 right-2 font-mono text-[9px] uppercase tracking-[0.2em] text-white/30" aria-hidden="true">SVC-{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }} / {{ $service->slug }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +449,7 @@
                             <div data-reveal data-reveal-delay="{{ ($i + 1) * 120 }}">
                             <figure class="relative rounded-2xl border border-white/10 bg-space-deep/80 backdrop-blur-md p-6 md:p-7 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] transition-transform duration-500 hover:!rotate-0 {{ $tilts[$i % count($tilts)] }} {{ $i === 0 ? 'lg:mt-24' : 'lg:-mt-2' }}">
                                 <div class="flex items-center justify-between mb-4">
-                                    <span class="font-mono text-[9px] uppercase tracking-[0.25em] text-brand-400">Sinyal {{ str_pad($i + 2, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span></span>
                                     <span class="font-mono text-[10px] text-white/40" aria-label="Rating {{ $t->rating }} dari 5">{{ str_repeat('★', (int) $t->rating) }}</span>
                                 </div>
                                 <blockquote class="text-white/80 leading-relaxed mb-5">&ldquo;{{ $t->testimonial }}&rdquo;</blockquote>

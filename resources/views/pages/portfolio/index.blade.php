@@ -38,8 +38,13 @@
                             class="lg:col-span-7 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-lg {{ $flip ? 'lg:order-2' : 'lg:order-1' }}"
                             aria-label="{{ $project->name }}"
                         >
-                            <div class="hud-frame relative p-2">
-                                <div class="aspect-[16/10] rounded-lg overflow-hidden bg-space-panel">
+                            {{-- Shown as a browser window: reads as "a website we built", not a stock photo --}}
+                            <div class="browser-frame">
+                                <div class="browser-frame__bar" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                    <span class="browser-frame__url">{{ $project->live_url ? $domainLabel($project->live_url) : 'preview/' . $project->slug }}</span>
+                                </div>
+                                <div class="aspect-[16/10] overflow-hidden bg-space-panel art-frame">
                                     @if ($project->thumbnail)
                                         <img
                                             src="{{ \App\Support\Img::url($project->thumbnail, 960) }}"

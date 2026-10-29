@@ -19,6 +19,8 @@ export default {
                 // the oversized headlines, mono for the HUD-style micro labels.
                 display: ['Unbounded', '"Unbounded Fallback"', ...defaultTheme.fontFamily.sans],
                 mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
+                // Editorial accent: one italic serif word inside display headlines.
+                serif: ['"Instrument Serif"', 'Georgia', ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 /**

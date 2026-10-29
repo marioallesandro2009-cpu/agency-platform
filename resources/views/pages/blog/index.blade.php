@@ -47,7 +47,7 @@
                 <a href="/blog/{{ $featured->slug }}" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-6 transition-colors hover:border-brand-400/40">
                     <div class="lg:col-span-7">
                         <div class="hud-frame relative p-2">
-                            <div class="aspect-[16/9] rounded-lg overflow-hidden bg-space-panel">
+                            <div class="aspect-[16/9] rounded-lg overflow-hidden bg-space-panel art-frame">
                                 @if ($featured->featured_image)
                                     <img src="{{ \App\Support\Img::url($featured->featured_image, 960) }}" srcset="{{ \App\Support\Img::srcset($featured->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 55vw, 100vw" alt="{{ $featured->featured_image_alt ?: $featured->title }}" width="800" height="450" class="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                 @else
@@ -88,7 +88,7 @@
                         <article data-reveal="{{ $right ? 'right' : 'left' }}" class="group relative lg:w-[44%] {{ $right ? 'lg:ml-auto lg:-mt-24' : ($index > 0 ? 'lg:-mt-24' : '') }}">
                             <span class="hidden lg:flex absolute top-10 {{ $right ? '-left-[calc(13.6%_+_22px)]' : '-right-[calc(13.6%_+_22px)]' }} w-11 h-11 rounded-full border border-white/15 bg-space-void items-center justify-center font-mono text-[10px] text-white/50 transition-all duration-300 group-hover:bg-brand-400 group-hover:border-brand-400 group-hover:text-space-void group-hover:shadow-[0_0_30px_-4px_rgb(var(--lime-400)/0.8)]" aria-hidden="true">{{ str_pad($index + 2, 2, '0', STR_PAD_LEFT) }}</span>
                             <a href="/blog/{{ $post->slug }}" data-tilt class="tilt-card block">
-                                <div class="relative {{ $shapes[$index % count($shapes)] }} rounded-2xl overflow-hidden bg-space-panel ring-1 ring-white/10 mb-6 transition-shadow group-hover:ring-brand-400/40">
+                                <div class="relative {{ $shapes[$index % count($shapes)] }} rounded-2xl overflow-hidden bg-space-panel art-frame ring-1 ring-white/10 mb-6 transition-shadow group-hover:ring-brand-400/40">
                                     @if ($post->featured_image)
                                         <img src="{{ \App\Support\Img::url($post->featured_image, 960) }}" srcset="{{ \App\Support\Img::srcset($post->featured_image, [480, 960, 1280, 1600]) }}" sizes="(min-width: 1024px) 40vw, 100vw" alt="{{ $post->featured_image_alt ?: $post->title }}" width="560" height="420" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
                                     @else

@@ -50,8 +50,12 @@
     </x-public.space-page-header>
 
     <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-12 md:pt-16">
-        <div data-reveal data-reveal-delay="100" class="hud-frame relative p-2">
-            <div class="relative h-64 md:h-[32rem] rounded-lg overflow-hidden bg-space-panel">
+        <div data-reveal data-reveal-delay="100" class="browser-frame">
+            <div class="browser-frame__bar" aria-hidden="true">
+                <span></span><span></span><span></span>
+                <span class="browser-frame__url">{{ $project->live_url ? $domainLabel($project->live_url) : 'preview/' . $project->slug }}</span>
+            </div>
+            <div class="relative h-64 md:h-[32rem] overflow-hidden bg-space-panel">
                 @if ($cover)
                     <img
                         src="{{ \App\Support\Img::url($cover, 1280) }}"
@@ -171,7 +175,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 @foreach ($related as $index => $item)
                     <a href="/portfolio/{{ $item->slug }}" data-reveal data-reveal-delay="{{ $index * 80 }}" class="group block">
-                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-space-panel ring-1 ring-white/10 mb-5 transition-shadow group-hover:ring-brand-400/40">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-space-panel art-frame ring-1 ring-white/10 mb-5 transition-shadow group-hover:ring-brand-400/40">
                             @if ($item->thumbnail)
                                 <img src="{{ \App\Support\Img::url($item->thumbnail, 640) }}" alt="{{ $item->name }}" width="400" height="300" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
                             @endif

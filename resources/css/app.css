@@ -68,14 +68,12 @@ html, body {
        pans the glow's visible portion (animating position on an "at X% Y%"
        radial-gradient directly does not move it — this is the fix). */
     .bg-glow-drift {
-        background-image: radial-gradient(circle, rgba(132, 204, 22, 0.09), transparent 45%);
+        /* lime core plus a faint violet nebula: a second, cooler accent for depth */
+        background-image: radial-gradient(circle, rgba(132, 204, 22, 0.09), transparent 45%), radial-gradient(circle at 80% 20%, rgba(124, 92, 255, 0.08), transparent 40%);
         background-size: 160% 160%;
         background-position: 30% 30%;
-        animation: bg-glow-drift 20s ease-in-out infinite alternate;
-    }
-    @keyframes bg-glow-drift {
-        0% { background-position: 30% 30%; }
-        100% { background-position: 38% 38%; }
+        /* Static on purpose: animating background-position repaints the whole
+           (large) element every frame on the main thread. */
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -373,11 +371,8 @@ textarea.field-input {
     }
 }
 .space-hero__title-glow {
-    background: linear-gradient(180deg, #ffffff 30%, #d9f99d 140%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 30px rgb(var(--lime-400) / 0.18));
+    color: #fff;
+    filter: drop-shadow(0 0 30px rgb(163 230 53 / 0.22));
 }
 .scroll-cue > span {
     animation: scroll-cue 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
@@ -766,9 +761,10 @@ html[data-theme="light"] .space-header {
     box-shadow: 0 0 18px 2px rgb(var(--lime-400) / 0.8);
     animation: trail-glint 6s ease-in-out infinite;
 }
+/* transform (GPU) rather than left (layout every frame) */
 @keyframes trail-glint {
-    0%, 100% { left: 30%; opacity: 0; }
-    50% { left: 70%; opacity: 1; }
+    0%, 100% { transform: translateX(-32vw); opacity: 0; }
+    50% { transform: translateX(8vw); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
     .space-page-header__trail::after {
@@ -815,12 +811,26 @@ html[data-theme="light"] .space-header {
  * doesn't re-wrap headlines and shift the page (CLS). Ratios measured
  * against the real fonts at 600/400 weight.
  */
+/* Two faces so heavy weights fall back to real Arial Bold instead of
+   browser-synthesised bold (narrower, which re-wrapped headlines on swap).
+   size-adjust ~ Unbounded width / Arial width, measured on mixed-case
+   headings (1.31-1.35) and uppercase (1.26); 130% splits the difference. */
 @font-face {
     font-family: "Unbounded Fallback";
     src: local("Arial");
-    size-adjust: 128%;
-    ascent-override: 78%;
-    descent-override: 19.5%;
+    font-weight: 100 500;
+    size-adjust: 130%;
+    ascent-override: 77%;
+    descent-override: 19%;
+    line-gap-override: 0%;
+}
+@font-face {
+    font-family: "Unbounded Fallback";
+    src: local("Arial Bold"), local("Arial-BoldMT");
+    font-weight: 600 900;
+    size-adjust: 130%;
+    ascent-override: 77%;
+    descent-override: 19%;
     line-gap-override: 0%;
 }
 @font-face {
@@ -1046,5 +1056,216 @@ html[data-theme="light"] .space-header {
         letter-spacing: 0.2em;
         max-width: none;
         padding-top: 0.65rem;
+    }
+}
+
+/* ---- Headline signatures (x-public.headline) ----------------------------
+   Last word: editorial italic serif accent. Words: masked rise-in, staggered
+   by --i, armed by blade-app.js (.split-ready) and fired on view (.is-in). */
+.headline-accent {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.12em;
+    letter-spacing: -0.01em;
+    color: rgb(var(--lime-300));
+    padding-right: 0.06em; /* italic overhang */
+}
+.split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+}
+.split-word > span {
+    display: inline-block;
+}
+.split-ready .split-word > span {
+    transform: translateY(110%);
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i) * 60ms);
+}
+.split-ready.is-in .split-word > span {
+    transform: translateY(0);
+}
+[data-split="load"] .split-word > span {
+    animation: split-rise 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(120ms + var(--i) * 70ms);
+}
+@keyframes split-rise {
+    from { transform: translateY(110%); }
+    to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-split="load"] .split-word > span {
+        animation: none;
+    }
+}
+
+/* ---- Image art direction ------------------------------------------------
+   Content photos are a mixed bag of stock shots; a shared duotone grade
+   (desaturated + lime/void wash) makes them read as one set. Full colour
+   returns on hover. */
+.art-frame,
+.gallery-panel,
+.tilt-card.rounded-3xl {
+    position: relative;
+    isolation: isolate;
+}
+.art-frame img,
+.gallery-panel img,
+.tilt-card.rounded-3xl img {
+    filter: grayscale(1) contrast(1.08) brightness(0.92);
+    transition: filter 700ms ease, transform 700ms ease, opacity 700ms ease;
+}
+.art-frame::after,
+.gallery-panel::after,
+.tilt-card.rounded-3xl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(140deg, rgb(163 230 53 / 0.55), rgb(5 6 10 / 0.35) 60%);
+    mix-blend-mode: color;
+    transition: opacity 700ms ease;
+}
+.art-frame:hover img,
+.group:hover .art-frame img,
+.gallery-panel:hover img,
+.gallery-panel:focus-visible img,
+.tilt-card.rounded-3xl:hover img {
+    filter: none;
+}
+.art-frame:hover::after,
+.group:hover .art-frame::after,
+.gallery-panel:hover::after,
+.gallery-panel:focus-visible::after,
+.tilt-card.rounded-3xl:hover::before {
+    opacity: 0;
+}
+
+/* Browser-window frame for portfolio work. */
+.browser-frame {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgb(var(--ink) / 0.12);
+    background: rgb(var(--space-deep));
+    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.7);
+}
+.browser-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgb(var(--ink) / 0.08);
+}
+.browser-frame__bar > span:not(.browser-frame__url) {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 9999px;
+    background: rgb(var(--ink) / 0.18);
+}
+.browser-frame__bar > span:first-child {
+    background: rgb(var(--lime-400));
+}
+.browser-frame__url {
+    margin-left: 0.75rem;
+    flex: 1;
+    max-width: 22rem;
+    padding: 0.2rem 0.75rem;
+    border-radius: 9999px;
+    background: rgb(var(--ink) / 0.06);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgb(var(--ink) / 0.45);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Film grain over everything (static SVG noise, one composited layer). */
+body.theme-space::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme="light"] body.theme-space::after {
+    opacity: 0.1;
+    mix-blend-mode: multiply;
+}
+
+/* ---- Motion signatures --------------------------------------------------- */
+
+/* Hero scroll: camera pulls back from the planet (blade-app.js sets --hero-p). */
+.space-hero .planet-bg {
+    transform: translateY(calc(var(--hero-p, 0) * -6%)) scale(calc(1 - var(--hero-p, 0) * 0.28));
+    opacity: calc(1 - var(--hero-p, 0) * 0.7);
+    transform-origin: 70% 45%;
+    will-change: transform, opacity;
+}
+.space-hero > .relative.z-10 {
+    transform: translateY(calc(var(--hero-p, 0) * 18%));
+}
+
+/* Cross-page transitions (multi-page View Transitions, Chromium 126+; other
+   browsers just navigate normally). The header stays put, content swaps. */
+@view-transition {
+    navigation: auto;
+}
+.space-header {
+    view-transition-name: site-header;
+}
+::view-transition-old(root) {
+    animation: vt-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+    animation: vt-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes vt-out {
+    to { opacity: 0; transform: translateY(-12px); filter: blur(4px); }
+}
+@keyframes vt-in {
+    from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+}
+
+/* Cursor ring (desktop only, decorative). */
+.cursor-ring {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 80;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 9999px;
+    border: 1px solid rgb(var(--lime-400) / 0.7);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease, width 250ms ease, height 250ms ease, margin 250ms ease, background-color 250ms ease;
+}
+.cursor-ring.is-visible { opacity: 1; }
+.cursor-ring.is-hover {
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    background: rgb(var(--lime-400) / 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .space-hero .planet-bg,
+    .space-hero > .relative.z-10 {
+        transform: none;
+        opacity: 1;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
     }
 }

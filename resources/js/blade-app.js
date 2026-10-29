@@ -357,6 +357,89 @@ function initGlowCards() {
     });
 }
 
+// Home hero: as it scrolls away, the planet "camera" pulls back (shrinks,
+// lifts, dims) and the copy drifts slower than the page. Driven by one CSS
+// variable (--hero-p, 0..1) updated at most once per frame.
+function initHeroScroll() {
+    const hero = document.querySelector(".space-hero");
+    if (!hero || prefersReducedMotion()) return;
+    let ticking = false;
+    const update = () => {
+        ticking = false;
+        const h = hero.offsetHeight || 1;
+        const p = Math.min(Math.max(window.scrollY / h, 0), 1);
+        hero.style.setProperty("--hero-p", p.toFixed(3));
+    };
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        },
+        { passive: true }
+    );
+    update();
+}
+
+// Desktop cursor ring: a soft lime ring trails the pointer and swells over
+// links/buttons. Purely decorative: the native cursor stays visible, and it
+// is skipped on touch devices and under reduced motion.
+function initCursorRing() {
+    if (prefersReducedMotion() || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (!document.body.classList.contains("theme-space")) return;
+    const ring = document.createElement("div");
+    ring.className = "cursor-ring";
+    ring.setAttribute("aria-hidden", "true");
+    document.body.appendChild(ring);
+
+    let x = -100;
+    let y = -100;
+    let rx = x;
+    let ry = y;
+    let raf = null;
+    const loop = () => {
+        rx += (x - rx) * 0.2;
+        ry += (y - ry) * 0.2;
+        ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+        raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.3 ? requestAnimationFrame(loop) : null;
+    };
+    window.addEventListener(
+        "pointermove",
+        (e) => {
+            x = e.clientX;
+            y = e.clientY;
+            ring.classList.add("is-visible");
+            ring.classList.toggle("is-hover", Boolean(e.target.closest("a, button, [role='tab'], [data-tilt]")));
+            if (!raf) raf = requestAnimationFrame(loop);
+        },
+        { passive: true }
+    );
+    document.addEventListener("pointerleave", () => ring.classList.remove("is-visible"));
+}
+
+// Headlines (x-public.headline): words rise out of a mask, staggered, when
+// the headline scrolls into view. Arming (.split-ready) happens here, so
+// without JS or with reduced motion the text is simply shown.
+function initSplitHeadlines() {
+    if (prefersReducedMotion()) return;
+    const io = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("is-in");
+                io.unobserve(entry.target);
+            });
+        },
+        { threshold: 0.3, rootMargin: "0px 0px -8% 0px" }
+    );
+    document.querySelectorAll('[data-split="scroll"]').forEach((el) => {
+        el.classList.add("split-ready");
+        io.observe(el);
+    });
+}
+
 // /konsultasi + /kontak: 4-step lead wizard. Client-side checks gate steps
 // 1-2 (same rules as LeadController::store), step 4 shows a summary, and the
 // submit goes through fetch; a 422 jumps back to the step holding the first
@@ -675,23 +758,43 @@ function initHudClock() {
     setInterval(tick, 1000);
 }
 
+// Boot in two phases. Everything the visitor can read or use (navigation,
+// forms, tabs, reveals) is wired immediately; purely decorative effects
+// (starfield, radar, tilt, cursor, scroll parallax, clock...) wait until the
+// page has loaded and the browser is idle, so they never compete with first
+// paint or block input on slower phones.
+function whenIdle(fn) {
+    const run = () =>
+        "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200);
+    if (document.readyState === "complete") run();
+    else window.addEventListener("load", run, { once: true });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    initScrollReveal();
-    initSpaceVisuals();
+    // essential
+    initNavbar();
     initSpaceHeader();
     initThemeToggle();
-    initHudClock();
-    initGlowCards();
-    initRadar();
-    initTilt();
-    initValuesConsole();
+    initScrollReveal();
+    initSplitHeadlines();
+    initFaqAccordion();
     initFaqFilter();
-    initLeadWizard();
-    initNavbar();
     initPricingTabs();
     initBillingToggle();
-    initFaqAccordion();
-    initLiveTicker();
     initLeadForms();
-    initWebglIslands();
+    initLeadWizard();
+    initValuesConsole();
+
+    // decorative
+    whenIdle(() => {
+        initSpaceVisuals();
+        initHudClock();
+        initLiveTicker();
+        initRadar();
+        initGlowCards();
+        initTilt();
+        initHeroScroll();
+        initCursorRing();
+        initWebglIslands();
+    });
 });

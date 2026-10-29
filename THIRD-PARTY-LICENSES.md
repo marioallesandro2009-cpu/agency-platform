@@ -49,6 +49,6 @@ THE SOFTWARE.
 
 ## Self-hosted web fonts (public/fonts)
 
-Raleway, Unbounded and JetBrains Mono, latin-subset WOFF2 files as distributed
-by fonts.bunny.net (mirroring Google Fonts). All three are licensed under the
+Raleway, Unbounded, JetBrains Mono and Instrument Serif (italic), latin-subset WOFF2 files as distributed
+by fonts.bunny.net (mirroring Google Fonts). All are licensed under the
 SIL Open Font License, Version 1.1 — https://openfontlicense.org
