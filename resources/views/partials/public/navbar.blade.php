@@ -41,7 +41,7 @@
     <div class="mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4 {{ $space ? 'max-w-[1440px] md:px-8' : 'max-w-7xl' }}">
         <a href="/" class="flex items-center gap-3 shrink-0">
             @if ($settings['general']['logo'] ?? null)
-                <img src="{{ AppSupportImg::url($settings['general']['logo'], 480) }}" width="180" height="48" class="h-10 md:h-11 w-auto {{ $space ? 'space-logo' : '' }}" alt="{{ $settings['general']['website_name'] ?? '' }}">
+                <img src="{{ \App\Support\Img::url($settings['general']['logo'], 480) }}" width="180" height="48" class="h-10 md:h-11 w-auto {{ $space ? 'space-logo' : '' }}" alt="{{ $settings['general']['website_name'] ?? '' }}">
             @else
                 <span class="font-bold text-xl tracking-tight {{ $space ? 'font-display text-white' : 'text-gray-900' }}">{{ $settings['general']['website_name'] ?? '' }}</span>
             @endif

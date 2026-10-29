@@ -165,7 +165,7 @@
                             @endif
 
                             @if ($mascots['kenalan_dekat_kami']['image_path'] ?? null)
-                                <img src="{{ AppSupportImg::url($mascots['kenalan_dekat_kami']['image_path'], 480) }}" alt="{{ $mascots['kenalan_dekat_kami']['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full max-w-[180px] mt-8 object-contain">
+                                <img src="{{ \App\Support\Img::url($mascots['kenalan_dekat_kami']['image_path'], 480) }}" alt="{{ $mascots['kenalan_dekat_kami']['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full max-w-[180px] mt-8 object-contain">
                             @endif
                         </div>
 
@@ -581,7 +581,7 @@
                     <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
                         <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
                             @if ($mascots['cta_kontak']['image_path'] ?? null)
-                                <img src="{{ AppSupportImg::url($mascots['cta_kontak']['image_path'], 480) }}" srcset="{{ AppSupportImg::srcset($mascots['cta_kontak']['image_path'], [480, 960]) }}" sizes="384px" alt="{{ $mascots['cta_kontak']['alt_text'] ?? '' }}" width="384" height="417" loading="lazy" class="w-full h-auto max-w-sm object-contain">
+                                <img src="{{ \App\Support\Img::url($mascots['cta_kontak']['image_path'], 480) }}" srcset="{{ \App\Support\Img::srcset($mascots['cta_kontak']['image_path'], [480, 960]) }}" sizes="384px" alt="{{ $mascots['cta_kontak']['alt_text'] ?? '' }}" width="384" height="417" loading="lazy" class="w-full h-auto max-w-sm object-contain">
                             @else
                                 <svg viewBox="0 0 360 320" class="w-full max-w-sm" role="img" aria-label="Ilustrasi kirim pesan">
                                     <g fill="#a3e635">

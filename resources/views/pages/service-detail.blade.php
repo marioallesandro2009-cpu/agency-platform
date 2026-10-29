@@ -138,7 +138,7 @@
                 @if (!empty($sidebarMascot['image_path']))
                     <div class="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 ambient-float">
                         <div class="absolute inset-2 -z-10 rounded-full bg-brand-400/10" aria-hidden="true"></div>
-                        <img src="{{ AppSupportImg::url($sidebarMascot['image_path'], 480) }}" alt="{{ $sidebarMascot['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full h-full object-contain">
+                        <img src="{{ \App\Support\Img::url($sidebarMascot['image_path'], 480) }}" alt="{{ $sidebarMascot['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full h-full object-contain">
                     </div>
                 @endif
             </div>

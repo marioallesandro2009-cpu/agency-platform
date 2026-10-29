@@ -48,7 +48,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
                 <div data-reveal="left" class="lg:col-span-6 order-2 lg:order-1">
                     @if ($mascots['intro_tentang_kami']['image_path'] ?? null)
-                        <img src="{{ AppSupportImg::url($mascots['intro_tentang_kami']['image_path'], 320) }}" alt="{{ $mascots['intro_tentang_kami']['alt_text'] ?? '' }}" width="80" height="80" loading="lazy" class="w-20 h-20 object-contain mb-6">
+                        <img src="{{ \App\Support\Img::url($mascots['intro_tentang_kami']['image_path'], 320) }}" alt="{{ $mascots['intro_tentang_kami']['alt_text'] ?? '' }}" width="80" height="80" loading="lazy" class="w-20 h-20 object-contain mb-6">
                     @endif
                     <p class="flex items-center gap-4 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/45 mb-6">
                         <span class="text-brand-400">[ {{ $sectionNumbers['profile'] }} ]</span>

@@ -94,7 +94,7 @@
                 >
                     @if ($mascots['whatsapp_widget']['image_path'] ?? null)
                         <img
-                            src="{{ AppSupportImg::url($mascots['whatsapp_widget']['image_path'], 320) }}"
+                            src="{{ \App\Support\Img::url($mascots['whatsapp_widget']['image_path'], 320) }}"
                             alt="{{ $mascots['whatsapp_widget']['alt_text'] ?? 'Chat WhatsApp' }}"
                             width="64" height="64"
                             class="h-full w-full object-cover"
