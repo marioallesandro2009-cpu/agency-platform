@@ -32,18 +32,22 @@
                 @foreach ($projects as $index => $project)
                     @php $flip = $index % 2 === 1; @endphp
                     <article class="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-6 transition-colors duration-300 hover:border-brand-400/40">
-                        <a
-                            href="/portfolio/{{ $project->slug }}"
-                            data-reveal="{{ $flip ? 'left' : 'right' }}"
-                            class="lg:col-span-7 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-lg {{ $flip ? 'lg:order-2' : 'lg:order-1' }}"
-                            aria-label="{{ $project->name }}"
-                        >
+                        <div data-reveal="{{ $flip ? 'left' : 'right' }}" class="lg:col-span-7 {{ $flip ? 'lg:order-2' : 'lg:order-1' }}">
                             {{-- Shown as a browser window: reads as "a website we built", not a stock photo --}}
                             <div class="browser-frame">
-                                <div class="browser-frame__bar" aria-hidden="true">
-                                    <span></span><span></span><span></span>
-                                    <span class="browser-frame__url">{{ $project->live_url ? $domainLabel($project->live_url) : 'preview/' . $project->slug }}</span>
+                                <div class="browser-frame__bar">
+                                    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+                                    @if ($project->live_url)
+                                        <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="browser-frame__url">{{ $domainLabel($project->live_url) }}</a>
+                                    @else
+                                        <span class="browser-frame__url" aria-hidden="true">preview/{{ $project->slug }}</span>
+                                    @endif
                                 </div>
+                                <a
+                                    href="/portfolio/{{ $project->slug }}"
+                                    class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-400"
+                                    aria-label="{{ $project->name }}"
+                                >
                                 <div class="aspect-[16/10] overflow-hidden bg-space-panel art-frame">
                                     @if ($project->thumbnail)
                                         <img
@@ -62,8 +66,9 @@
                                         </div>
                                     @endif
                                 </div>
+                                </a>
                             </div>
-                        </a>
+                        </div>
 
                         <div data-reveal="{{ $flip ? 'right' : 'left' }}" data-reveal-delay="80" class="lg:col-span-5 px-2 md:px-4 pb-4 lg:pb-0 {{ $flip ? 'lg:order-1' : 'lg:order-2' }}">
                             <div class="flex flex-wrap items-center gap-3 mb-6">

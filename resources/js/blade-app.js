@@ -770,8 +770,39 @@ function whenIdle(fn) {
     else window.addEventListener("load", run, { once: true });
 }
 
+// ---- Responsive-image safety net ---------------------------------------
+// /img/{w}/{path}.webp is generated on demand; if a host can't (say a stale
+// route cache), fall back to the original upload at /storage/{path} instead
+// of leaving a broken image. Images that already failed before this module
+// ran are caught by the sweep; later (lazy) ones by the capture listener.
+const RESIZED_IMG = /\/img\/\d+\/(.+)\.webp(?:[?#].*)?$/;
+
+function fallbackToOriginal(img) {
+    const match = (img.currentSrc || img.src || "").match(RESIZED_IMG);
+    if (!match || img.dataset.imgFallback) return;
+    img.dataset.imgFallback = "1";
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
+    img.src = "/storage/" + match[1];
+}
+
+document.addEventListener(
+    "error",
+    (event) => {
+        if (event.target instanceof HTMLImageElement) fallbackToOriginal(event.target);
+    },
+    true,
+);
+
+function initImageFallback() {
+    document.querySelectorAll("img").forEach((img) => {
+        if (img.complete && img.naturalWidth === 0) fallbackToOriginal(img);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // essential
+    initImageFallback();
     initNavbar();
     initSpaceHeader();
     initThemeToggle();

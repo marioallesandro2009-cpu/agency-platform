@@ -1185,6 +1185,18 @@ html[data-theme="light"] .space-header {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+a.browser-frame__url {
+    transition: color 0.2s, background-color 0.2s;
+}
+a.browser-frame__url::after {
+    content: " \2197";
+}
+a.browser-frame__url:hover,
+a.browser-frame__url:focus-visible {
+    color: rgb(var(--lime-300));
+    background: rgb(var(--ink) / 0.1);
+    outline: none;
+}
 
 /* Film grain over everything (static SVG noise, one composited layer). */
 body.theme-space::after {

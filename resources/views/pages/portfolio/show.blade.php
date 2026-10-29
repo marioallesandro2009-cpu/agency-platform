@@ -51,9 +51,13 @@
 
     <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-12 md:pt-16">
         <div data-reveal data-reveal-delay="100" class="browser-frame">
-            <div class="browser-frame__bar" aria-hidden="true">
-                <span></span><span></span><span></span>
-                <span class="browser-frame__url">{{ $project->live_url ? $domainLabel($project->live_url) : 'preview/' . $project->slug }}</span>
+            <div class="browser-frame__bar">
+                <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+                @if ($project->live_url)
+                    <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="browser-frame__url">{{ $domainLabel($project->live_url) }}</a>
+                @else
+                    <span class="browser-frame__url" aria-hidden="true">preview/{{ $project->slug }}</span>
+                @endif
             </div>
             <div class="relative h-64 md:h-[32rem] overflow-hidden bg-space-panel">
                 @if ($cover)
