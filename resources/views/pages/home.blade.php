@@ -56,7 +56,7 @@
         <div
             data-live-ticker='{{ json_encode($recentActivity, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) }}'
             role="status"
-            class="hidden fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 backdrop-blur-xl pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
+            class="hidden fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
         >
             <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
                 <span class="absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75 animate-ping motion-reduce:animate-none"></span>
@@ -145,7 +145,7 @@
             <section class="py-24 md:py-36 overflow-hidden">
                 <div class="max-w-[1440px] mx-auto px-4 md:px-8">
                     <div class="grid grid-cols-1 lg:grid-cols-12 lg:items-center gap-8 lg:gap-0">
-                        <div data-reveal="right" class="lg:col-start-6 lg:col-span-7 lg:row-start-1 relative z-10 rounded-2xl border border-white/10 bg-space-deep/70 backdrop-blur-xl p-8 md:p-12 mx-4 lg:mx-0 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
+                        <div data-reveal="right" class="lg:col-start-6 lg:col-span-7 lg:row-start-1 relative z-10 rounded-2xl border border-white/10 bg-space-deep/70 p-8 md:p-12 mx-4 lg:mx-0 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
                             <div class="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/45 mb-6">
                                 <span class="text-brand-400">[ {{ str_pad($sectionNumber('about'), 2, '0', STR_PAD_LEFT) }} ]</span>
                                 <span>Tentang kami</span>
@@ -191,7 +191,7 @@
                 />
                 @foreach ($services as $index => $service)
                     <div data-reveal data-reveal-delay="{{ min($index * 60, 240) }}" class="py-4 md:py-5">
-                        <div data-glow class="group relative overflow-hidden rounded-2xl border border-white/10 bg-space-deep/60 backdrop-blur-md p-6 md:p-10 transition-colors duration-300 hover:border-brand-400/40">
+                        <div data-glow class="group relative overflow-hidden rounded-2xl border border-white/10 bg-space-deep/60 p-6 md:p-10 transition-colors duration-300 hover:border-brand-400/40">
                             <div class="space-card__glow pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
 
                             <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -248,7 +248,7 @@
                                 @endif
                                 <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, transparent 45%, rgb(var(--space-void)) 100%);"></div>
                                 @if ($project->project_type === 'personal')
-                                    <span class="absolute left-5 top-5 font-mono text-[10px] uppercase tracking-[0.18em] text-white border border-white/20 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full">Contoh Kapabilitas</span>
+                                    <span class="absolute left-5 top-5 font-mono text-[10px] uppercase tracking-[0.18em] text-white border border-white/20 bg-black/40 px-3 py-1 rounded-full">Contoh Kapabilitas</span>
                                 @endif
                                 <div class="gallery-panel__label absolute left-5 bottom-5 flex items-center gap-3 text-white">
                                     <span class="h-8 w-px flex-shrink-0 bg-brand-400"></span>
@@ -447,7 +447,7 @@
                     <div class="lg:col-span-5 space-y-6 lg:space-y-0">
                         @foreach ($otherQuotes as $i => $t)
                             <div data-reveal data-reveal-delay="{{ ($i + 1) * 120 }}">
-                            <figure class="relative rounded-2xl border border-white/10 bg-space-deep/80 backdrop-blur-md p-6 md:p-7 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] transition-transform duration-500 hover:!rotate-0 {{ $tilts[$i % count($tilts)] }} {{ $i === 0 ? 'lg:mt-24' : 'lg:-mt-2' }}">
+                            <figure class="relative rounded-2xl border border-white/10 bg-space-deep/80 p-6 md:p-7 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] transition-transform duration-500 hover:!rotate-0 {{ $tilts[$i % count($tilts)] }} {{ $i === 0 ? 'lg:mt-24' : 'lg:-mt-2' }}">
                                 <div class="flex items-center justify-between mb-4">
                                     <span></span>
                                     <span class="font-mono text-[10px] text-white/40" aria-label="Rating {{ $t->rating }} dari 5">{{ str_repeat('★', (int) $t->rating) }}</span>
@@ -527,7 +527,7 @@
                                 @endif
                                 <div class="absolute inset-0 bg-gradient-to-t from-space-void via-space-void/40 to-transparent" aria-hidden="true"></div>
                                 <span class="absolute top-5 left-5 font-mono text-[10px] uppercase tracking-[0.2em] bg-brand-400 text-space-void px-3 py-1 rounded-full">Log &middot; 01</span>
-                                <span class="absolute top-5 right-5 w-11 h-11 rounded-full border border-white/25 bg-black/30 backdrop-blur-md flex items-center justify-center text-white transition-transform duration-500 group-hover:-rotate-45" aria-hidden="true">&rarr;</span>
+                                <span class="absolute top-5 right-5 w-11 h-11 rounded-full border border-white/25 bg-black/30 flex items-center justify-center text-white transition-transform duration-500 group-hover:-rotate-45" aria-hidden="true">&rarr;</span>
                                 <div class="absolute inset-x-0 bottom-0 p-6 md:p-10">
                                     <div class="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 mb-4">
                                         @if ($leadPost->category)
@@ -576,7 +576,7 @@
         @if ($type === 'cta' && $ctaSection)
             <section class="contact-cta relative py-24 md:py-32 overflow-hidden">
                 <div class="max-w-[1440px] mx-auto px-4 md:px-8 relative">
-                  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-space-deep/70 backdrop-blur-xl px-6 py-12 md:px-14 md:py-16">
+                  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-space-deep/70 px-6 py-12 md:px-14 md:py-16">
                     <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
                     <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
                         <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">

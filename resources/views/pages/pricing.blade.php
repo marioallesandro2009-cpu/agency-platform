@@ -41,7 +41,7 @@
         <div
             data-live-ticker='{{ json_encode($recentActivity, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) }}'
             role="status"
-            class="hidden fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 backdrop-blur-xl pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
+            class="hidden fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
         >
             <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
                 <span class="absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75 animate-ping motion-reduce:animate-none"></span>
@@ -88,7 +88,7 @@
                         <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr_1fr] gap-5 lg:gap-6 items-start pt-4">
                             @foreach ($catPackages as $index => $pkg)
                                 @php $style = $tierStyles[$pkg->tier] ?? $tierStyles['seed']; @endphp
-                                <div class="group relative overflow-hidden flex flex-col rounded-2xl border backdrop-blur-md p-7 {{ $pkg->tier === 'growth' ? 'md:p-10' : 'md:p-8' }} transition-transform duration-500 hover:-translate-y-1 {{ $style['card'] }} {{ $tierOffset[$pkg->tier] ?? '' }}">
+                                <div class="group relative overflow-hidden flex flex-col rounded-2xl border p-7 {{ $pkg->tier === 'growth' ? 'md:p-10' : 'md:p-8' }} transition-transform duration-500 hover:-translate-y-1 {{ $style['card'] }} {{ $tierOffset[$pkg->tier] ?? '' }}">
                                     <span class="absolute -right-3 -top-6 font-display font-extrabold text-[8rem] leading-none text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.07)] pointer-events-none select-none" aria-hidden="true">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                     <div class="flex items-center justify-between mb-8">
                                         <span class="font-mono text-[10px] uppercase tracking-[0.25em] {{ $pkg->tier === 'growth' ? 'text-brand-400' : 'text-white/45' }}">

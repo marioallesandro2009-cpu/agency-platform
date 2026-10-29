@@ -94,7 +94,7 @@
                                     @else
                                         <div class="w-full h-full flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 bg-[repeating-linear-gradient(135deg,transparent_0_14px,rgb(255_255_255/0.04)_14px_15px)]" aria-hidden="true">LOG-{{ str_pad($index + 2, 3, '0', STR_PAD_LEFT) }}</div>
                                     @endif
-                                    <span class="absolute bottom-4 {{ $right ? 'left-4' : 'right-4' }} font-mono text-[10px] uppercase tracking-[0.18em] text-white bg-black/40 backdrop-blur-md border border-white/15 px-3 py-1 rounded-full">{{ \App\Support\ReadingTime::minutes($post->content) }} menit</span>
+                                    <span class="absolute bottom-4 {{ $right ? 'left-4' : 'right-4' }} font-mono text-[10px] uppercase tracking-[0.18em] text-white bg-black/40 border border-white/15 px-3 py-1 rounded-full">{{ \App\Support\ReadingTime::minutes($post->content) }} menit</span>
                                 </div>
                                 <div class="{{ $right ? 'lg:pl-10' : 'lg:pr-10' }}">
                                     <div class="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mb-3">

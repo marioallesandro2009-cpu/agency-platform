@@ -67,7 +67,7 @@
                 action="{{ route('leads.store') }}"
                 method="POST"
                 novalidate
-                class="lg:col-span-8 rounded-2xl border border-white/10 bg-space-deep/60 backdrop-blur-md p-6 md:p-10"
+                class="lg:col-span-8 rounded-2xl border border-white/10 bg-space-deep/60 p-6 md:p-10"
             >
                 @csrf
                 <input type="hidden" name="source" value="{{ $context }}">

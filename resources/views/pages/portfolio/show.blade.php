@@ -110,7 +110,7 @@
                 <p class="lg:col-span-4 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/45">
                     <span class="text-brand-400">[ {{ $blockNumbers['about'] }} ]</span> Tentang proyek
                 </p>
-                <p data-reveal class="lg:col-span-8 font-display text-xl md:text-3xl leading-snug text-white/85 tracking-tight [text-wrap:pretty]">{{ $project->description }}</p>
+                <p data-reveal class="lg:col-span-8 max-w-3xl text-base md:text-lg leading-relaxed text-white/75 [text-wrap:pretty]">{{ $project->description }}</p>
             </div>
         @endisset
 

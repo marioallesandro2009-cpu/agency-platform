@@ -14,7 +14,7 @@
 
 <section class="contact-cta relative pb-24 md:pb-32 overflow-hidden">
     <div class="max-w-[1440px] mx-auto px-4 md:px-8 relative">
-        <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-space-deep/70 backdrop-blur-xl px-6 py-12 md:px-14 md:py-16">
+        <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-space-deep/70 px-6 py-12 md:px-14 md:py-16">
             <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
             <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                 <div class="lg:col-span-5">
