@@ -30,9 +30,12 @@ export default {
                 brand: {
                     50: '#f7fee7',
                     100: '#ecfccb',
-                    200: '#d9f99d',
-                    300: '#bef264',
-                    400: '#a3e635',
+                    // 200-400 are the accent steps used on the space theme;
+                    // they deepen in its light mode (AA on paper), and keep
+                    // these exact values everywhere else via the fallback.
+                    200: 'rgb(var(--lime-200, 217 249 157) / <alpha-value>)',
+                    300: 'rgb(var(--lime-300, 190 242 100) / <alpha-value>)',
+                    400: 'rgb(var(--lime-400, 163 230 53) / <alpha-value>)',
                     500: '#84cc16',
                     600: '#4d7c0f',
                     700: '#3f6212',
@@ -47,10 +50,19 @@ export default {
                  * accents stay on brand-300/400 (lime reads AA on near-black).
                  */
                 space: {
-                    void: '#05060a',
-                    deep: '#0b0d14',
-                    panel: '#11141d',
+                    void: 'rgb(var(--space-void, 5 6 10) / <alpha-value>)',
+                    deep: 'rgb(var(--space-deep, 11 13 20) / <alpha-value>)',
+                    panel: 'rgb(var(--space-panel, 17 20 29) / <alpha-value>)',
                 },
+                /**
+                 * Light/dark for the space theme: `white` is the theme's
+                 * foreground ("ink") and flips to near-black in light mode,
+                 * so every text-white/x, border-white/x, bg-white/x inside
+                 * .theme-space inverts without per-class overrides. Outside
+                 * .theme-space (admin, auth) the fallback keeps it pure
+                 * white. See the "Theme tokens" block in app.css.
+                 */
+                white: 'rgb(var(--ink, 255 255 255) / <alpha-value>)',
                 /**
                  * Background system (kept deliberately tiny — two steps,
                  * used sparingly): near-invisible variation so pages don't
@@ -122,7 +134,7 @@ export default {
                         '--tw-prose-bold': theme('colors.gray.900'),
                         '--tw-prose-bullets': theme('colors.brand.600'),
                         '--tw-prose-quotes': theme('colors.gray.700'),
-                        '--tw-prose-quote-borders': theme('colors.brand.300'),
+                        '--tw-prose-quote-borders': '#bef264',
                         a: { textDecoration: 'none', fontWeight: '500' },
                         'a:hover': { textDecoration: 'underline' },
                     },

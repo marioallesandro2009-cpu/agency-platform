@@ -24,7 +24,7 @@
                         <span class="footer-marquee__track flex items-center gap-[4vw] pr-[4vw]">
                             <span class="text-white group-hover:text-brand-300 transition-colors">Let's talk</span>
                             <span class="text-brand-400 text-[0.5em]">&#10022;</span>
-                            <span class="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.35)]">Mulai proyek</span>
+                            <span class="text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.35)]">Mulai proyek</span>
                             <span class="text-brand-400 text-[0.5em]">&#10022;</span>
                         </span>
                     @endfor

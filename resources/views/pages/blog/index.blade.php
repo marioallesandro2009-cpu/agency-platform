@@ -74,32 +74,42 @@
         @endif
 
         @if ($rest->isNotEmpty())
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-                @foreach ($rest->values() as $index => $post)
-                    <article data-reveal data-reveal-delay="{{ min($index, 5) * 80 }}" class="group">
-                        <a href="/blog/{{ $post->slug }}" class="block">
-                            <div class="aspect-[5/3] rounded-xl overflow-hidden bg-space-panel ring-1 ring-white/10 mb-5 transition-shadow group-hover:ring-brand-400/40">
-                                @if ($post->featured_image)
-                                    <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" width="400" height="240" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
-                                @else
-                                    <div class="w-full h-full bg-grid-subtle flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35" aria-hidden="true">LOG-{{ str_pad($index + 2, 3, '0', STR_PAD_LEFT) }}</div>
-                                @endif
-                            </div>
-                            <div class="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mb-3">
-                                @if ($post->category)
-                                    <span class="text-brand-400">{{ $post->category->name }}</span>
-                                @endif
-                                <span>{{ $formatDate($post->published_at) }}</span>
-                            </div>
-                            <h2 class="font-display font-semibold text-lg tracking-tight text-white mb-2 line-clamp-2 transition-colors group-hover:text-brand-300">{{ $post->title }}</h2>
-                            <p class="text-sm text-white/50 mb-4 line-clamp-2 leading-relaxed">{{ $post->excerpt }}</p>
-                            <p class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 group-hover:text-white transition-colors">
-                                {{ \App\Support\ReadingTime::minutes($post->content) }} menit baca
-                                <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-                            </p>
-                        </a>
-                    </article>
-                @endforeach
+            {{--
+                Orbit timeline instead of an even grid: posts alternate left
+                and right of a dashed center trajectory, each with its own
+                image shape and vertical offset, hung off a numbered node.
+            --}}
+            @php $shapes = ['aspect-[16/10]', 'aspect-[4/5]', 'aspect-[21/10]', 'aspect-square']; @endphp
+            <div class="relative">
+                <span class="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 border-l border-dashed border-white/15" aria-hidden="true"></span>
+                <div class="space-y-16 lg:space-y-0">
+                    @foreach ($rest->values() as $index => $post)
+                        @php $right = $index % 2 === 1; @endphp
+                        <article data-reveal="{{ $right ? 'right' : 'left' }}" class="group relative lg:w-[44%] {{ $right ? 'lg:ml-auto lg:-mt-24' : ($index > 0 ? 'lg:-mt-24' : '') }}">
+                            <span class="hidden lg:flex absolute top-10 {{ $right ? '-left-[calc(13.6%_+_22px)]' : '-right-[calc(13.6%_+_22px)]' }} w-11 h-11 rounded-full border border-white/15 bg-space-void items-center justify-center font-mono text-[10px] text-white/50 transition-all duration-300 group-hover:bg-brand-400 group-hover:border-brand-400 group-hover:text-space-void group-hover:shadow-[0_0_30px_-4px_rgb(var(--lime-400)/0.8)]" aria-hidden="true">{{ str_pad($index + 2, 2, '0', STR_PAD_LEFT) }}</span>
+                            <a href="/blog/{{ $post->slug }}" data-tilt class="tilt-card block">
+                                <div class="relative {{ $shapes[$index % count($shapes)] }} rounded-2xl overflow-hidden bg-space-panel ring-1 ring-white/10 mb-6 transition-shadow group-hover:ring-brand-400/40">
+                                    @if ($post->featured_image)
+                                        <img src="{{ $post->featured_image }}" alt="{{ $post->featured_image_alt ?: $post->title }}" width="560" height="420" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 bg-[repeating-linear-gradient(135deg,transparent_0_14px,rgb(255_255_255/0.04)_14px_15px)]" aria-hidden="true">LOG-{{ str_pad($index + 2, 3, '0', STR_PAD_LEFT) }}</div>
+                                    @endif
+                                    <span class="absolute bottom-4 {{ $right ? 'left-4' : 'right-4' }} font-mono text-[10px] uppercase tracking-[0.18em] text-white bg-black/40 backdrop-blur-md border border-white/15 px-3 py-1 rounded-full">{{ \App\Support\ReadingTime::minutes($post->content) }} menit</span>
+                                </div>
+                                <div class="{{ $right ? 'lg:pl-10' : 'lg:pr-10' }}">
+                                    <div class="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40 mb-3">
+                                        @if ($post->category)
+                                            <span class="text-brand-400">{{ $post->category->name }}</span>
+                                        @endif
+                                        <span>{{ $formatDate($post->published_at) }}</span>
+                                    </div>
+                                    <h2 class="font-display font-semibold text-xl md:text-2xl leading-snug tracking-tight text-white mb-3 transition-colors group-hover:text-brand-300 [text-wrap:balance]">{{ $post->title }}</h2>
+                                    <p class="text-sm text-white/50 line-clamp-2 leading-relaxed">{{ $post->excerpt }}</p>
+                                </div>
+                            </a>
+                        </article>
+                    @endforeach
+                </div>
             </div>
         @endif
     </section>

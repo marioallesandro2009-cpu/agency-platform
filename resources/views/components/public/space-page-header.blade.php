@@ -1,6 +1,7 @@
 {{--
     Page header for inner pages on the dark "space" theme: HUD-style mono
-    label, oversized display title, slow orbit rings on the right (CSS only —
+    label, oversized display title, slow orbit rings on the right, a giant cropped outline word and a
+    diagonal light trail (CSS only, deliberately no grid —
     the WebGL planet is reserved for the homepage hero). Leaves room at the
     top for the fixed transparent space header.
 --}}
@@ -13,13 +14,17 @@
 ])
 
 <section class="relative overflow-hidden pt-36 pb-16 md:pt-44 md:pb-24 border-b border-white/10">
-    <div class="absolute inset-0 bg-grid-subtle opacity-60 pointer-events-none" aria-hidden="true"></div>
+    <!-- Art composition (no grid): giant cropped outline word, a diagonal
+         light-trail hairline, off-canvas orbit arcs and a star-chart label. -->
+    <span class="space-page-header__word" aria-hidden="true">{{ $eyebrow }}</span>
+    <span class="space-page-header__trail" aria-hidden="true"></span>
+    <span class="hidden md:block absolute right-[6%] top-[22%] font-mono text-[9px] uppercase tracking-[0.3em] text-white/30 pointer-events-none" aria-hidden="true">RA 14h 29m &middot; DEC &minus;62&deg;</span>
     <div class="space-page-header__orbits pointer-events-none" aria-hidden="true">
         @for ($n = 1; $n <= 5; $n++)
             <span class="orbit" style="--i: {{ $n }}"></span>
         @endfor
     </div>
-    <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at 85% 50%, rgba(163, 230, 53, 0.10), transparent 45%);"></div>
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at 85% 50%, rgb(var(--lime-400) / 0.10), transparent 45%);"></div>
 
     <div class="relative max-w-[1440px] mx-auto px-4 md:px-8">
         @if ($breadcrumbItems)

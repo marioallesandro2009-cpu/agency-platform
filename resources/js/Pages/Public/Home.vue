@@ -129,7 +129,7 @@ const organizationJsonLd = computed(() => {
         <LiveTicker :activities="recentActivity" variant="floating" />
         <template v-for="type in sections" :key="type">
             <!-- Hero: full-screen dot-matrix planet -->
-            <section v-if="type === 'hero' && hero" class="hero relative min-h-[100svh] flex flex-col overflow-hidden">
+            <section v-if="type === 'hero' && hero" class="hero space-hero force-dark relative min-h-[100svh] flex flex-col overflow-hidden bg-space-void text-white">
                 <Planet class="z-0" />
                 <div class="hero__scrim absolute inset-0 z-[1] pointer-events-none" aria-hidden="true"></div>
 
@@ -376,12 +376,12 @@ const organizationJsonLd = computed(() => {
 /* Hero: darken the left (text side) and fade the bottom into the page void. */
 .hero__scrim {
     background:
-        linear-gradient(90deg, rgba(5, 6, 10, 0.85) 0%, rgba(5, 6, 10, 0.35) 45%, transparent 70%),
+        linear-gradient(90deg, rgb(var(--space-void) / 0.85) 0%, rgb(var(--space-void) / 0.35) 45%, transparent 70%),
         linear-gradient(0deg, #05060a 0%, transparent 30%);
 }
 @media (max-width: 767px) {
     .hero__scrim {
-        background: linear-gradient(0deg, #05060a 15%, rgba(5, 6, 10, 0.55) 55%, rgba(5, 6, 10, 0.2) 100%);
+        background: linear-gradient(0deg, #05060a 15%, rgb(var(--space-void) / 0.55) 55%, rgb(var(--space-void) / 0.2) 100%);
     }
 }
 .hero__title-glow {
@@ -389,7 +389,7 @@ const organizationJsonLd = computed(() => {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 0 30px rgba(163, 230, 53, 0.18));
+    filter: drop-shadow(0 0 30px rgb(var(--lime-400) / 0.18));
 }
 
 .scroll-cue > span {
@@ -415,7 +415,7 @@ const organizationJsonLd = computed(() => {
 .orbit:nth-child(even) {
     animation-direction: reverse;
     border-style: solid;
-    border-color: rgba(163, 230, 53, 0.06);
+    border-color: rgb(var(--lime-400) / 0.06);
 }
 .orbit::after {
     content: "";
@@ -434,7 +434,7 @@ const organizationJsonLd = computed(() => {
 }
 
 .process-node {
-    box-shadow: 0 0 0 6px #05060a, 0 0 40px -6px rgba(163, 230, 53, 0.35);
+    box-shadow: 0 0 0 6px #05060a, 0 0 40px -6px rgb(var(--lime-400) / 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {

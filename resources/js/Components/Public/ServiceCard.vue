@@ -39,7 +39,7 @@ function trackGlow(e) {
                 <div class="lg:col-span-6 order-2" :class="index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'">
                     <div class="flex items-start justify-between gap-4 mb-6">
                         <span
-                            class="font-display font-extrabold text-6xl md:text-7xl leading-none tabular-nums text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.22)] transition-all duration-500 group-hover:[-webkit-text-stroke:1px_rgba(163,230,53,0.8)]"
+                            class="font-display font-extrabold text-6xl md:text-7xl leading-none tabular-nums text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.22)] transition-all duration-500 group-hover:[-webkit-text-stroke:1px_rgb(var(--lime-400)/0.8)]"
                             aria-hidden="true"
                         >
                             {{ String(index + 1).padStart(2, "0") }}
@@ -95,7 +95,7 @@ function trackGlow(e) {
 
 <style scoped>
 .service-card__glow {
-    background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgba(163, 230, 53, 0.09), transparent 60%);
+    background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgb(var(--lime-400) / 0.09), transparent 60%);
 }
 
 /* HUD corner ticks around the image viewport */

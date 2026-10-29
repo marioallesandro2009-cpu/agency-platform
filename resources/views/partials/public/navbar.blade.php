@@ -41,7 +41,7 @@
     <div class="mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4 {{ $space ? 'max-w-[1440px] md:px-8' : 'max-w-7xl' }}">
         <a href="/" class="flex items-center gap-3 shrink-0">
             @if ($settings['general']['logo'] ?? null)
-                <img src="{{ $settings['general']['logo'] }}" width="180" height="48" class="h-10 md:h-11 w-auto {{ $space ? 'brightness-0 invert' : '' }}" alt="{{ $settings['general']['website_name'] ?? '' }}">
+                <img src="{{ $settings['general']['logo'] }}" width="180" height="48" class="h-10 md:h-11 w-auto {{ $space ? 'space-logo' : '' }}" alt="{{ $settings['general']['website_name'] ?? '' }}">
             @else
                 <span class="font-bold text-xl tracking-tight {{ $space ? 'font-display text-white' : 'text-gray-900' }}">{{ $settings['general']['website_name'] ?? '' }}</span>
             @endif
@@ -77,6 +77,18 @@
         </nav>
 
         <div class="flex items-center gap-3 shrink-0">
+            @if ($space)
+            <button
+                type="button"
+                data-theme-toggle
+                class="theme-toggle w-10 h-10 shrink-0 rounded-full border border-white/15 bg-white/5 text-white/80 hover:text-white hover:border-white/40 flex items-center justify-center transition-colors"
+                aria-label="Ganti mode terang/gelap"
+                title="Ganti mode terang/gelap"
+            >
+                <svg class="theme-toggle__sun w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+                <svg class="theme-toggle__moon w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
+            </button>
+            @endif
             @if ($settings['contact']['whatsapp_number'] ?? null)
                 <div class="hidden {{ $space ? 'lg:block' : 'md:block' }}">
                     @if ($space)

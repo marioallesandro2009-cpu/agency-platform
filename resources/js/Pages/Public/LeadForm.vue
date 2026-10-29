@@ -108,7 +108,7 @@ function formatPrice(price) {
             <!-- Thank-you state -->
             <div v-if="submitted" class="relative overflow-hidden rounded-3xl border border-brand-400/30 bg-space-deep text-center px-6 py-20 max-w-3xl mx-auto">
                 <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
-                <div class="relative w-16 h-16 rounded-full border border-brand-400 text-brand-400 text-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_-6px_rgba(163,230,53,0.6)]" aria-hidden="true">&#10022;</div>
+                <div class="relative w-16 h-16 rounded-full border border-brand-400 text-brand-400 text-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_-6px_rgb(var(--lime-400)/0.6)]" aria-hidden="true">&#10022;</div>
                 <p class="relative font-mono text-[10px] uppercase tracking-[0.25em] text-brand-400 mb-3">Transmisi diterima</p>
                 <h2 class="relative font-display font-semibold text-3xl text-white tracking-tight mb-3">Terima Kasih!</h2>
                 <p class="relative text-white/60 max-w-sm mx-auto">{{ page.props.flash.success }}</p>

@@ -23,7 +23,7 @@
     // Space theme: Growth is the lit-up "featured" tier, the others are glass.
     $tierStyles = [
         'seed' => ['card' => 'border-white/10 bg-white/[0.03]', 'price' => 'text-white', 'cta' => 'btn-space--glass'],
-        'growth' => ['card' => 'border-brand-400/60 bg-space-deep shadow-[0_0_80px_-20px_rgba(163,230,53,0.45)] md:-translate-y-3', 'price' => 'text-brand-300', 'cta' => 'btn-space--pill'],
+        'growth' => ['card' => 'border-brand-400/60 bg-space-deep shadow-[0_0_80px_-20px_rgb(var(--lime-400)/0.45)]', 'price' => 'text-brand-300', 'cta' => 'btn-space--pill'],
         'scale' => ['card' => 'border-white/10 bg-white/[0.03]', 'price' => 'text-white', 'cta' => 'btn-space--glass'],
     ];
 
@@ -81,10 +81,15 @@
                 @php $catPackages = $grouped[$cat['value']]; @endphp
                 <div data-tab-panel="{{ $cat['value'] }}" class="{{ $cat['value'] === $initialCategory ? '' : 'hidden' }}">
                     @if ($catPackages->isNotEmpty())
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch pt-4">
+                        {{-- Tiers as a staggered constellation, not three equal boxes: Growth
+                             is wider and sits highest, Seed and Scale hang at
+                             different depths beside it. --}}
+                        @php $tierOffset = ['seed' => 'lg:mt-20', 'growth' => '', 'scale' => 'lg:mt-36']; @endphp
+                        <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr_1fr] gap-5 lg:gap-6 items-start pt-4">
                             @foreach ($catPackages as $index => $pkg)
                                 @php $style = $tierStyles[$pkg->tier] ?? $tierStyles['seed']; @endphp
-                                <div class="relative flex flex-col rounded-2xl border backdrop-blur-md p-7 md:p-8 transition-transform duration-300 {{ $style['card'] }}">
+                                <div class="group relative overflow-hidden flex flex-col rounded-2xl border backdrop-blur-md p-7 {{ $pkg->tier === 'growth' ? 'md:p-10' : 'md:p-8' }} transition-transform duration-500 hover:-translate-y-1 {{ $style['card'] }} {{ $tierOffset[$pkg->tier] ?? '' }}">
+                                    <span class="absolute -right-3 -top-6 font-display font-extrabold text-[8rem] leading-none text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.07)] pointer-events-none select-none" aria-hidden="true">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                     <div class="flex items-center justify-between mb-8">
                                         <span class="font-mono text-[10px] uppercase tracking-[0.25em] {{ $pkg->tier === 'growth' ? 'text-brand-400' : 'text-white/45' }}">
                                             /{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }} &mdash; {{ $tierLabels[$pkg->tier] ?? $pkg->name }}
@@ -105,7 +110,7 @@
                                         @if ($pkg->price_prefix)
                                             <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">{{ $pkg->price_prefix }}</p>
                                         @endif
-                                        <p class="font-display text-3xl md:text-4xl leading-tight tabular-nums {{ $style['price'] }}">
+                                        <p class="font-display {{ $pkg->tier === 'growth' ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl' }} leading-tight tabular-nums {{ $style['price'] }}">
                                             {{ $pkg->price ? \App\Support\PriceFormatter::idr($pkg->price) : $pkg->price_suffix }}
                                         </p>
                                         @if ($pkg->price && $pkg->price_suffix)
@@ -143,34 +148,36 @@
                             @endforeach
                         </div>
 
-                        {{-- Included in every package --}}
-                        <div class="mt-10 rounded-2xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
-                            <h3 class="font-mono text-[10px] uppercase tracking-[0.25em] text-brand-400 mb-6">Sudah termasuk di semua paket</h3>
-                            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px rounded-xl overflow-hidden bg-white/10">
+                        {{-- Included in every package: read as one flowing manifesto
+                             line with star separators instead of a 4-cell grid. --}}
+                        <div class="mt-20 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+                            <h3 class="lg:col-span-3 font-mono text-[10px] uppercase tracking-[0.25em] text-brand-400">Sudah termasuk<br class="hidden lg:block"> di semua paket</h3>
+                            <p class="lg:col-span-9 font-display text-xl md:text-3xl leading-[1.35] tracking-tight text-white/85">
                                 @foreach ($includedInAll as $i => $item)
-                                    <li class="bg-space-void p-5">
-                                        <span class="block font-mono text-[10px] tracking-[0.2em] text-white/35 mb-3">/{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                                        <span class="text-sm text-white/80">{{ $item }}</span>
-                                    </li>
+                                    <span class="lg:whitespace-nowrap">{{ $item }}</span>@if (!$loop->last)<span class="text-brand-400 mx-3 md:mx-4 align-middle text-base md:text-xl" aria-hidden="true">&#10022;</span>@endif
                                 @endforeach
-                            </ul>
+                            </p>
                         </div>
 
-                        {{-- Terms strip --}}
-                        <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-px rounded-2xl overflow-hidden border border-white/10 bg-white/10">
-                            <div class="bg-space-void px-6 py-5">
-                                <p class="font-display text-white">DP 50%</p>
-                                <p class="text-xs text-white/50 mt-1">Sisanya setelah website siap tayang</p>
-                            </div>
-                            <div class="bg-space-void px-6 py-5">
-                                <p class="font-display text-white">Garansi bug 30 hari</p>
-                                <p class="text-xs text-white/50 mt-1">Setelah serah terima</p>
-                            </div>
-                            <div class="bg-space-void px-6 py-5">
-                                <p class="font-display text-white">Konsultasi 30 menit gratis</p>
-                                <p class="text-xs text-white/50 mt-1">Tanpa komitmen</p>
-                            </div>
-                        </div>
+                        {{-- Terms: three statements stepping down and across the page. --}}
+                        @php
+                            $terms = [
+                                ['DP 50%', 'Sisanya setelah website siap tayang', ''],
+                                ['Garansi bug 30 hari', 'Setelah serah terima', 'lg:ml-[22%]'],
+                                ['Konsultasi 30 menit gratis', 'Tanpa komitmen', 'lg:ml-[44%]'],
+                            ];
+                        @endphp
+                        <ul class="mt-16 space-y-6 border-t border-white/10 pt-10">
+                            @foreach ($terms as $i => [$termTitle, $termNote, $termIndent])
+                                <li data-reveal data-reveal-delay="{{ $i * 100 }}" class="flex items-baseline gap-5 {{ $termIndent }}">
+                                    <span class="font-mono text-[10px] tracking-[0.2em] text-brand-400">T{{ $i + 1 }}</span>
+                                    <span>
+                                        <span class="block font-display font-semibold text-2xl md:text-3xl tracking-tight text-white">{{ $termTitle }}</span>
+                                        <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-white/45 mt-1.5">{{ $termNote }}</span>
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
 
                         @php
                             $comparisonRows = [];

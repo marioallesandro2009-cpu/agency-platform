@@ -16,6 +16,19 @@ const props = defineProps({
 });
 const space = computed(() => props.theme === "space");
 
+// Light/dark toggle for the space theme (initial value is set before paint
+// by the inline script in app.blade.php; this only flips and remembers it).
+function toggleTheme() {
+    const root = document.documentElement;
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.classList.add("theme-switching");
+    root.setAttribute("data-theme", next);
+    try {
+        localStorage.setItem("theme", next);
+    } catch (e) {}
+    setTimeout(() => root.classList.remove("theme-switching"), 450);
+}
+
 const scrolled = ref(false);
 function onScroll() {
     scrolled.value = window.scrollY > 40;
@@ -75,7 +88,7 @@ const navLinkClass = computed(() =>
 const headerClass = computed(() => {
     if (!space.value) return "sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100";
     return [
-        "fixed inset-x-0 top-0 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
+        "space-header fixed inset-x-0 top-0 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
         scrolled.value || mobileMenuOpen.value ? "bg-space-void/70 backdrop-blur-xl border-white/10" : "bg-transparent border-transparent",
     ].join(" ");
 });
@@ -111,7 +124,7 @@ const headerClass = computed(() => {
                         width="180"
                         height="48"
                         class="h-10 md:h-11 w-auto"
-                        :class="space ? 'brightness-0 invert' : ''"
+                        :class="space ? 'space-logo' : ''"
                         :alt="settings.general?.website_name"
                     />
                     <span v-else class="font-bold text-xl tracking-tight" :class="space ? 'font-display text-white' : 'text-gray-900'">{{ settings.general?.website_name }}</span>
@@ -166,6 +179,17 @@ const headerClass = computed(() => {
                 </nav>
 
                 <div class="flex items-center gap-3 shrink-0">
+                    <button
+                        type="button"
+                        v-if="space"
+                        @click="toggleTheme"
+                        class="theme-toggle w-10 h-10 shrink-0 rounded-full border border-white/15 bg-white/5 text-white/80 hover:text-white hover:border-white/40 flex items-center justify-center transition-colors"
+                        aria-label="Ganti mode terang/gelap"
+                        title="Ganti mode terang/gelap"
+                    >
+                        <svg class="theme-toggle__sun w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+                        <svg class="theme-toggle__moon w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></svg>
+                    </button>
                     <div v-if="whatsappUrl" class="hidden" :class="space ? 'lg:block' : 'md:block'">
                         <Button :href="whatsappUrl" external :variant="space ? 'glass' : 'primary'">
                             Konsultasi Gratis
@@ -283,7 +307,7 @@ const headerClass = computed(() => {
                         <span v-for="n in 2" :key="n" class="footer-marquee__track flex items-center gap-[4vw] pr-[4vw]">
                             <span class="text-white group-hover:text-brand-300 transition-colors">Let's talk</span>
                             <span class="text-brand-400 text-[0.5em]">&#10022;</span>
-                            <span class="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.35)]">Mulai proyek</span>
+                            <span class="text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.35)]">Mulai proyek</span>
                             <span class="text-brand-400 text-[0.5em]">&#10022;</span>
                         </span>
                     </div>
@@ -366,7 +390,7 @@ const headerClass = computed(() => {
 }
 .theme-space .nav-underline::after {
     height: 1px;
-    background: #a3e635;
+    background: rgb(var(--lime-400));
 }
 
 /* Footer marquee: two identical tracks, translate one track-width. */

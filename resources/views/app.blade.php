@@ -106,6 +106,15 @@
         @endif
 
         <!-- Scripts -->
+        {{-- Space theme light/dark: applied before first paint (no flash). Dark is the
+             default (it is the brand look); a visitor's explicit choice is remembered. --}}
+        <script nonce="{{ app('csp-nonce') }}">
+            (function () {
+                var t = "dark";
+                try { t = localStorage.getItem("theme") === "light" ? "light" : "dark"; } catch (e) {}
+                document.documentElement.setAttribute("data-theme", t);
+            })();
+        </script>
         @routes(null, app('csp-nonce'))
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead

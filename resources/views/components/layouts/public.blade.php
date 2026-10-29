@@ -59,9 +59,18 @@
             </script>
         @endif
 
+        {{-- Space theme light/dark: applied before first paint (no flash). Dark is the
+             default (it is the brand look); a visitor's explicit choice is remembered. --}}
+        <script nonce="{{ app('csp-nonce') }}">
+            (function () {
+                var t = "dark";
+                try { t = localStorage.getItem("theme") === "light" ? "light" : "dark"; } catch (e) {}
+                document.documentElement.setAttribute("data-theme", t);
+            })();
+        </script>
         @vite(['resources/js/blade-app.js'])
     </head>
-    <body class="font-sans antialiased {{ $space ? 'bg-space-void' : '' }}">
+    <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }}">
         @if ($space)
             <div data-vue-island="SpacePreloader"></div>
         @endif

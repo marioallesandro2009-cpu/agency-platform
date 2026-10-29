@@ -252,8 +252,8 @@ function submit() {
     width: 100%;
     padding: 0.625rem 0.875rem 0.625rem 2.5rem;
     border-radius: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgb(var(--ink) / 0.12);
+    background: rgb(var(--ink) / 0.05);
     color: #fff;
     font-size: 0.875rem;
 }

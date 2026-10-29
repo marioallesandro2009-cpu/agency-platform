@@ -312,6 +312,24 @@ function initSpaceHeader() {
     header.querySelector("[data-nav-toggle]")?.addEventListener("click", () => requestAnimationFrame(update));
 }
 
+// Light/dark toggle for the space theme. The initial data-theme is set
+// before paint by the inline script in layouts/public.blade.php; this only
+// flips it, remembers the choice, and briefly enables colour transitions.
+function initThemeToggle() {
+    document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const root = document.documentElement;
+            const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+            root.classList.add("theme-switching");
+            root.setAttribute("data-theme", next);
+            try {
+                localStorage.setItem("theme", next);
+            } catch (e) {}
+            setTimeout(() => root.classList.remove("theme-switching"), 450);
+        });
+    });
+}
+
 // Cursor-following glow on the homepage service panels ([data-glow]).
 function initGlowCards() {
     document.querySelectorAll("[data-glow]").forEach((card) => {
@@ -320,6 +338,59 @@ function initGlowCards() {
             card.style.setProperty("--gx", `${e.clientX - rect.left}px`);
             card.style.setProperty("--gy", `${e.clientY - rect.top}px`);
         });
+    });
+}
+
+// Subtle 3D tilt toward the pointer on [data-tilt] cards (desktop pointers only).
+function initTilt() {
+    if (prefersReducedMotion() || !window.matchMedia("(hover: hover)").matches) return;
+    document.querySelectorAll("[data-tilt]").forEach((card) => {
+        card.addEventListener("pointermove", (e) => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.style.setProperty("--ry", `${x * 8}deg`);
+            card.style.setProperty("--rx", `${-y * 8}deg`);
+        });
+        card.addEventListener("pointerleave", () => {
+            card.style.setProperty("--ry", "0deg");
+            card.style.setProperty("--rx", "0deg");
+        });
+    });
+}
+
+// Home "why us" radar: hovering/focusing a reason row locks the radar onto
+// its blip; while idle the radar cycles through them on its own.
+function initRadar() {
+    document.querySelectorAll("[data-radar]").forEach((root) => {
+        const rows = [...root.querySelectorAll("[data-radar-item]")];
+        const blips = [...root.querySelectorAll("[data-radar-blip]")];
+        if (!rows.length) return;
+
+        let active = 0;
+        let paused = false;
+        const setActive = (i) => {
+            active = i;
+            rows.forEach((r, n) => r.classList.toggle("is-active", n === i));
+            blips.forEach((b, n) => b.classList.toggle("is-active", n === i));
+        };
+
+        rows.forEach((row, i) => {
+            const lock = () => {
+                paused = true;
+                setActive(i);
+            };
+            row.addEventListener("mouseenter", lock);
+            row.addEventListener("focus", lock);
+            row.addEventListener("mouseleave", () => (paused = false));
+            row.addEventListener("blur", () => (paused = false));
+        });
+
+        if (!prefersReducedMotion()) {
+            setInterval(() => {
+                if (!paused) setActive((active + 1) % rows.length);
+            }, 3200);
+        }
     });
 }
 
@@ -339,8 +410,11 @@ function initHudClock() {
 document.addEventListener("DOMContentLoaded", () => {
     initScrollReveal();
     initSpaceHeader();
+    initThemeToggle();
     initHudClock();
     initGlowCards();
+    initRadar();
+    initTilt();
     initNavbar();
     initPricingTabs();
     initBillingToggle();

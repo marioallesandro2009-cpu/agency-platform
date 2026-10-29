@@ -21,7 +21,7 @@ function state(index) {
 
 const nodeClasses = {
     done: "bg-brand-400 border-brand-400 text-space-void",
-    active: "bg-space-deep border-brand-400 text-brand-300 shadow-[0_0_24px_-4px_rgba(163,230,53,0.6)]",
+    active: "bg-space-deep border-brand-400 text-brand-300 shadow-[0_0_24px_-4px_rgb(var(--lime-400)/0.6)]",
     upcoming: "bg-space-void border-white/15 text-white/40",
 };
 

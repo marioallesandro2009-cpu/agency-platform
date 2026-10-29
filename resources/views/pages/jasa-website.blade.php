@@ -34,7 +34,7 @@
                     data-reveal-delay="{{ min($index * 80, 240) }}"
                     class="group relative grid grid-cols-12 items-center gap-4 md:gap-8 border-b border-white/10 py-8 md:py-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-400"
                 >
-                    <span class="col-span-2 md:col-span-1 font-display font-extrabold text-3xl md:text-5xl leading-none tabular-nums text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.25)] transition-all duration-500 group-hover:[-webkit-text-stroke:1px_rgba(163,230,53,0.9)]" aria-hidden="true">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    <span class="col-span-2 md:col-span-1 font-display font-extrabold text-3xl md:text-5xl leading-none tabular-nums text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.25)] transition-all duration-500 group-hover:[-webkit-text-stroke:1px_rgb(var(--lime-400)/0.9)]" aria-hidden="true">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                     <div class="col-span-10 md:col-span-6">
                         <h3 class="font-display font-semibold text-2xl md:text-4xl text-white tracking-tight transition-transform duration-500 group-hover:translate-x-2">{{ $service->name }}</h3>
                         <p class="text-sm md:text-base text-white/50 mt-2 max-w-lg">{{ $service->short_description }}</p>
@@ -68,33 +68,45 @@
         </div>
         <div class="relative max-w-[1440px] mx-auto px-4 md:px-8">
             <x-public.space-heading index="02" label="Alasan" title="Kenapa Bisnis Anda Butuh Website" center />
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+            {{-- Three reasons as big statements drifting across the page
+                 (left, centre-right, far right), each anchored by a giant
+                 outline numeral, instead of three equal cards. --}}
+            @php $whyAlign = ['lg:mr-auto', 'lg:mx-auto lg:translate-x-[18%]', 'lg:ml-auto']; @endphp
+            <ol class="space-y-14 md:space-y-10">
                 @foreach ($whyWebsite as $i => $item)
-                    <div data-reveal data-reveal-delay="{{ $i * 80 }}" class="rounded-2xl border border-white/10 bg-space-void/70 backdrop-blur-md p-7 md:p-8">
-                        <span class="block font-mono text-[10px] tracking-[0.25em] text-brand-400 mb-10">/{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                        <h3 class="font-display font-semibold text-xl text-white tracking-tight mb-3">{{ $item['title'] }}</h3>
-                        <p class="text-sm text-white/55 leading-relaxed">{{ $item['text'] }}</p>
-                    </div>
+                    <li class="group relative max-w-xl {{ $whyAlign[$i % count($whyAlign)] }}">
+                        <span class="absolute -left-4 md:-left-16 -top-10 font-display font-extrabold text-[7rem] md:text-[9rem] leading-none text-transparent [-webkit-text-stroke:1px_rgb(var(--ink)/0.1)] transition-all duration-500 group-hover:[-webkit-text-stroke:1px_rgb(var(--lime-400)/0.7)] pointer-events-none select-none" aria-hidden="true">{{ $i + 1 }}</span>
+                        <div data-reveal="{{ $i % 2 === 1 ? 'right' : 'left' }}" data-reveal-delay="{{ $i * 100 }}" class="relative pl-6 border-l border-brand-400/60">
+                            <h3 class="font-display font-semibold text-2xl md:text-4xl text-white tracking-tight mb-3">{{ $item['title'] }}</h3>
+                            <p class="text-white/60 leading-relaxed md:text-lg">{{ $item['text'] }}</p>
+                        </div>
+                    </li>
                 @endforeach
-            </div>
+            </ol>
         </div>
     </section>
 
     @if ($portfolioProjects->isNotEmpty())
         <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-24 md:py-32">
             <x-public.space-heading index="03" label="Portfolio" title="Contoh Hasil Kerja Kami" />
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {{-- Uneven film-strip: first project large, the rest smaller and
+                 dropped lower, each with its own frame shape. --}}
+            @php
+                $stripSpan = ['lg:col-span-6', 'lg:col-span-3 lg:mt-24', 'lg:col-span-3 lg:mt-48'];
+                $stripShape = ['aspect-[4/3]', 'aspect-[3/4]', 'aspect-square'];
+            @endphp
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
                 @foreach ($portfolioProjects as $index => $project)
-                    <a href="/portfolio/{{ $project->slug }}" data-reveal data-reveal-delay="{{ $index * 80 }}" class="group block">
+                    <a href="/portfolio/{{ $project->slug }}" data-tilt class="tilt-card group block {{ $stripSpan[$index % count($stripSpan)] }}">
                         <div class="hud-frame relative p-2 mb-5">
-                            <div class="aspect-[4/3] rounded-lg overflow-hidden bg-space-panel">
+                            <div class="{{ $stripShape[$index % count($stripShape)] }} rounded-lg overflow-hidden bg-space-panel">
                                 @if ($project->thumbnail)
-                                    <img src="{{ $project->thumbnail }}" alt="{{ $project->name }}" width="400" height="300" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
+                                    <img src="{{ $project->thumbnail }}" alt="{{ $project->name }}" width="600" height="450" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
                                 @endif
                             </div>
                         </div>
-                        <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-400 mb-2">{{ $project->category }}</p>
-                        <h3 class="font-display font-semibold text-lg text-white tracking-tight transition-colors group-hover:text-brand-300">{{ $project->name }}</h3>
+                        <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-400 mb-2">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }} &middot; {{ $project->category }}</p>
+                        <h3 class="font-display font-semibold {{ $index === 0 ? 'text-2xl' : 'text-lg' }} text-white tracking-tight transition-colors group-hover:text-brand-300">{{ $project->name }}</h3>
                     </a>
                 @endforeach
             </div>
@@ -105,24 +117,30 @@
     @endif
 
     @if ($pricingPackages->isNotEmpty())
+        @php $maxPkgPrice = $pricingPackages->pluck('price')->filter()->max() ?: 1; @endphp
         <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-24 md:py-32">
             <x-public.space-heading index="04" label="Investasi" title="Estimasi Harga" />
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px rounded-2xl overflow-hidden border border-white/10 bg-white/10">
+            {{-- Price ladder (same idea as the Home teaser): each package is a
+                 step with a light-beam bar sized to its price. --}}
+            <ol class="space-y-3">
                 @foreach ($pricingPackages as $index => $pkg)
-                    <div data-reveal data-reveal-delay="{{ $index * 60 }}" class="bg-space-void p-6 flex flex-col min-h-[180px] transition-colors hover:bg-space-deep">
-                        <span class="font-mono text-[10px] tracking-[0.2em] text-white/30 mb-auto">/{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                        <h3 class="font-display font-semibold text-white tracking-tight mt-8 mb-3">{{ $pkg->name }}</h3>
-                        @if ($pkg->price_prefix)
-                            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">{{ $pkg->price_prefix }}</p>
-                        @endif
-                        @if ($pkg->price)
-                            <p class="font-display text-xl text-brand-300 tabular-nums">{{ \App\Support\PriceFormatter::idr($pkg->price) }}</p>
-                        @elseif ($pkg->price_suffix)
-                            <p class="font-display text-xl text-brand-300">{{ $pkg->price_suffix }}</p>
-                        @endif
-                    </div>
+                    @php $ratio = $pkg->price ? max(0.15, $pkg->price / $maxPkgPrice) : 0.1; @endphp
+                    <li data-reveal data-reveal-delay="{{ $index * 70 }}" style="--step: {{ min($index, 3) }}" class="ladder-step">
+                        <div class="group flex flex-col md:flex-row md:items-center gap-3 md:gap-8 rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-4 md:px-8 transition-colors hover:border-brand-400/50 hover:bg-white/[0.04]">
+                            <span class="md:w-56 shrink-0">
+                                <span class="block font-mono text-[9px] uppercase tracking-[0.25em] text-white/35">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}{{ $pkg->price_prefix ? ' · ' . $pkg->price_prefix : '' }}</span>
+                                <span class="block font-display font-semibold text-white tracking-tight">{{ $pkg->name }}</span>
+                            </span>
+                            <span class="relative h-[3px] rounded-full bg-white/10 flex-1 overflow-hidden" aria-hidden="true">
+                                <span class="ladder-beam absolute inset-y-0 left-0 rounded-full" style="width: {{ round($ratio * 100) }}%"></span>
+                            </span>
+                            <span class="font-display text-xl text-brand-300 tabular-nums md:text-right md:w-44 shrink-0">
+                                {{ $pkg->price ? \App\Support\PriceFormatter::idr($pkg->price) : $pkg->price_suffix }}
+                            </span>
+                        </div>
+                    </li>
                 @endforeach
-            </div>
+            </ol>
             <div class="mt-10 flex justify-end">
                 <a href="/harga" class="btn-space btn-space--glass">Lihat detail paket harga <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
             </div>

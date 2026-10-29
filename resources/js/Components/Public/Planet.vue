@@ -387,7 +387,7 @@ onBeforeUnmount(() => {
     pointer-events: none;
     /* Fallback (and pre-init) look when WebGL is unavailable. */
     background:
-        radial-gradient(circle at 70% 50%, #0b0d14 0 14%, rgba(163, 230, 53, 0.18) 15%, transparent 24%),
+        radial-gradient(circle at 70% 50%, #0b0d14 0 14%, rgb(var(--lime-400) / 0.18) 15%, transparent 24%),
         #05060a;
 }
 .planet-bg__canvas {

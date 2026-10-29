@@ -42,13 +42,24 @@ function resize() {
     if (reducedMotion) draw(0);
 }
 
+// Light theme: stars become faint ink "dust" on the paper background instead
+// of pale points that would vanish on it.
+function isLight() {
+    return document.documentElement.getAttribute("data-theme") === "light";
+}
+
 function draw(t) {
     ctx.clearRect(0, 0, w, h);
     const scroll = window.scrollY || 0;
+    const light = isLight();
     for (const s of stars) {
         const y = (((s.y - scroll * s.depth * 0.15) % h) + h) % h;
         const a = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 0.001 * s.speed + s.phase));
-        ctx.fillStyle = s.warm ? `rgba(255, 214, 170, ${a})` : `rgba(220, 230, 255, ${a})`;
+        if (light) {
+            ctx.fillStyle = s.warm ? `rgba(77, 124, 15, ${a * 0.55})` : `rgba(14, 16, 22, ${a * 0.35})`;
+        } else {
+            ctx.fillStyle = s.warm ? `rgba(255, 214, 170, ${a})` : `rgba(220, 230, 255, ${a})`;
+        }
         ctx.beginPath();
         ctx.arc(s.x, y, s.r, 0, Math.PI * 2);
         ctx.fill();
