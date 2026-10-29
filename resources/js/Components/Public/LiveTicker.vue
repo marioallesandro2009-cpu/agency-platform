@@ -9,6 +9,9 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const props = defineProps({
     activities: { type: Array, default: () => [] },
+    // "bar": full-width strip (light pages). "floating": small HUD pill
+    // pinned bottom-left, for the space theme's full-screen hero.
+    variant: { type: String, default: "bar" },
 });
 
 const DISMISS_KEY = "liveTickerDismissed";
@@ -42,7 +45,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div v-if="!dismissed && current" class="bg-brand-600 text-white text-sm">
+    <div
+        v-if="!dismissed && current && variant === 'floating'"
+        class="fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 backdrop-blur-xl pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
+        role="status"
+    >
+        <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75 animate-ping motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-400"></span>
+        </span>
+        <Transition name="ticker-fade" mode="out-in">
+            <p :key="currentIndex" class="min-w-0 truncate">
+                <span class="text-white">{{ current.name }}</span> baru saja memesan {{ current.service }}
+            </p>
+        </Transition>
+        <button @click="dismiss" aria-label="Tutup notifikasi" class="shrink-0 w-6 h-6 rounded-full text-white/50 hover:text-white hover:bg-white/10 leading-none">
+            &times;
+        </button>
+    </div>
+    <div v-else-if="!dismissed && current" class="bg-brand-600 text-white text-sm">
         <div class="max-w-7xl mx-auto pl-4 pr-10 py-2 flex items-center justify-center gap-3 relative">
             <Transition name="ticker-fade" mode="out-in">
                 <p :key="currentIndex" class="min-w-0 flex-1 text-center truncate">

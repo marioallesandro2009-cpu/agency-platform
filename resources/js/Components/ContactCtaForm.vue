@@ -19,7 +19,7 @@
  * captures a lead directly instead of just linking out to /konsultasi.
  */
 import { useForm, usePage } from "@inertiajs/vue3";
-import { User, Phone, Mail, MessageSquare, CircleCheck } from "lucide-vue-next";
+import { User, Phone, Mail, MessageSquare } from "lucide-vue-next";
 import { computed } from "vue";
 
 defineProps({
@@ -52,10 +52,12 @@ function submit() {
 </script>
 
 <template>
-    <section class="contact-cta relative bg-charcoal py-20 md:py-28 overflow-hidden">
-        <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
-        <div class="max-w-6xl mx-auto px-4 relative">
-            <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
+    <!-- Space theme: glass panel floating on the page's void background. -->
+    <section class="contact-cta relative py-24 md:py-32 overflow-hidden">
+        <div class="max-w-[1440px] mx-auto px-4 md:px-8">
+          <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-space-deep/70 backdrop-blur-xl px-6 py-12 md:px-14 md:py-16">
+            <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
+            <div class="relative flex flex-col md:flex-row items-center gap-10 md:gap-20">
                 <!-- Illustration -->
                 <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
                     <img
@@ -86,13 +88,14 @@ function submit() {
 
                 <!-- Form -->
                 <div class="w-full md:w-3/5">
-                    <p v-if="eyebrow" v-scroll-reveal class="text-brand-400 font-semibold text-xs uppercase tracking-widest mb-3">
+                    <p v-if="eyebrow" v-scroll-reveal class="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/50 mb-5">
+                        <span class="text-brand-400">[ &rarr; ]</span>
                         {{ eyebrow }}
                     </p>
-                    <h2 v-scroll-reveal="{ delay: 80 }" class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-4 [text-wrap:balance]">
+                    <h2 v-scroll-reveal="{ delay: 80 }" class="font-display font-semibold text-3xl md:text-5xl leading-[1.05] tracking-tight text-white mb-5 [text-wrap:balance]">
                         {{ title }}
                     </h2>
-                    <p v-if="description" v-scroll-reveal="{ delay: 120 }" class="text-gray-300 mb-8">
+                    <p v-if="description" v-scroll-reveal="{ delay: 120 }" class="text-white/60 mb-8">
                         {{ description }}
                     </p>
 
@@ -103,7 +106,7 @@ function submit() {
                             :alt="mascots.kontak_konfirmasi.alt_text || ''"
                             class="w-10 h-10 rounded-full object-cover shrink-0"
                         />
-                        <CircleCheck v-else class="w-6 h-6 text-brand-400 shrink-0 mt-0.5" aria-hidden="true" />
+                        <span v-else class="text-brand-400 text-xl leading-none shrink-0 mt-0.5" aria-hidden="true">&#10022;</span>
                         <div>
                             <p class="font-semibold text-white mb-1">Terima kasih!</p>
                             <p class="text-sm text-gray-300">{{ page.props.flash.success }}</p>
@@ -178,6 +181,7 @@ function submit() {
                     </form>
                 </div>
             </div>
+          </div>
         </div>
     </section>
 </template>

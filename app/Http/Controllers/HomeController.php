@@ -10,7 +10,6 @@ use App\Models\PortfolioProject;
 use App\Models\PricingPackage;
 use App\Models\Service;
 use App\Models\Testimonial;
-use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -79,7 +78,7 @@ class HomeController extends Controller
         $portfolioSection = $pageSections->get("portfolio");
         $blogSection = $pageSections->get("blog");
 
-        return Inertia::render("Public/Home", [
+        return view("pages.home", [
             "sections" => $visibleTypes,
             "hero" => $hero,
             "about" => $about,

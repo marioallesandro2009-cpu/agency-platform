@@ -15,6 +15,10 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+                // "Space" theme (homepage): wide geometric display face for
+                // the oversized headlines, mono for the HUD-style micro labels.
+                display: ['Unbounded', 'Raleway', ...defaultTheme.fontFamily.sans],
+                mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
             },
             colors: {
                 /**
@@ -36,6 +40,17 @@ export default {
                     900: '#1a2e05',
                 },
                 charcoal: '#1a1a1a',
+                /**
+                 * Deep-space surfaces for the dark homepage theme. `void` is
+                 * the page background, `deep`/`panel` are the two raised
+                 * steps for cards. Text on these uses white/opacity steps,
+                 * accents stay on brand-300/400 (lime reads AA on near-black).
+                 */
+                space: {
+                    void: '#05060a',
+                    deep: '#0b0d14',
+                    panel: '#11141d',
+                },
                 /**
                  * Background system (kept deliberately tiny — two steps,
                  * used sparingly): near-invisible variation so pages don't

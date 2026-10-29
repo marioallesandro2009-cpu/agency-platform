@@ -79,7 +79,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=raleway:400,500,600,700,800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=raleway:400,500,600,700,800|unbounded:300,400,600,800|jetbrains-mono:400,500&display=swap" rel="stylesheet" />
 
         {{--
             Google Analytics only loads when an admin has set a Measurement ID

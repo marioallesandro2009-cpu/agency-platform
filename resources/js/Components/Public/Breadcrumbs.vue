@@ -11,8 +11,11 @@ const props = defineProps({
     // "dark" — for use on top of a dark hero/Scanner background: white
     // links, brand-green current item, no container padding of its own
     // (the parent hero controls horizontal padding/max-width).
+    // "space" — mono HUD-style trail for the dark space theme.
     variant: { type: String, default: "light" },
 });
+
+const onDark = computed(() => props.variant === "dark" || props.variant === "space");
 
 const jsonLd = computed(() => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -36,21 +39,24 @@ const jsonLd = computed(() => {
     </Head>
     <nav
         aria-label="Breadcrumb"
-        :class="variant === 'dark' ? 'mb-6' : 'max-w-6xl mx-auto px-4 pt-6'"
+        :class="onDark ? 'mb-6' : 'max-w-6xl mx-auto px-4 pt-6'"
     >
-        <ol class="flex flex-wrap items-center gap-1.5 text-sm" :class="variant === 'dark' ? 'text-gray-300' : 'text-gray-500'">
+        <ol
+            class="flex flex-wrap items-center gap-1.5"
+            :class="variant === 'space' ? 'font-mono text-[10px] uppercase tracking-[0.2em] text-white/45' : onDark ? 'text-sm text-gray-300' : 'text-sm text-gray-500'"
+        >
             <li v-for="(item, index) in items" :key="index" class="flex items-center gap-1.5">
                 <Link
                     v-if="item.href"
                     :href="item.href"
-                    :class="variant === 'dark' ? 'hover:text-white' : 'hover:text-brand-600'"
+                    :class="onDark ? 'hover:text-white' : 'hover:text-brand-600'"
                 >
                     {{ item.label }}
                 </Link>
                 <span
                     v-else
                     class="font-medium"
-                    :class="variant === 'dark' ? 'text-brand-400' : 'text-gray-700'"
+                    :class="onDark ? 'text-brand-400' : 'text-gray-700'"
                     aria-current="page"
                 >
                     {{ item.label }}
@@ -58,7 +64,7 @@ const jsonLd = computed(() => {
                 <svg
                     v-if="index < items.length - 1"
                     class="w-3.5 h-3.5 flex-shrink-0"
-                    :class="variant === 'dark' ? 'text-gray-500' : 'text-gray-300'"
+                    :class="onDark ? 'text-gray-500' : 'text-gray-300'"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

@@ -15,7 +15,7 @@ const props = defineProps({
     href: { type: String, default: null },
     external: { type: Boolean, default: false },
     type: { type: String, default: "button" },
-    variant: { type: String, default: "primary" }, // primary | outline | ghost
+    variant: { type: String, default: "primary" }, // primary | outline | ghost | pill | glass | link (last three: dark "space" theme)
     size: { type: String, default: "default" }, // default | large
     disabled: { type: Boolean, default: false },
 });
@@ -34,6 +34,19 @@ const classes = computed(() => {
 
     if (props.variant === "ghost") {
         return `${base} text-brand-600 hover:text-brand-700 text-sm font-semibold`;
+    }
+
+    // Space-theme variants: rounded pills on near-black, mono-cased labels.
+    if (props.variant === "link") {
+        return `${base} focus-visible:ring-offset-space-void text-brand-300 hover:text-brand-200 font-mono text-xs uppercase tracking-[0.18em]`;
+    }
+    if (props.variant === "pill" || props.variant === "glass") {
+        const pad = props.size === "large" ? "pl-6 pr-1.5 py-1.5" : "pl-5 pr-1 py-1";
+        const look =
+            props.variant === "pill"
+                ? "bg-white text-space-void hover:bg-brand-300"
+                : "border border-white/20 bg-white/5 backdrop-blur-md text-white hover:border-white/50 hover:bg-white/10";
+        return `${base} focus-visible:ring-offset-space-void group/btn ${pad} gap-3 rounded-full text-sm font-semibold ${look} active:scale-[0.98]`;
     }
 
     const size = props.size === "large" ? "px-7 py-3.5" : "px-6 py-3";
@@ -58,5 +71,14 @@ const classes = computed(() => {
         :class="classes"
     >
         <slot />
+        <span
+            v-if="variant === 'pill' || variant === 'glass'"
+            aria-hidden="true"
+            class="inline-flex items-center justify-center rounded-full transition-transform duration-300 group-hover/btn:rotate-[-45deg]"
+            :class="[
+                size === 'large' ? 'w-10 h-10' : 'w-8 h-8',
+                variant === 'pill' ? 'bg-brand-400 text-space-void' : 'bg-white/10 text-white',
+            ]"
+        >&rarr;</span>
     </component>
 </template>

@@ -1,12 +1,12 @@
 <script setup>
 /**
- * Multi-step progress indicator: horizontal row (top) on mobile, vertical
- * sidebar (left) on desktop. `currentStep` is 1-indexed; a step is "done"
- * once the wizard has moved past it (going back doesn't un-complete it —
- * the whole point is the visitor sees their progress isn't lost).
+ * Multi-step progress indicator (space theme): horizontal row (top) on
+ * mobile, vertical sidebar (left) on desktop. `currentStep` is 1-indexed; a
+ * step is "done" once the wizard has moved past it (going back doesn't
+ * un-complete it — the visitor sees their progress isn't lost). Steps keep
+ * their number in every state — no check marks; "done" is shown by the
+ * filled lime node and the lit connector instead.
  */
-import { Check } from "lucide-vue-next";
-
 const props = defineProps({
     steps: { type: Array, required: true },
     currentStep: { type: Number, required: true },
@@ -19,53 +19,48 @@ function state(index) {
     return "upcoming";
 }
 
-const circleClasses = {
-    done: "bg-brand-600 border-brand-600 text-white",
-    active: "bg-white border-brand-600 text-brand-600",
-    upcoming: "bg-white border-gray-300 text-gray-500",
+const nodeClasses = {
+    done: "bg-brand-400 border-brand-400 text-space-void",
+    active: "bg-space-deep border-brand-400 text-brand-300 shadow-[0_0_24px_-4px_rgba(163,230,53,0.6)]",
+    upcoming: "bg-space-void border-white/15 text-white/40",
 };
 
 const labelClasses = {
-    done: "text-gray-700",
-    active: "text-gray-900 font-semibold",
-    upcoming: "text-gray-500",
+    done: "text-white/70",
+    active: "text-white",
+    upcoming: "text-white/35",
 };
 
-const lineClass = (index) => (state(index) === "done" ? "bg-brand-600" : "bg-gray-200");
+const lineClass = (index) => (state(index) === "done" ? "bg-brand-400" : "bg-white/10");
+const pad = (n) => String(n).padStart(2, "0");
 </script>
 
 <template>
     <!-- Mobile: horizontal, top -->
-    <ol class="flex md:hidden mb-8" aria-label="Progress pengisian form">
-        <li v-for="(step, i) in steps" :key="step" :class="i < steps.length - 1 ? 'flex-1' : ''" class="flex flex-col">
+    <ol class="flex md:hidden mb-10" aria-label="Progress pengisian form">
+        <li v-for="(step, i) in steps" :key="step" :class="i < steps.length - 1 ? 'flex-1' : ''" class="flex flex-col" :aria-current="state(i) === 'active' ? 'step' : undefined">
             <div class="flex items-center">
                 <span
-                    class="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-semibold flex-shrink-0"
-                    :class="circleClasses[state(i)]"
-                >
-                    <Check v-if="state(i) === 'done'" class="w-3.5 h-3.5" />
-                    <template v-else>{{ i + 1 }}</template>
-                </span>
-                <div v-if="i < steps.length - 1" class="flex-1 h-0.5 mx-1" :class="lineClass(i)" />
+                    class="w-8 h-8 rounded-full border flex items-center justify-center font-mono text-[10px] flex-shrink-0 transition-all"
+                    :class="nodeClasses[state(i)]"
+                >{{ pad(i + 1) }}</span>
+                <div v-if="i < steps.length - 1" class="flex-1 h-px mx-1.5" :class="lineClass(i)" />
             </div>
-            <span class="block text-[10px] leading-tight mt-1 max-w-[72px]" :class="labelClasses[state(i)]">{{ step }}</span>
+            <span class="block font-mono text-[9px] uppercase tracking-[0.15em] leading-tight mt-2 max-w-[72px]" :class="labelClasses[state(i)]">{{ step }}</span>
         </li>
     </ol>
 
     <!-- Desktop: vertical, sidebar -->
     <ol class="hidden md:block" aria-label="Progress pengisian form">
-        <li v-for="(step, i) in steps" :key="step" class="flex items-start">
-            <div class="flex flex-col items-center mr-3">
+        <li v-for="(step, i) in steps" :key="step" class="flex items-start" :aria-current="state(i) === 'active' ? 'step' : undefined">
+            <div class="flex flex-col items-center mr-4">
                 <span
-                    class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold flex-shrink-0"
-                    :class="circleClasses[state(i)]"
-                >
-                    <Check v-if="state(i) === 'done'" class="w-4 h-4" />
-                    <template v-else>{{ i + 1 }}</template>
-                </span>
-                <div v-if="i < steps.length - 1" class="w-0.5 flex-1 min-h-[24px]" :class="lineClass(i)" />
+                    class="w-9 h-9 rounded-full border flex items-center justify-center font-mono text-[11px] flex-shrink-0 transition-all"
+                    :class="nodeClasses[state(i)]"
+                >{{ pad(i + 1) }}</span>
+                <div v-if="i < steps.length - 1" class="w-px flex-1 min-h-[32px]" :class="lineClass(i)" />
             </div>
-            <span class="pt-1.5 pb-6 text-sm" :class="labelClasses[state(i)]">{{ step }}</span>
+            <span class="pt-2.5 pb-8 font-mono text-[10px] uppercase tracking-[0.2em]" :class="labelClasses[state(i)]">{{ step }}</span>
         </li>
     </ol>
 </template>

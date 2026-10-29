@@ -1,7 +1,30 @@
 <script setup>
 import { Head, Link, usePage } from "@inertiajs/vue3";
-import { computed, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import Button from "@/Components/Public/Button.vue";
+import StarField from "@/Components/Public/StarField.vue";
+import SpacePreloader from "@/Components/Public/SpacePreloader.vue";
+
+/**
+ * theme="space" is the dark, cinematic homepage look (fixed transparent
+ * HUD header over a full-screen hero, starfield backdrop, oversized footer
+ * CTA). Every other public page keeps the default light theme until it is
+ * redesigned too, so all theme-specific classes branch on `space` below.
+ */
+const props = defineProps({
+    theme: { type: String, default: "light" }, // light | space
+});
+const space = computed(() => props.theme === "space");
+
+const scrolled = ref(false);
+function onScroll() {
+    scrolled.value = window.scrollY > 40;
+}
+onMounted(() => {
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+});
+onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
 
 const page = usePage();
 const settings = page.props.settings || {};
@@ -38,14 +61,34 @@ const organizationJsonLd = computed(() => {
 });
 
 const year = new Date().getFullYear();
+
+const whatsappUrl = computed(() =>
+    settings.contact?.whatsapp_number ? "https://wa.me/" + settings.contact.whatsapp_number + "?text=Halo%2C%20saya%20mau%20nanya-nanya" : null
+);
+
+const navLinkClass = computed(() =>
+    space.value
+        ? "nav-underline font-mono text-[11px] uppercase tracking-[0.18em] text-white/60 hover:text-white"
+        : "nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600"
+);
+
+const headerClass = computed(() => {
+    if (!space.value) return "sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100";
+    return [
+        "fixed inset-x-0 top-0 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
+        scrolled.value || mobileMenuOpen.value ? "bg-space-void/70 backdrop-blur-xl border-white/10" : "bg-transparent border-transparent",
+    ].join(" ");
+});
 </script>
 
 <template>
     <Head>
         <component :is="'script'" type="application/ld+json" :nonce="page.props.cspNonce">{{ organizationJsonLd }}</component>
     </Head>
-    <div class="min-h-screen flex flex-col bg-white">
-        <div class="bg-charcoal text-gray-300 text-xs">
+    <SpacePreloader v-if="space" />
+    <div class="min-h-screen flex flex-col" :class="space ? 'theme-space bg-space-void text-white' : 'bg-white'">
+        <StarField v-if="space" class="z-0" />
+        <div v-if="!space" class="bg-charcoal text-gray-300 text-xs">
             <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col sm:flex-row justify-between gap-1">
                 <div class="flex gap-4">
                     <span v-if="settings.contact?.phone">Telp: {{ settings.contact.phone }}</span>
@@ -59,15 +102,24 @@ const year = new Date().getFullYear();
             </div>
         </div>
 
-        <header class="navbar-in sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4">
-                <Link href="/" class="flex items-center gap-2 shrink-0">
-                    <img v-if="settings.general?.logo" :src="settings.general.logo" width="180" height="48" class="h-10 md:h-11 w-auto" :alt="settings.general?.website_name" />
-                    <span v-else class="font-bold text-xl tracking-tight text-gray-900">{{ settings.general?.website_name }}</span>
+        <header class="navbar-in z-40" :class="headerClass">
+            <div class="mx-auto px-4 h-16 md:h-[4.5rem] flex items-center justify-between gap-4" :class="space ? 'max-w-[1440px] md:px-8' : 'max-w-7xl'">
+                <Link href="/" class="flex items-center gap-3 shrink-0">
+                    <img
+                        v-if="settings.general?.logo"
+                        :src="settings.general.logo"
+                        width="180"
+                        height="48"
+                        class="h-10 md:h-11 w-auto"
+                        :class="space ? 'brightness-0 invert' : ''"
+                        :alt="settings.general?.website_name"
+                    />
+                    <span v-else class="font-bold text-xl tracking-tight" :class="space ? 'font-display text-white' : 'text-gray-900'">{{ settings.general?.website_name }}</span>
+                    <span v-if="space" class="hidden xl:inline font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">// Digital Studio</span>
                 </Link>
 
-                <nav class="hidden md:flex flex-1 items-center justify-center gap-8">
-                    <Link v-if="homeItem" :href="homeItem.url" class="nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600">{{ homeItem.label }}</Link>
+                <nav class="hidden flex-1 items-center justify-center" :class="space ? 'lg:flex gap-6 xl:gap-7 whitespace-nowrap' : 'md:flex gap-8'">
+                    <Link v-if="homeItem" :href="homeItem.url" :class="navLinkClass"><span v-if="space" class="text-brand-400 mr-1.5">&bull;</span>{{ homeItem.label }}</Link>
 
                     <div
                         class="relative"
@@ -79,18 +131,23 @@ const year = new Date().getFullYear();
                         <button
                             :aria-expanded="servicesDropdownOpen"
                             aria-controls="services-dropdown"
-                            class="nav-underline flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600"
+                            class="flex items-center gap-1.5"
+                            :class="navLinkClass"
                         >
                             Jasa &amp; Layanan
                             <span aria-hidden="true" class="text-xs normal-case transition-transform duration-200" :class="servicesDropdownOpen ? '-rotate-180' : ''">v</span>
                         </button>
                         <div v-if="servicesDropdownOpen" id="services-dropdown" class="absolute left-0 top-full pt-3 w-72">
-                            <div class="bg-white shadow-elevated rounded-lg border border-black/10 py-2">
+                            <div
+                                class="rounded-lg py-2"
+                                :class="space ? 'bg-space-deep/95 backdrop-blur-xl border border-white/10 shadow-2xl' : 'bg-white shadow-elevated border border-black/10'"
+                            >
                                 <Link
                                     v-for="service in navServices"
                                     :key="service.id"
                                     :href="'/' + service.slug"
-                                    class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600"
+                                    class="block px-4 py-2.5 text-sm"
+                                    :class="space ? 'text-white/70 hover:bg-white/5 hover:text-brand-300' : 'text-gray-700 hover:bg-gray-50 hover:text-brand-600'"
                                 >
                                     {{ service.name }}
                                 </Link>
@@ -102,15 +159,15 @@ const year = new Date().getFullYear();
                         v-for="item in menu"
                         :key="item.id"
                         :href="item.url"
-                        class="nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600"
+                        :class="navLinkClass"
                     >
                         {{ item.label }}
                     </Link>
                 </nav>
 
                 <div class="flex items-center gap-3 shrink-0">
-                    <div v-if="settings.contact?.whatsapp_number" class="hidden md:block">
-                        <Button :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'" external>
+                    <div v-if="whatsappUrl" class="hidden" :class="space ? 'lg:block' : 'md:block'">
+                        <Button :href="whatsappUrl" external :variant="space ? 'glass' : 'primary'">
                             Konsultasi Gratis
                         </Button>
                     </div>
@@ -120,7 +177,8 @@ const year = new Date().getFullYear();
                         :aria-expanded="mobileMenuOpen"
                         aria-controls="mobile-menu-panel"
                         aria-label="Menu"
-                        class="md:hidden text-gray-700 p-1"
+                        class="p-1"
+                        :class="space ? 'lg:hidden text-white' : 'md:hidden text-gray-700'"
                     >
                         <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -140,7 +198,12 @@ const year = new Date().getFullYear();
                 leave-from-class="opacity-100 translate-y-0"
                 leave-to-class="opacity-0 -translate-y-2"
             >
-                <div v-if="mobileMenuOpen" id="mobile-menu-panel" class="md:hidden border-t px-4 py-3 space-y-1">
+                <div
+                    v-if="mobileMenuOpen"
+                    id="mobile-menu-panel"
+                    class="border-t px-4 py-3 space-y-1"
+                    :class="space ? 'lg:hidden border-white/10 [&_a]:!text-white/80 [&_button]:!text-white/80' : 'md:hidden'"
+                >
                     <Link v-if="homeItem" :href="homeItem.url" class="block text-sm font-medium text-gray-700 py-1.5">{{ homeItem.label }}</Link>
 
                     <button
@@ -175,17 +238,18 @@ const year = new Date().getFullYear();
             </Transition>
         </header>
 
-        <main class="flex-1">
+        <main class="flex-1 relative z-10">
             <slot />
         </main>
 
         <a
-            v-if="settings.contact?.whatsapp_number"
-            :href="'https://wa.me/' + settings.contact.whatsapp_number + '?text=Halo%2C%20saya%20mau%20nanya-nanya'"
+            v-if="whatsappUrl"
+            :href="whatsappUrl"
             target="_blank"
             rel="noopener"
             aria-label="Chat WhatsApp"
             class="fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white text-[#25D366] shadow-lg border-2 border-[#25D366] hover:bg-[#f0fdf4] hover:scale-105 transition-all overflow-hidden"
+            :class="space ? 'shadow-[0_0_40px_-6px_rgba(37,211,102,0.6)]' : ''"
         >
             <img
                 v-if="mascots.whatsapp_widget?.image_path"
@@ -200,10 +264,35 @@ const year = new Date().getFullYear();
             </svg>
         </a>
 
-        <footer class="bg-charcoal text-gray-400">
-            <div class="max-w-7xl mx-auto px-4 py-16 md:py-20 grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+        <footer class="relative z-10" :class="space ? 'bg-space-void/80 text-white/50 border-t border-white/10' : 'bg-charcoal text-gray-400'">
+            <!-- Space theme: oversized "let's talk" marquee, à la a film's closing title card -->
+            <div v-if="space" class="overflow-hidden border-b border-white/10">
+                <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                    <span>[ &infin; ] &mdash; Kontak</span>
+                    <span class="hidden sm:inline">Respon &lt; 24 jam</span>
+                </div>
+                <component
+                    :is="whatsappUrl ? 'a' : Link"
+                    :href="whatsappUrl || '/konsultasi'"
+                    :target="whatsappUrl ? '_blank' : undefined"
+                    :rel="whatsappUrl ? 'noopener' : undefined"
+                    class="group block pb-12 md:pb-20"
+                    aria-label="Mulai proyek bersama kami"
+                >
+                    <div class="footer-marquee flex whitespace-nowrap font-display font-extrabold uppercase text-[18vw] md:text-[11vw] leading-[0.9] tracking-tight" aria-hidden="true">
+                        <span v-for="n in 2" :key="n" class="footer-marquee__track flex items-center gap-[4vw] pr-[4vw]">
+                            <span class="text-white group-hover:text-brand-300 transition-colors">Let's talk</span>
+                            <span class="text-brand-400 text-[0.5em]">&#10022;</span>
+                            <span class="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.35)]">Mulai proyek</span>
+                            <span class="text-brand-400 text-[0.5em]">&#10022;</span>
+                        </span>
+                    </div>
+                </component>
+            </div>
+
+            <div class="mx-auto px-4 py-16 md:py-20 grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8" :class="space ? 'max-w-[1440px] md:px-8' : 'max-w-7xl'">
                 <div>
-                    <h3 class="text-white font-bold text-xl tracking-tight mb-3">{{ settings.general?.website_name }}</h3>
+                    <h3 class="text-white font-bold text-xl tracking-tight mb-3" :class="space ? 'font-display' : ''">{{ settings.general?.website_name }}</h3>
                     <p class="text-sm leading-relaxed max-w-xs">{{ settings.general?.description }}</p>
                 </div>
                 <div>
@@ -230,7 +319,7 @@ const year = new Date().getFullYear();
                     </div>
                 </div>
             </div>
-            <div class="border-t border-white/10 py-5 text-center text-xs space-y-1">
+            <div class="border-t border-white/10 py-5 text-center text-xs space-y-1" :class="space ? 'font-mono uppercase tracking-[0.15em] text-[10px]' : ''">
                 <p>(c) {{ year }} {{ settings.general?.website_name }}. All rights reserved.</p>
                 <p class="text-gray-500">{{ settings.general?.footer_disclaimer }}</p>
             </div>
@@ -274,6 +363,25 @@ const year = new Date().getFullYear();
     height: 2px;
     background: #4d7c0f;
     transition: width 0.3s ease, left 0.3s ease;
+}
+.theme-space .nav-underline::after {
+    height: 1px;
+    background: #a3e635;
+}
+
+/* Footer marquee: two identical tracks, translate one track-width. */
+.footer-marquee__track {
+    animation: footer-marquee 28s linear infinite;
+}
+@keyframes footer-marquee {
+    to {
+        transform: translateX(-100%);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .footer-marquee__track {
+        animation: none;
+    }
 }
 .nav-underline:hover::after,
 .nav-underline:focus-visible::after {

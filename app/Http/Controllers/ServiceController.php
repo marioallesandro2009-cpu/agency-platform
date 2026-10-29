@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use App\Models\PortfolioProject;
 use App\Models\Service;
-use Inertia\Inertia;
 
 class ServiceController extends Controller
 {
@@ -22,7 +21,7 @@ class ServiceController extends Controller
                 ->get(["id", "title", "slug", "published_at"]);
         }
 
-        return Inertia::render("Public/ServiceDetail", [
+        return view("pages.service-detail", [
             "service" => $service,
             "otherServices" => Service::published()
                 ->where("id", "!=", $service->id)

@@ -6,8 +6,8 @@
  * tier-card grid on /harga itself — see PricingSection.vue for that.
  */
 import { computed } from "vue";
-import Button from "./Button.vue";
-import DottedPattern from "@/Components/DottedPattern.vue";
+import { Link } from "@inertiajs/vue3";
+import SpaceSectionHeading from "./SpaceSectionHeading.vue";
 import { Rocket, Building2, ShoppingCart, Database } from "lucide-vue-next";
 import { PRICING_CATEGORIES } from "@/constants/pricing";
 
@@ -15,6 +15,7 @@ const props = defineProps({
     packages: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     subtitle: { type: String, default: "" },
+    index: { type: Number, default: null }, // HUD section number on the space-theme homepage
 });
 
 const CATEGORY_ICONS = {
@@ -43,35 +44,32 @@ function formatPrice(price) {
 </script>
 
 <template>
-    <section class="relative bg-gray-100 py-20 md:py-24">
-        <DottedPattern color="rgba(77, 124, 15, 0.08)" />
-        <div class="relative z-10 max-w-7xl mx-auto px-4">
-            <div v-if="title" v-scroll-reveal class="text-center max-w-2xl mx-auto mb-14">
-                <p v-if="subtitle" class="text-brand-600 font-semibold text-xs uppercase tracking-widest mb-2">{{ subtitle }}</p>
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{{ title }}</h2>
-            </div>
+    <section class="relative py-24 md:py-32">
+        <div class="relative z-10 max-w-[1440px] mx-auto px-4 md:px-8">
+            <SpaceSectionHeading v-if="title" :index="index" :label="subtitle" :title="title" />
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div
-                    v-for="(card, index) in cards"
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-white/10 bg-white/10">
+                <Link
+                    v-for="(card, i) in cards"
                     :key="card.value"
-                    v-scroll-reveal="{ delay: index * 80 }"
-                    class="bg-white rounded-lg border border-black/10 p-6 flex flex-col transition-colors duration-200 hover:border-brand-300"
+                    v-scroll-reveal="{ delay: i * 80 }"
+                    :href="`/harga?kategori=${card.value}`"
+                    class="group relative bg-space-void p-7 md:p-8 flex flex-col min-h-[300px] transition-colors duration-300 hover:bg-space-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-400"
                 >
-                    <div class="w-10 h-10 rounded-md bg-brand-50 text-brand-700 flex items-center justify-center mb-4">
-                        <component :is="card.icon" class="w-5 h-5" />
+                    <div class="flex items-center justify-between mb-auto">
+                        <component :is="card.icon" class="w-6 h-6 text-white/50 transition-colors group-hover:text-brand-400" aria-hidden="true" />
+                        <span class="font-mono text-[10px] tracking-[0.2em] text-white/30">/{{ String(i + 1).padStart(2, "0") }}</span>
                     </div>
-                    <h3 class="font-bold tracking-tight text-gray-900 mb-3">{{ card.label }}</h3>
-                    <div class="mb-5 flex-1">
-                        <p class="text-xs text-gray-500">Mulai dari</p>
-                        <p class="text-xl font-bold text-gray-900">
-                            {{ card.cheapestPrice ? formatPrice(card.cheapestPrice) : "Segera Hadir" }}
-                        </p>
-                    </div>
-                    <Button variant="ghost" :href="`/harga?kategori=${card.value}`">
-                        Selengkapnya <span aria-hidden="true">&rarr;</span>
-                    </Button>
-                </div>
+                    <h3 class="font-display font-semibold text-xl text-white tracking-tight mt-12 mb-4">{{ card.label }}</h3>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Mulai dari</p>
+                    <p class="font-display text-2xl text-brand-300 tabular-nums mb-6">
+                        {{ card.cheapestPrice ? formatPrice(card.cheapestPrice) : "Segera Hadir" }}
+                    </p>
+                    <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-white/60 group-hover:text-white flex items-center gap-2">
+                        Selengkapnya <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                    </span>
+                    <span class="absolute inset-x-0 bottom-0 h-px bg-brand-400 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true"></span>
+                </Link>
             </div>
         </div>
     </section>
