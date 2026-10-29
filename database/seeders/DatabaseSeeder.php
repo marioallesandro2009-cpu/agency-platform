@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             BlogPostSeeder::class,
             NavItemSeeder::class,
             MascotAssetSeeder::class,
+            MediaSeeder::class,
         ]);
     }
 }
