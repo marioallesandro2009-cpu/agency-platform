@@ -68,6 +68,8 @@
             })();
         </script>
         @stack('head')
+        {{-- No chunk prefetching here: the only lazy chunk is the WebGL planet, which phones never load. --}}
+        @php(\Illuminate\Support\Facades\Vite::usePrefetchStrategy(null))
         @vite(['resources/js/blade-app.js'])
     </head>
     <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }}">
@@ -92,7 +94,7 @@
                 >
                     @if ($mascots['whatsapp_widget']['image_path'] ?? null)
                         <img
-                            src="{{ $mascots['whatsapp_widget']['image_path'] }}"
+                            src="{{ AppSupportImg::url($mascots['whatsapp_widget']['image_path'], 320) }}"
                             alt="{{ $mascots['whatsapp_widget']['alt_text'] ?? 'Chat WhatsApp' }}"
                             width="64" height="64"
                             class="h-full w-full object-cover"

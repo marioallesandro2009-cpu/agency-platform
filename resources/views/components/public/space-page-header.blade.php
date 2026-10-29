@@ -30,7 +30,7 @@
         @if ($breadcrumbItems)
             <x-public.breadcrumbs :items="$breadcrumbItems" variant="space" />
         @endif
-        <p data-reveal class="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/55 mb-6">
+        <p data-reveal-load class="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/55 mb-6">
             <span class="text-brand-400">[ {{ $code ?? '00' }} ]</span>
             <span class="h-px w-10 bg-white/25"></span>
             {{ $eyebrow }}
@@ -42,10 +42,10 @@
             class="font-display font-semibold text-[2rem] sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.04] tracking-tight text-white max-w-5xl mb-6 [text-wrap:balance]"
         />
         @if ($subtitle)
-            <p data-reveal data-reveal-delay="160" class="text-base md:text-lg text-white/60 leading-relaxed max-w-2xl">{{ $subtitle }}</p>
+            <p data-reveal-load style="--d: 160ms" class="text-base md:text-lg text-white/60 leading-relaxed max-w-2xl">{{ $subtitle }}</p>
         @endif
         @if (trim($slot))
-            <div data-reveal data-reveal-delay="240" class="mt-8">{{ $slot }}</div>
+            <div data-reveal-load style="--d: 240ms" class="mt-8">{{ $slot }}</div>
         @endif
     </div>
 </section>

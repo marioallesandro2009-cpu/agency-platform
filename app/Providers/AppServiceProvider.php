@@ -36,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // The prefetch helper is an inline <script>; without the nonce the
+        // CSP blocks it (console error). Public pages turn prefetch off.
+        Vite::useCspNonce(app('csp-nonce'));
         Vite::prefetch(concurrency: 3);
 
         // Feeds the same navbar/footer/mascot data the Inertia pages get via

@@ -35,7 +35,7 @@
         @if ($posts->isEmpty())
             <div class="rounded-2xl border border-dashed border-white/15 text-center py-20 px-6">
                 @if ($mascots['empty_state_blog']['image_path'] ?? null)
-                    <img src="{{ $mascots['empty_state_blog']['image_path'] }}" alt="{{ $mascots['empty_state_blog']['alt_text'] ?? '' }}" width="128" height="128" loading="lazy" class="w-32 h-32 mx-auto mb-6 object-contain">
+                    <img src="{{ AppSupportImg::url($mascots['empty_state_blog']['image_path'], 320) }}" alt="{{ $mascots['empty_state_blog']['alt_text'] ?? '' }}" width="128" height="128" loading="lazy" class="w-32 h-32 mx-auto mb-6 object-contain">
                 @endif
                 <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/45">Belum ada artikel di kategori ini.</p>
             </div>

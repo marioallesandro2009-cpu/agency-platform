@@ -84,7 +84,7 @@
 
                 <div class="relative z-10 flex-1 flex items-end max-w-[1440px] w-full mx-auto px-4 md:px-8 pt-32 pb-28 md:pb-32">
                     <div class="max-w-4xl">
-                        <p data-reveal class="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/55 mb-6">
+                        <p data-reveal-load class="flex items-center gap-3 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/55 mb-6">
                             <span class="text-brand-400">[ 00 ]</span>
                             <span class="h-px w-10 bg-white/25"></span>
                             {{ $hero['eyebrow'] ?? '' }}
@@ -109,10 +109,10 @@
                                 </span>
                             </span>
                         </h1>
-                        <p data-reveal data-reveal-delay="160" class="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mb-10">
+                        <p data-reveal-load style="--d: 160ms" class="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mb-10">
                             {{ $hero['subtitle'] ?? '' }}
                         </p>
-                        <div data-reveal data-reveal-delay="240" class="flex flex-col sm:flex-row sm:flex-wrap items-start gap-3">
+                        <div data-reveal-load style="--d: 240ms" class="flex flex-col sm:flex-row sm:flex-wrap items-start gap-3">
                             <a href="{{ $hero['cta_primary_url'] ?? '/konsultasi' }}" class="btn-space btn-space--lg btn-space--pill">
                                 {{ $hero['cta_primary_text'] ?? 'Konsultasi Gratis' }} <span class="btn-space__arrow" aria-hidden="true">&rarr;</span>
                             </a>
@@ -165,7 +165,7 @@
                             @endif
 
                             @if ($mascots['kenalan_dekat_kami']['image_path'] ?? null)
-                                <img src="{{ $mascots['kenalan_dekat_kami']['image_path'] }}" alt="{{ $mascots['kenalan_dekat_kami']['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full max-w-[180px] mt-8 object-contain">
+                                <img src="{{ AppSupportImg::url($mascots['kenalan_dekat_kami']['image_path'], 480) }}" alt="{{ $mascots['kenalan_dekat_kami']['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full max-w-[180px] mt-8 object-contain">
                             @endif
                         </div>
 
@@ -302,7 +302,7 @@
                                     </span>
                                 @endforeach
                                 <span class="radar__core"></span>
-                                <span class="absolute left-1/2 -bottom-8 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.3em] text-white/30 whitespace-nowrap">Scan &middot; {{ str_pad($whyCount, 2, '0', STR_PAD_LEFT) }} sinyal</span>
+                                <span class="absolute left-1/2 -bottom-8 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.3em] text-white/55 whitespace-nowrap">Scan &middot; {{ str_pad($whyCount, 2, '0', STR_PAD_LEFT) }} sinyal</span>
                             </div>
                         </div>
                     </div>
@@ -486,7 +486,7 @@
                                     aria-controls="home-faq-answer-{{ $faq->id }}"
                                     class="group w-full flex items-center gap-5 py-6 text-left"
                                 >
-                                    <span class="font-mono text-[10px] tracking-[0.2em] text-white/35 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="font-mono text-[10px] tracking-[0.2em] text-white/55 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                     <span class="flex-1 font-semibold text-white/85 transition-colors group-hover:text-brand-300">{{ $faq->question }}</span>
                                     <span data-faq-icon aria-hidden="true" class="w-8 h-8 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-brand-400 transition-transform duration-300">+</span>
                                 </button>
@@ -541,7 +541,7 @@
                         </article>
 
                         <div class="lg:col-span-5 xl:col-span-4 lg:pt-24">
-                            <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40 mb-6 flex items-center gap-3">
+                            <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-white/55 mb-6 flex items-center gap-3">
                                 <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse motion-reduce:animate-none" aria-hidden="true"></span>
                                 Transmisi terbaru
                             </p>
@@ -581,7 +581,7 @@
                     <div class="flex flex-col md:flex-row items-center gap-10 md:gap-20">
                         <div class="w-full md:w-2/5 flex justify-center flex-shrink-0">
                             @if ($mascots['cta_kontak']['image_path'] ?? null)
-                                <img src="{{ $mascots['cta_kontak']['image_path'] }}" alt="{{ $mascots['cta_kontak']['alt_text'] ?? '' }}" class="w-full max-w-sm object-contain">
+                                <img src="{{ AppSupportImg::url($mascots['cta_kontak']['image_path'], 480) }}" srcset="{{ AppSupportImg::srcset($mascots['cta_kontak']['image_path'], [480, 960]) }}" sizes="384px" alt="{{ $mascots['cta_kontak']['alt_text'] ?? '' }}" width="384" height="417" loading="lazy" class="w-full h-auto max-w-sm object-contain">
                             @else
                                 <svg viewBox="0 0 360 320" class="w-full max-w-sm" role="img" aria-label="Ilustrasi kirim pesan">
                                     <g fill="#a3e635">

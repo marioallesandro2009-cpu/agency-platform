@@ -9,7 +9,7 @@
     @if ($space)
         {{-- Oversized "let's talk" marquee, like a film's closing title card --}}
         <div class="overflow-hidden border-b border-white/10">
-            <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+            <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">
                 <span>[ &infin; ] &mdash; Kontak</span>
                 <span class="hidden sm:inline">Respon &lt; 24 jam</span>
             </div>

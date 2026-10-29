@@ -138,7 +138,7 @@
                 @if (!empty($sidebarMascot['image_path']))
                     <div class="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 ambient-float">
                         <div class="absolute inset-2 -z-10 rounded-full bg-brand-400/10" aria-hidden="true"></div>
-                        <img src="{{ $sidebarMascot['image_path'] }}" alt="{{ $sidebarMascot['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full h-full object-contain">
+                        <img src="{{ AppSupportImg::url($sidebarMascot['image_path'], 480) }}" alt="{{ $sidebarMascot['alt_text'] ?? '' }}" width="220" height="220" loading="lazy" class="w-full h-full object-contain">
                     </div>
                 @endif
             </div>
@@ -173,7 +173,7 @@
                         @foreach ($service->faqs as $index => $faq)
                             <div class="border-b border-white/10">
                                 <button type="button" data-faq-toggle aria-expanded="false" aria-controls="service-faq-answer-{{ $index }}" class="group w-full flex items-center gap-5 py-6 text-left">
-                                    <span class="font-mono text-[10px] tracking-[0.2em] text-white/35 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="font-mono text-[10px] tracking-[0.2em] text-white/55 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                                     <span class="flex-1 font-semibold text-white/85 transition-colors group-hover:text-brand-300">{{ $faq['question'] }}</span>
                                     <span data-faq-icon aria-hidden="true" class="w-8 h-8 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-brand-400 transition-transform duration-300">+</span>
                                 </button>

@@ -14,7 +14,7 @@ class Img
     /** Resized WebP URL for a /storage/... path, or the original URL. */
     public static function url(?string $src, int $width): ?string
     {
-        if (! $src || ! str_starts_with($src, '/storage/')) {
+        if (! self::resizable($src)) {
             return $src;
         }
 
@@ -26,10 +26,18 @@ class Img
     /** srcset string covering the given widths (empty for non-local images). */
     public static function srcset(?string $src, array $widths = [480, 960, 1600]): string
     {
-        if (! $src || ! str_starts_with($src, '/storage/')) {
+        if (! self::resizable($src)) {
             return '';
         }
 
         return collect($widths)->map(fn ($w) => self::url($src, $w) . " {$w}w")->implode(', ');
+    }
+
+    /** Local raster upload the WebP pipeline can handle (not SVG/GIF/external). */
+    private static function resizable(?string $src): bool
+    {
+        return $src
+            && str_starts_with($src, '/storage/')
+            && in_array(strtolower(pathinfo($src, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp'], true);
     }
 }

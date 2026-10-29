@@ -541,6 +541,7 @@ textarea.field-input {
     gap: 0.5rem;
 }
 .radar__dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 9999px;
@@ -561,14 +562,23 @@ textarea.field-input {
     height: 12px;
     background: rgb(var(--lime-400));
     box-shadow: 0 0 0 6px rgb(var(--lime-400) / 0.18), 0 0 24px rgb(var(--lime-400));
+}
+/* Ping ring: a scaled/faded pseudo-element (compositor-only, unlike an
+   animated box-shadow, which repaints every frame). */
+.radar__blip.is-active .radar__dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid rgb(var(--lime-400) / 0.6);
     animation: radar-ping 1.6s ease-out infinite;
 }
 .radar__blip.is-active .radar__label {
     color: rgb(var(--lime-200));
 }
 @keyframes radar-ping {
-    0% { box-shadow: 0 0 0 0 rgb(var(--lime-400) / 0.5), 0 0 24px rgb(var(--lime-400)); }
-    100% { box-shadow: 0 0 0 16px rgb(var(--lime-400) / 0), 0 0 24px rgb(var(--lime-400)); }
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(3.6); opacity: 0; }
 }
 .radar-row__bar {
     transform: scaleX(0);
@@ -1084,15 +1094,26 @@ html[data-theme="light"] .space-header {
     transform: translateY(0);
 }
 [data-split="load"] .split-word > span {
-    animation: split-rise 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(120ms + var(--i) * 70ms);
+    animation: split-rise 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(60ms + var(--i) * 45ms);
+}
+/* Above-the-fold entrance without JS: transform only, so the text is
+   painted (and counted for LCP) on the very first frame instead of waiting
+   for blade-app.js to fade it in. */
+[data-reveal-load] {
+    animation: load-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+}
+@keyframes load-rise {
+    from { transform: translateY(18px); }
 }
 @keyframes split-rise {
     from { transform: translateY(110%); }
     to { transform: translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-    [data-split="load"] .split-word > span {
+    [data-split="load"] .split-word > span,
+    [data-reveal-load] {
         animation: none;
     }
 }
@@ -1189,6 +1210,18 @@ a.browser-frame__url:focus-visible {
     color: rgb(var(--lime-300));
     background: rgb(var(--ink) / 0.1);
     outline: none;
+}
+
+/* ---- Rendering budget ---------------------------------------------------
+   Pages are long (12k px on phones); without this the first layout lays
+   out and shapes every section at once (~0.5s of main thread on a mid
+   phone). Off-screen sections are skipped until they near the viewport;
+   "auto" remembers each one's real size after its first render so the
+   scrollbar doesn't jump. */
+.theme-space main section:not(.space-hero):not(section section),
+.theme-space > div > footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
 }
 
 /* ---- Motion signatures --------------------------------------------------- */

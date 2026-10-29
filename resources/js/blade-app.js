@@ -323,7 +323,9 @@ function initSpaceHeader() {
         const solid = window.scrollY > 40 || (panel && !panel.classList.contains("hidden"));
         header.classList.toggle("is-solid", Boolean(solid));
     };
-    update();
+    // First check on the next frame: reading scrollY during DOMContentLoaded
+    // forces the page's first full layout inside this script task.
+    requestAnimationFrame(update);
     window.addEventListener("scroll", update, { passive: true });
     header.querySelector("[data-nav-toggle]")?.addEventListener("click", () => requestAnimationFrame(update));
 }
