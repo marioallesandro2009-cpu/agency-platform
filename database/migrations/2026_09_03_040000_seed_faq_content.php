@@ -34,20 +34,13 @@ return new class extends Migration
             ]
         );
 
-        Faq::updateOrCreate(
-            ['question' => 'Berapa lama waktu pengerjaan website?'],
-            ['category' => 'process', 'order' => 2]
-        );
+        // Reorder only: these rows have no new answer, so on a fresh database
+        // (where they do not exist yet) there is nothing to do; FaqSeeder adds them.
+        Faq::where('question', 'Berapa lama waktu pengerjaan website?')->update(['category' => 'process', 'order' => 2]);
 
-        Faq::updateOrCreate(
-            ['question' => 'Apakah website yang dibuat sudah SEO friendly?'],
-            ['category' => 'seo', 'order' => 7]
-        );
+        Faq::where('question', 'Apakah website yang dibuat sudah SEO friendly?')->update(['category' => 'seo', 'order' => 7]);
 
-        Faq::updateOrCreate(
-            ['question' => 'Bagaimana cara memulai konsultasi?'],
-            ['category' => 'general', 'order' => 8]
-        );
+        Faq::where('question', 'Bagaimana cara memulai konsultasi?')->update(['category' => 'general', 'order' => 8]);
 
         // New FAQs.
         Faq::updateOrCreate(
