@@ -2,6 +2,10 @@
     $space = $space ?? false;
     $homeItem = collect($navMenu ?? [])->firstWhere('url', '/');
     $menuItems = collect($navMenu ?? [])->reject(fn ($item) => $item['url'] === '/');
+    // Software Custom has no price list: its 'Harga' goes to contact, not to the website packages.
+    if ($corporate ?? false) {
+        $menuItems = $menuItems->map(fn ($item) => $item['url'] === '/harga' ? ['label' => $item['label'], 'url' => '/kontak'] : $item);
+    }
     $navLink = $space
         ? 'nav-underline font-mono text-[11px] uppercase tracking-[0.18em] text-white/60 hover:text-white'
         : 'nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600';

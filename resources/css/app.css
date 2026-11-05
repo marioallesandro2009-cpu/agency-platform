@@ -1330,3 +1330,109 @@ html[data-theme="light"] .theme-space.theme-blue .prose-invert {
     --tw-prose-invert-quote-borders: #2563eb;
     --tw-prose-invert-code: #1d4ed8;
 }
+
+/* Corporate look on top of the blue tokens: plain heavy sans instead of the
+   wide display face, square corners, and solid blue primary buttons. */
+.theme-blue {
+    font-variant-numeric: lining-nums;
+}
+.theme-blue .font-display {
+    font-family: Raleway, "Raleway Fallback", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.015em;
+}
+.theme-blue .btn-space {
+    border-radius: 3px;
+}
+.theme-blue .btn-space__arrow {
+    border-radius: 2px;
+}
+.theme-blue .btn-space--pill {
+    background: #2563eb;
+    color: #fff;
+}
+.theme-blue .btn-space--pill:hover {
+    background: #1d4ed8;
+}
+.theme-blue .btn-space--pill .btn-space__arrow {
+    background: rgb(255 255 255 / 0.18);
+    color: #fff;
+}
+.theme-blue .contact-cta .rounded-3xl {
+    border-radius: 4px;
+}
+/* .force-dark re-declares the lime set, so blocks inside the blue pages need
+   the blue values back (this also covers light mode). */
+html .theme-space.theme-blue .force-dark {
+    --space-void: 4 10 26;
+    --space-deep: 8 18 42;
+    --space-panel: 14 28 60;
+    --lime-200: 191 219 254;
+    --lime-300: 147 197 253;
+    --lime-400: 96 165 250;
+}
+.corp-hero {
+    background:
+        linear-gradient(rgb(var(--ink) / 0.035) 1px, transparent 1px) 0 0 / 100% 56px,
+        linear-gradient(180deg, rgb(var(--space-deep)) 0%, rgb(var(--space-void)) 100%);
+}
+.corp-ledger {
+    border-top: 2px solid rgb(var(--lime-400));
+    background: rgb(var(--space-panel) / 0.55);
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+.corp-band {
+    background: #0b2a6f;
+}
+.corp-check {
+    appearance: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    border: 1.5px solid rgb(255 255 255 / 0.6);
+    border-radius: 2px;
+    background: transparent center / 80% no-repeat;
+    cursor: pointer;
+}
+.corp-check:checked {
+    border-color: #fff;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%230b2a6f' stroke-width='2.5' d='M3 8.5l3.2 3.2L13 5'/%3E%3C/svg%3E");
+}
+.corp-check:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+/* Hero photo fades into the page so the text side stays readable. */
+.corp-photo {
+    opacity: 0.55;
+}
+.corp-photo-fade {
+    background: linear-gradient(90deg, rgb(var(--space-void)) 0%, rgb(var(--space-void) / 0.92) 42%, rgb(var(--space-void) / 0.35) 100%);
+}
+@media (max-width: 1023px) {
+    .corp-photo-fade {
+        background: rgb(var(--space-void) / 0.88);
+    }
+}
+/* Illustrative "today" spreadsheet in the before/after section. */
+.corp-sheet th,
+.corp-sheet td {
+    border: 1px solid rgb(var(--ink) / 0.12);
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+    color: rgb(var(--ink) / 0.75);
+}
+.corp-sheet th {
+    background: rgb(var(--ink) / 0.06);
+    font-weight: 500;
+}
+.corp-sheet td.is-warn {
+    background: rgb(245 158 11 / 0.14);
+    color: rgb(var(--ink));
+}
+.theme-blue .lead-submit {
+    color: #fff;
+    background: #2563eb;
+}
+.theme-blue .bg-glow-drift {
+    background-image: radial-gradient(circle at 80% 20%, rgb(37 99 235 / 0.14), transparent 45%);
+}

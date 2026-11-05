@@ -29,7 +29,9 @@ const OFFSETS = {
 };
 
 function initScrollReveal() {
-    if (prefersReducedMotion()) return;
+    // Corporate pages show content straight away: blocks waiting to fade in
+    // read as empty space while scrolling.
+    if (prefersReducedMotion() || document.body.classList.contains("theme-blue")) return;
 
     document.querySelectorAll("[data-reveal]").forEach((el) => {
         const direction = el.dataset.reveal || "up";
@@ -181,9 +183,26 @@ function initRoiCalculator() {
             const monthlyHours = read("staff") * read("hours") * WORK_DAYS_PER_MONTH;
             root.querySelector("[data-roi-yearly]").textContent = `Rp${(monthlyHours * read("rate") * 12).toLocaleString("id-ID")}`;
             root.querySelector("[data-roi-monthly-hours]").textContent = monthlyHours.toLocaleString("id-ID");
+            root.querySelector("[data-roi-monthly]").textContent = `Rp${(monthlyHours * read("rate")).toLocaleString("id-ID")}`;
         };
         root.addEventListener("input", update);
         update();
+    });
+}
+
+// ---- Software Custom: self-diagnosis checklist ---------------------------
+function initNeedCheck() {
+    document.querySelectorAll("[data-need-check]").forEach((root) => {
+        const boxes = [...root.querySelectorAll("input[type=checkbox]")];
+        root.addEventListener("change", () => {
+            const count = boxes.filter((box) => box.checked).length;
+            const level = count >= 4 ? 2 : count >= 2 ? 1 : 0;
+            root.querySelector("[data-need-count]").textContent = count;
+            root.querySelector("[data-need-bar]").style.width = `${(count / boxes.length) * 100}%`;
+            root.querySelectorAll("[data-need-verdict]").forEach((el) => {
+                el.classList.toggle("hidden", Number(el.dataset.needVerdict) !== level);
+            });
+        });
     });
 }
 
@@ -828,6 +847,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initFaqAccordion();
     initFaqFilter();
     initRoiCalculator();
+    initNeedCheck();
     initPricingTabs();
     initBillingToggle();
     initLeadForms();

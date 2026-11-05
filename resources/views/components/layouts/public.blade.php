@@ -8,8 +8,8 @@
     // full-screen hero, starfield backdrop, oversized footer CTA). Other
     // pages keep 'light' until they're redesigned too.
     'theme' => 'light',
-    // 'blue' re-points the space theme's accent/surface tokens (app.css) for
-    // the Software Custom pages; layout and components stay the same.
+    // 'blue' is the corporate look of the Software Custom pages: navy tokens
+    // and plain type (app.css), without the starfield or footer marquee.
     'accent' => null,
 ])
 
@@ -78,11 +78,11 @@
     </head>
     <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }} {{ $accentClass }}">
         <div class="min-h-screen flex flex-col {{ $space ? 'theme-space bg-space-void text-white' : 'bg-white' }} {{ $accentClass }}">
-            @if ($space)
+            @if ($space && ! $accentClass)
                 <canvas class="fixed inset-0 z-0 w-full h-full pointer-events-none" data-starfield aria-hidden="true"></canvas>
             @endif
 
-            @include('partials.public.navbar', ['space' => $space])
+            @include('partials.public.navbar', ['space' => $space, 'corporate' => (bool) $accentClass])
 
             <main class="flex-1 relative z-10">
                 {{ $slot }}
@@ -111,7 +111,7 @@
                 </a>
             @endif
 
-            @include('partials.public.footer', ['space' => $space])
+            @include('partials.public.footer', ['space' => $space, 'corporate' => (bool) $accentClass])
         </div>
     </body>
 </html>

@@ -6,7 +6,7 @@
 @endphp
 
 <footer class="relative z-10 {{ $space ? 'bg-space-void/80 text-white/50 border-t border-white/10' : 'bg-charcoal text-gray-400' }}">
-    @if ($space)
+    @if ($space && empty($corporate))
         {{-- Oversized "let's talk" marquee, like a film's closing title card --}}
         <div class="overflow-hidden border-b border-white/10">
             <div class="max-w-[1440px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-white/55">
