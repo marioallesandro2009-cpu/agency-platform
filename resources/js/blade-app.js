@@ -172,6 +172,21 @@ function initFaqAccordion() {
     });
 }
 
+// ---- Software Custom: yearly cost of a manual process -------------------
+function initRoiCalculator() {
+    document.querySelectorAll("[data-roi-calc]").forEach((root) => {
+        const read = (name) => Math.max(0, Number(root.querySelector(`[data-roi-${name}]`).value) || 0);
+        const WORK_DAYS_PER_MONTH = 22;
+        const update = () => {
+            const monthlyHours = read("staff") * read("hours") * WORK_DAYS_PER_MONTH;
+            root.querySelector("[data-roi-yearly]").textContent = `Rp${(monthlyHours * read("rate") * 12).toLocaleString("id-ID")}`;
+            root.querySelector("[data-roi-monthly-hours]").textContent = monthlyHours.toLocaleString("id-ID");
+        };
+        root.addEventListener("input", update);
+        update();
+    });
+}
+
 // ---- Live activity ticker ----------------------------------------------
 function initLiveTicker() {
     const el = document.querySelector("[data-live-ticker]");
@@ -812,6 +827,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initSplitHeadlines();
     initFaqAccordion();
     initFaqFilter();
+    initRoiCalculator();
     initPricingTabs();
     initBillingToggle();
     initLeadForms();

@@ -18,10 +18,14 @@ class ServiceController extends Controller
                 ->published()
                 ->latestFirst()
                 ->take(4)
-                ->get(["id", "title", "slug", "published_at"]);
+                ->get(["id", "title", "slug", "excerpt", "featured_image", "featured_image_alt", "published_at"]);
         }
 
-        return view("pages.service-detail", [
+        // Software Custom has its own blue landing page; every other service
+        // shares the generic detail template.
+        $view = $service->slug === "jasa-software-custom" ? "pages.custom-software" : "pages.service-detail";
+
+        return view($view, [
             "service" => $service,
             "otherServices" => Service::published()
                 ->where("id", "!=", $service->id)

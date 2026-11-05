@@ -55,6 +55,7 @@ class PublicPagesTest extends TestCase
             'jasa-website-company-profile' => ['/jasa-website-company-profile', 'jasa-website-company-profile'],
             'jasa-toko-online' => ['/jasa-toko-online', 'jasa-toko-online'],
             'jasa-web-development' => ['/jasa-web-development', 'jasa-web-development'],
+            'jasa-software-custom' => ['/jasa-software-custom', 'jasa-software-custom'],
         ];
     }
 

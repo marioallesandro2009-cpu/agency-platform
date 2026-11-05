@@ -6,10 +6,32 @@
     ];
     $readingTime = \App\Support\ReadingTime::minutes($post->content);
     $formatDate = fn ($date) => $date ? \Carbon\Carbon::parse($date)->locale('id')->translatedFormat('d F Y') : '';
+
+    $isSoftware = $post->category?->slug === 'custom-software';
+    $ctaTitle = $isSoftware ? 'Punya proses yang ingin dirapikan dengan software?' : 'Mau website seperti yang dibahas di artikel ini?';
+    $ctaUrl = $isSoftware ? '/jasa-software-custom' : '/konsultasi';
+    $ctaLabel = $isSoftware ? 'Lihat Layanan Software Custom' : 'Konsultasi Gratis Sekarang';
+
+    $articleJsonLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BlogPosting',
+        'headline' => $post->seo_title ?: $post->title,
+        'description' => $post->seo_description ?: $post->excerpt,
+        'url' => url('/blog/' . $post->slug),
+        'datePublished' => $post->published_at?->toAtomString(),
+        'dateModified' => $post->updated_at?->toAtomString(),
+        'author' => ['@type' => 'Organization', 'name' => $settings['general']['website_name'] ?? null],
+        'publisher' => ['@type' => 'Organization', 'name' => $settings['general']['website_name'] ?? null],
+    ];
+    if ($post->featured_image) {
+        $articleJsonLd['image'] = url($post->featured_image);
+    }
 @endphp
 
 <x-layouts.public
     theme="space"
+    :accent="$isSoftware ? 'blue' : null"
+    :seo-json-ld="[$articleJsonLd]"
     :seo-title="$post->seo_title ?: $post->title"
     :seo-description="$post->seo_description ?: $post->excerpt"
     :seo-image="$post->featured_image"
@@ -79,8 +101,8 @@
             <div class="mt-16 max-w-3xl relative overflow-hidden rounded-2xl border border-brand-400/30 bg-space-deep p-7 md:p-9">
                 <div class="absolute inset-0 bg-glow-drift pointer-events-none" aria-hidden="true"></div>
                 <p class="relative font-mono text-[10px] uppercase tracking-[0.25em] text-brand-400 mb-4">[ &rarr; ] Langkah berikutnya</p>
-                <p class="relative font-display font-semibold text-2xl md:text-3xl text-white tracking-tight mb-6 [text-wrap:balance]">Mau website seperti yang dibahas di artikel ini?</p>
-                <a href="/konsultasi" class="relative btn-space btn-space--lg btn-space--pill">Konsultasi Gratis Sekarang <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
+                <p class="relative font-display font-semibold text-2xl md:text-3xl text-white tracking-tight mb-6 [text-wrap:balance]">{{ $ctaTitle }}</p>
+                <a href="{{ $ctaUrl }}" class="relative btn-space btn-space--lg btn-space--pill">{{ $ctaLabel }} <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
             </div>
         </article>
     </div>

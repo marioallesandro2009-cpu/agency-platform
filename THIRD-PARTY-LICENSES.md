@@ -52,3 +52,27 @@ THE SOFTWARE.
 Raleway, Unbounded, JetBrains Mono and Instrument Serif (italic), latin-subset WOFF2 files as distributed
 by fonts.bunny.net (mirroring Google Fonts). All are licensed under the
 SIL Open Font License, Version 1.1 — https://openfontlicense.org
+
+## Foto artikel blog dan layanan Software Custom (public/images/blog) — Pexels License
+
+Foto berikut berasal dari Pexels (https://www.pexels.com/license/), bebas dipakai
+secara komersial dan boleh dimodifikasi, tanpa wajib atribusi. Semua sudah diedit
+(crop, overlay warna, logo ExodineWeb). Dipilih yang tanpa wajah dan tanpa merek
+menonjol, karena lisensi melarang kesan endorsement. Jangan dijual ulang sebagai
+stok foto. Infografik `*-infografik.webp` dibuat sendiri tanpa foto pihak ketiga.
+
+| Gambar | Sumber |
+| --- | --- |
+| website-company-profile-perusahaan | https://www.pexels.com/photo/5230087/ |
+| biaya-website-perusahaan | https://www.pexels.com/photo/33175667/ |
+| keamanan-website-perusahaan | https://www.pexels.com/photo/36740854/ |
+| kecepatan-website-bisnis | https://www.pexels.com/photo/18096282/ |
+| seo-b2b-perusahaan | https://www.pexels.com/photo/577210/ |
+| memilih-vendor-website | https://www.pexels.com/photo/261621/ |
+| redesign-website-tanpa-kehilangan-trafik | https://www.pexels.com/photo/196645/ |
+| website-multibahasa-perusahaan | https://www.pexels.com/photo/7634990/ |
+| maintenance-website-perusahaan | https://www.pexels.com/photo/1921326/ |
+| contoh-software-custom-perusahaan | https://www.pexels.com/photo/4508751/ |
+| biaya-pembuatan-software-custom | https://www.pexels.com/photo/33175656/ |
+| pembuatan-aplikasi-perusahaan | https://www.pexels.com/photo/196644/ |
+| jasa-software-custom | https://www.pexels.com/photo/37730211/ |

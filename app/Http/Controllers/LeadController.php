@@ -42,7 +42,7 @@ class LeadController extends Controller
         return view("pages.lead-form", [
             "context" => "konsultasi",
             "title" => "Konsultasi Gratis",
-            "subtitle" => "Ceritakan kebutuhan website Anda, tim kami akan segera menghubungi lewat WhatsApp.",
+            "subtitle" => "Ceritakan kebutuhan website atau software Anda, tim kami akan segera menghubungi lewat WhatsApp.",
             "serviceInterested" => $serviceInterested,
             "selectedPackage" => $selectedPackage,
         ]);

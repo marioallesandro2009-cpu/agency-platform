@@ -33,6 +33,7 @@ class SitemapController extends Controller
             "jasa-website-company-profile" => "service.company-profile",
             "jasa-toko-online" => "service.toko-online",
             "jasa-web-development" => "service.web-development",
+            "jasa-software-custom" => "service.custom-software",
         ];
 
         foreach (Service::published()->get() as $service) {

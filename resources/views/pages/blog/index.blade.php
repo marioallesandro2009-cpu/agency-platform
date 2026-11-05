@@ -1,6 +1,6 @@
 @php
     $seoTitle = $activeCategory ? 'Kategori: ' . $activeCategory->name : 'Blog & Artikel';
-    $seoDescription = $activeCategory ? "Kumpulan artikel seputar {$activeCategory->name}." : 'Artikel dan insight seputar pembuatan website, UMKM, dan bisnis online.';
+    $seoDescription = $activeCategory ? "Kumpulan artikel seputar {$activeCategory->name}." : 'Artikel dan insight seputar pembuatan website, software custom, dan strategi digital perusahaan.';
     $pageTitle = $activeCategory ? 'Kategori: ' . $activeCategory->name : 'Artikel & Insight';
 
     $formatDate = fn ($date) => $date ? \Carbon\Carbon::parse($date)->locale('id')->translatedFormat('d F Y') : '';
@@ -10,7 +10,7 @@
     $rest = $posts->slice(1);
 @endphp
 
-<x-layouts.public theme="space" :seo-title="$seoTitle" :seo-description="$seoDescription">
+<x-layouts.public theme="space" :accent="$activeCategory?->slug === 'custom-software' ? 'blue' : null" :seo-title="$seoTitle" :seo-description="$seoDescription">
     <x-public.space-page-header
         eyebrow="Blog"
         code="LOG"

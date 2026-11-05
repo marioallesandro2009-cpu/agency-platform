@@ -1292,3 +1292,41 @@ a.browser-frame__url:focus-visible {
         animation: none;
     }
 }
+
+/*
+ * Software Custom identity: the same space theme, re-pointed to navy surfaces
+ * and a blue accent. The tokens keep their --lime-* names because every
+ * component already reads them; only the values change. Enabled through the
+ * layout's accent="blue" prop.
+ */
+.theme-space.theme-blue {
+    --space-void: 4 10 26;
+    --space-deep: 8 18 42;
+    --space-panel: 14 28 60;
+    --lime-200: 191 219 254;
+    --lime-300: 147 197 253;
+    --lime-400: 96 165 250;
+}
+html[data-theme="light"] .theme-space.theme-blue:not(.force-dark) {
+    --space-void: 241 245 252;
+    --space-deep: 230 238 250;
+    --space-panel: 216 228 246;
+    --lime-200: 30 58 138;
+    --lime-300: 29 78 216;
+    --lime-400: 37 99 235;
+}
+.theme-blue .space-header.is-solid {
+    background-color: rgb(4 10 26 / 0.92);
+}
+html[data-theme="light"] .theme-blue .space-header.is-solid {
+    background-color: rgb(241 245 252 / 0.92);
+}
+.theme-blue .field-input:focus {
+    border-color: rgb(var(--lime-400));
+}
+html[data-theme="light"] .theme-space.theme-blue .prose-invert {
+    --tw-prose-invert-links: #1d4ed8;
+    --tw-prose-invert-bullets: #2563eb;
+    --tw-prose-invert-quote-borders: #2563eb;
+    --tw-prose-invert-code: #1d4ed8;
+}

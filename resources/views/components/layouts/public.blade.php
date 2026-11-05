@@ -8,10 +8,14 @@
     // full-screen hero, starfield backdrop, oversized footer CTA). Other
     // pages keep 'light' until they're redesigned too.
     'theme' => 'light',
+    // 'blue' re-points the space theme's accent/surface tokens (app.css) for
+    // the Software Custom pages; layout and components stay the same.
+    'accent' => null,
 ])
 
 @php
     $space = $theme === 'space';
+    $accentClass = $space && $accent === 'blue' ? 'theme-blue' : '';
 @endphp
 
 <!DOCTYPE html>
@@ -72,8 +76,8 @@
         @php(\Illuminate\Support\Facades\Vite::usePrefetchStrategy(null))
         @vite(['resources/js/blade-app.js'])
     </head>
-    <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }}">
-        <div class="min-h-screen flex flex-col {{ $space ? 'theme-space bg-space-void text-white' : 'bg-white' }}">
+    <body class="font-sans antialiased {{ $space ? 'theme-space bg-space-void' : '' }} {{ $accentClass }}">
+        <div class="min-h-screen flex flex-col {{ $space ? 'theme-space bg-space-void text-white' : 'bg-white' }} {{ $accentClass }}">
             @if ($space)
                 <canvas class="fixed inset-0 z-0 w-full h-full pointer-events-none" data-starfield aria-hidden="true"></canvas>
             @endif
