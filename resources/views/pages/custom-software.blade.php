@@ -63,13 +63,6 @@
         ['title' => 'Peluncuran', 'output' => 'Pelatihan, dokumentasi, dan pendampingan'],
     ];
 
-    $stakeholders = [
-        ['who' => 'Direksi', 'question' => 'Apakah investasinya terkendali?', 'answer' => 'Dibangun bertahap, dan setiap tahap diputuskan dari hasil tahap sebelumnya.'],
-        ['who' => 'Legal', 'question' => 'Bagaimana kerahasiaan dan kepemilikan?', 'answer' => 'NDA sebelum diskusi detail. Source code, dokumentasi, dan akses diatur di kontrak.'],
-        ['who' => 'IT', 'question' => 'Apakah aman dan bisa dirawat?', 'answer' => 'Hak akses per peran, catatan aktivitas, backup, dan teknologi yang umum dipakai.'],
-        ['who' => 'Procurement', 'question' => 'Apakah mudah dievaluasi?', 'answer' => 'Penawaran tertulis per modul dan pembayaran per milestone.'],
-    ];
-
     $serviceJsonLd = [
         '@context' => 'https://schema.org',
         '@type' => 'Service',
@@ -393,26 +386,11 @@
         </div>
     </section>
 
-    {{-- 08: what each internal approver wants to read --}}
-    <section class="max-w-[1320px] mx-auto px-4 md:px-8 py-12 md:py-16">
-        <x-public.corp-heading index="08" label="Untuk Tim Internal Anda" title="Jawaban untuk Setiap Pihak yang Ikut Memutuskan" />
-        <img src="/images/software/ruang-server.webp" alt="Deretan rak server di ruang data perusahaan" width="1280" height="853" loading="lazy" class="w-full h-44 md:h-56 object-cover rounded-sm mb-5">
-        <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            @foreach ($stakeholders as $item)
-                <div data-reveal class="rounded-sm border border-white/10 border-t-2 border-t-brand-400 bg-space-deep p-5">
-                    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-300 mb-3">{{ $item['who'] }}</p>
-                    <dt class="font-display font-bold text-xl leading-snug text-white mb-3">{{ $item['question'] }}</dt>
-                    <dd class="text-white/65 leading-relaxed">{{ $item['answer'] }}</dd>
-                </div>
-            @endforeach
-        </dl>
-    </section>
-
     @if (! empty($service->faqs))
         <section class="max-w-[1320px] mx-auto px-4 md:px-8 pb-12 md:pb-16">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
                 <div class="lg:col-span-4">
-                    <x-public.corp-heading index="09" label="FAQ" title="Pertanyaan Umum" class="!mb-0" />
+                    <x-public.corp-heading index="08" label="FAQ" title="Pertanyaan Umum" class="!mb-0" />
                 </div>
                 <div class="lg:col-span-8 border-t border-white/15">
                     @foreach ($service->faqs as $faq)
@@ -431,7 +409,7 @@
 
     @if ($relatedPosts->isNotEmpty())
         <section class="max-w-[1320px] mx-auto px-4 md:px-8 pb-12 md:pb-16">
-            <x-public.corp-heading index="10" label="Panduan" title="Bahan untuk Rapat Internal Anda" />
+            <x-public.corp-heading index="09" label="Panduan" title="Bahan untuk Rapat Internal Anda" />
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach ($relatedPosts as $post)
                     <a href="/blog/{{ $post->slug }}" data-reveal class="group block">

@@ -78,5 +78,4 @@ stok foto. Infografik `*-infografik.webp` dibuat sendiri tanpa foto pihak ketiga
 | jasa-software-custom | https://www.pexels.com/photo/37730211/ |
 
 Foto latar halaman Software Custom (public/images/software), juga Pexels License:
-server-rack (https://www.pexels.com/photo/37730211/) dan ruang-server
-(https://www.pexels.com/photo/4508751/).
+server-rack (https://www.pexels.com/photo/37730211/).
