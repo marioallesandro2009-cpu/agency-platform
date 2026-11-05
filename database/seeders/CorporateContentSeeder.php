@@ -56,20 +56,21 @@ class CorporateContentSeeder extends Seeder
     {
         Service::updateOrCreate(["slug" => "jasa-software-custom"], [
             "name" => "Software Custom",
-            "short_description" => "Software dan aplikasi yang dibangun mengikuti cara kerja bisnis Anda, bukan sebaliknya.",
+            "short_description" => "Dari sistem deteksi dan otomasi AI hingga aplikasi mobile, dibangun untuk kebutuhan yang tidak ada produk jadinya.",
             "badge_label" => "Untuk Perusahaan",
-            "description" => "Sistem internal, integrasi, dan aplikasi mobile yang dirancang sesuai proses bisnis perusahaan Anda.",
+            "description" => "Sistem deteksi dan pemantauan, otomasi AI, sistem operasional, integrasi, dan aplikasi mobile yang dirancang sesuai kebutuhan perusahaan Anda.",
             "icon" => "code",
             "image" => "/images/blog/jasa-software-custom.jpg",
             "seo_title" => "Jasa Pembuatan Software Custom dan Aplikasi Perusahaan",
-            "seo_description" => "Jasa pembuatan software custom dan aplikasi yang mengikuti proses bisnis perusahaan Anda. Estimasi tertulis per modul, dibangun bertahap, biaya terkendali.",
+            "seo_description" => "Jasa pembuatan software custom untuk deteksi dan pemantauan, otomasi AI, sistem operasional, hingga aplikasi mobile, dirancang mengikuti kebutuhan perusahaan.",
             "features" => [
-                "ERP, HRIS, CRM, inventory, dan portal klien sesuai alur kerja Anda",
-                "Pembuatan aplikasi web dan mobile dalam satu tim",
-                "Estimasi tertulis per modul setelah kebutuhan dipetakan",
+                "Deteksi anomali, monitoring sistem, dan pemantauan sensor",
+                "Otomasi dan AI, seperti chatbot internal dan pembacaan dokumen",
+                "ERP, HRIS, CRM, serta aplikasi web dan mobile sesuai alur kerja Anda",
             ],
             "faqs" => [
                 ["question" => "Kenapa tidak ada harga pasti di halaman ini?", "answer" => "Karena biaya ditentukan oleh proses, integrasi, dan platform yang dibutuhkan. Angka yang diberikan sebelum memahami hal itu hanya tebakan. Setelah diskusi kebutuhan, Anda menerima estimasi tertulis per modul lengkap dengan asumsi dan hal yang tidak termasuk."],
+                ["question" => "Apakah bisa membuat sistem deteksi atau pemantauan?", "answer" => "Bisa dirancang, misalnya untuk deteksi anomali transaksi, monitoring server dengan peringatan otomatis, atau pemantauan sensor. Kelayakan dan tingkat akurasinya bergantung pada data dan perangkat yang tersedia, sehingga kami periksa bersama pada tahap pemetaan."],
                 ["question" => "Apakah konsultasi awal dikenakan biaya?", "answer" => "Tidak. Diskusi awal gratis dan tanpa kewajiban untuk melanjutkan. Dari sesi ini, Anda sudah mendapat gambaran apakah software custom memang tepat untuk masalah Anda, atau cukup memakai aplikasi yang sudah ada."],
                 ["question" => "Bagaimana jika anggaran kami terbatas?", "answer" => "Kami bisa memulai dari modul yang paling berdampak, lalu mengembangkannya bertahap. Anda tidak perlu membangun semuanya sekaligus, dan keputusan tahap berikutnya didasarkan pada pemakaian nyata."],
                 ["question" => "Apakah bisa membuat aplikasi Android dan iOS?", "answer" => "Bisa. Pembuatan aplikasi termasuk dalam layanan ini. Kami akan merekomendasikan aplikasi web, PWA, atau mobile sesuai pengguna dan anggaran, sehingga Anda tidak membayar platform yang tidak dibutuhkan."],

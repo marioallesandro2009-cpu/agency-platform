@@ -12,8 +12,8 @@ return [
         "slug" => "contoh-software-custom-perusahaan",
         "category" => "custom-software",
         "focus_keyword" => "software custom",
-        "excerpt" => "Dari ERP hingga aplikasi lapangan: contoh yang umum dibuat perusahaan dan tanda bahwa aplikasi siap pakai sudah tidak cukup.",
-        "seo_description" => "Software custom dibuat mengikuti cara kerja bisnis Anda. Lihat contoh ERP, HRIS, CRM, inventory, dan aplikasi mobile, serta kapan perusahaan perlu membuatnya.",
+        "excerpt" => "Dari sistem deteksi dan otomasi AI hingga ERP dan aplikasi lapangan: contoh yang umum dibuat perusahaan dan tanda aplikasi siap pakai sudah tidak cukup.",
+        "seo_description" => "Software custom dibuat mengikuti kebutuhan bisnis Anda. Lihat contoh sistem deteksi, otomasi AI, ERP, CRM, dan aplikasi mobile, serta kapan perusahaan perlu.",
         "published_at" => "2026-10-12 09:00:00",
         "image" => "contoh-software-custom-perusahaan",
         "image_alt" => "Ruang server dengan deretan rak sebagai infrastruktur software custom perusahaan",
@@ -28,6 +28,10 @@ return [
 <p>Namun, tidak semua perusahaan membutuhkannya. Artikel ini membahas contoh yang umum beserta cara menilai apakah investasinya masuk akal.</p>
 <h2>Contoh Software Custom untuk Perusahaan</h2>
 [[infografik]]
+<h3>Sistem deteksi dan pemantauan</h3>
+<p>Software custom tidak terbatas pada pencatatan. Sistem bisa memantau transaksi yang tidak wajar, kondisi server, atau sensor pada mesin dan ruang pendingin, lalu mengirim peringatan otomatis. Akurasinya bergantung pada data dan perangkat yang tersedia.</p>
+<h3>Otomasi dan AI</h3>
+<p>Chatbot yang menjawab dari dokumen internal, pembacaan invoice otomatis, dan alur persetujuan yang berjalan sendiri bisa mengurangi pekerjaan berulang.</p>
 <h3>ERP sederhana</h3>
 <p>Menggabungkan pembelian, penjualan, stok, dan keuangan. Tujuannya mengurangi input data berulang antardivisi, terutama saat modul ERP besar terlalu mahal atau tidak sesuai alur kerja Anda.</p>
 <h3>HRIS dan payroll</h3>

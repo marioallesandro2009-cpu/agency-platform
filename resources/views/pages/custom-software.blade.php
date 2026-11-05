@@ -9,41 +9,41 @@
         ? 'https://wa.me/' . $settings['contact']['whatsapp_number'] . '?text=' . rawurlencode('Halo, saya ingin menanyakan estimasi software custom untuk perusahaan kami.')
         : null;
 
-    // The hero's point: these costs are real, but nobody has put a number on them.
-    $ledger = [
-        'Rekap dan laporan manual',
-        'Input data yang sama berulang kali',
-        'Selisih stok dan salah tagih',
-        'Keputusan yang menunggu data',
+    $capabilities = [
+        ['title' => 'Deteksi dan pemantauan', 'example' => 'Anomali, gangguan sistem, sensor'],
+        ['title' => 'Otomasi dan AI', 'example' => 'Chatbot internal, baca dokumen'],
+        ['title' => 'Sistem operasional', 'example' => 'ERP, HRIS, CRM, inventory'],
+        ['title' => 'Aplikasi dan portal', 'example' => 'Android, iOS, portal klien'],
+        ['title' => 'Data dan integrasi', 'example' => 'Dashboard, API, migrasi'],
     ];
 
-    $divisions = ['Operasional', 'Keuangan', 'SDM', 'Sales', 'Gudang', 'Manajemen'];
+    $divisions = ['Operasional', 'IT', 'Keuangan', 'Audit', 'SDM', 'Sales', 'Gudang', 'Manajemen'];
 
     $findings = [
-        ['title' => 'Jam kerja yang habis untuk memindahkan data', 'text' => 'Staf yang digaji untuk berpikir dan melayani pelanggan justru menyalin angka dari satu file ke file lain.', 'ask' => 'Berapa jam per minggu tim Anda menyusun laporan?'],
-        ['title' => 'Kesalahan yang baru ketahuan belakangan', 'text' => 'Selisih stok, salah tagih, dan data ganda jarang tercatat sebagai biaya, padahal margin dan kepercayaan pelanggan yang menanggungnya.', 'ask' => 'Kapan terakhir angka antar-divisi berbeda?'],
-        ['title' => 'Keputusan yang selalu terlambat', 'text' => 'Saat laporan selesai dirapikan, kondisi di lapangan sudah berubah. Manajemen memutuskan dengan data bulan lalu.', 'ask' => 'Bisakah Anda melihat kondisi hari ini tanpa bertanya?'],
+        ['title' => 'Masalah yang baru diketahui setelah terlambat', 'text' => 'Gangguan sistem, transaksi mencurigakan, atau mesin bermasalah baru disadari setelah kerugian terjadi, karena tidak ada yang memantau secara terus-menerus.', 'ask' => 'Berapa lama sebelum tim Anda tahu ada yang tidak beres?'],
+        ['title' => 'Jam kerja yang habis untuk pekerjaan berulang', 'text' => 'Staf yang digaji untuk berpikir dan melayani pelanggan justru memindahkan data dan mengerjakan hal yang sama setiap hari.', 'ask' => 'Pekerjaan apa yang seharusnya sudah berjalan otomatis?'],
+        ['title' => 'Aplikasi yang memaksa bisnis Anda berubah', 'text' => 'Aplikasi siap pakai dibuat untuk rata-rata perusahaan. Saat proses Anda berbeda, tim terpaksa memakai cara memutar di luar sistem.', 'ask' => 'Berapa banyak proses yang masih dikerjakan di luar aplikasi?'],
         ['title' => 'Proses yang bergantung pada satu orang', 'text' => 'Saat karyawan kunci cuti atau keluar, pengetahuannya ikut pergi dan pekerjaan penting ikut berhenti.', 'ask' => 'Apa yang terhenti jika orang itu resign bulan depan?'],
     ];
 
     $checks = [
-        'Laporan bulanan butuh lebih dari satu hari kerja untuk disusun',
+        'Gangguan, kesalahan, atau kecurangan baru diketahui setelah ada kerugian',
+        'Tidak ada aplikasi di pasaran yang benar-benar sesuai kebutuhan kami',
         'Data yang sama diinput ulang di beberapa file atau aplikasi',
-        'Angka antar-divisi sering berbeda dan harus dicocokkan manual',
+        'Sistem yang kami pakai tidak saling terhubung',
         'Persetujuan tertahan karena menunggu tanda tangan atau balasan chat',
+        'Tim lapangan baru bisa melapor setelah kembali ke kantor',
         'Biaya lisensi aplikasi terus naik mengikuti jumlah pengguna',
         'Ada proses penting yang hanya dipahami satu orang',
     ];
 
     $solutions = [
-        ['unit' => 'Operasional', 'today' => 'Data pembelian, penjualan, dan stok tersebar di banyak tempat.', 'system' => 'ERP sesuai alur Anda'],
-        ['unit' => 'SDM', 'today' => 'Rekap absensi, cuti, lembur, dan gaji menyita waktu setiap bulan.', 'system' => 'HRIS dan payroll'],
-        ['unit' => 'Sales', 'today' => 'Prospek hilang karena follow-up tercatat di chat pribadi.', 'system' => 'CRM dan pipeline sales'],
-        ['unit' => 'Gudang', 'today' => 'Stok di catatan berbeda dengan stok di rak.', 'system' => 'Inventory dan barcode'],
-        ['unit' => 'Tim Lapangan', 'today' => 'Sales, teknisi, dan kurir baru melapor setelah kembali ke kantor.', 'system' => 'Aplikasi mobile Android dan iOS'],
-        ['unit' => 'Layanan Klien', 'today' => 'Tim terus menjawab pertanyaan status dan permintaan dokumen.', 'system' => 'Portal klien dan vendor'],
-        ['unit' => 'Administrasi', 'today' => 'Pengajuan dana dan pembelian tertahan menunggu tanda tangan.', 'system' => 'Approval dan e-office'],
-        ['unit' => 'Manajemen', 'today' => 'Laporan terlambat dan data tiap sistem tidak terhubung.', 'system' => 'Dashboard dan integrasi'],
+        ['name' => 'Deteksi dan Pemantauan', 'lead' => 'Tahu lebih awal saat ada yang tidak beres.', 'items' => ['Deteksi anomali dan transaksi mencurigakan', 'Monitoring server dan sistem dengan peringatan otomatis', 'Pemantauan sensor dan perangkat IoT, seperti suhu dan mesin', 'Analisis gambar dari kamera untuk area tertentu']],
+        ['name' => 'Otomasi dan AI', 'lead' => 'Pekerjaan berulang berjalan tanpa ditunggu.', 'items' => ['Chatbot yang menjawab dari dokumen internal', 'Pembacaan dokumen dan invoice otomatis (OCR)', 'Alur kerja dan persetujuan otomatis', 'Prediksi permintaan dan kebutuhan stok']],
+        ['name' => 'Sistem Operasional', 'lead' => 'Inti operasional mengikuti alur kerja Anda.', 'items' => ['ERP sesuai modul yang benar-benar dipakai', 'HRIS, absensi, dan payroll', 'CRM dan pipeline sales', 'Inventory, gudang, dan barcode']],
+        ['name' => 'Aplikasi dan Portal', 'lead' => 'Layanan dan tim terhubung dari mana saja.', 'items' => ['Aplikasi mobile Android dan iOS', 'Portal klien, vendor, dan mitra', 'Booking dan reservasi', 'E-learning dan pelatihan internal']],
+        ['name' => 'Data dan Integrasi', 'lead' => 'Sistem yang terpisah bekerja sebagai satu.', 'items' => ['Dashboard manajemen', 'Integrasi API antar-sistem', 'Migrasi dari sistem lama', 'Laporan otomatis terjadwal']],
+        ['name' => 'Sistem Khusus Industri', 'lead' => 'Untuk proses yang tidak ada produk jadinya.', 'items' => ['Pelacakan armada dan logistik', 'Sistem klinik dan rekam medis', 'Sistem akademik sekolah dan kampus', 'Simpan pinjam dan koperasi']],
     ];
 
     $comparison = [
@@ -97,7 +97,7 @@
     :seo-image="$service->image"
     :seo-json-ld="[$serviceJsonLd, $faqJsonLd]"
 >
-    {{-- Hero: the claim on the left, an unfilled cost ledger on the right --}}
+    {{-- Hero: the claim on the left, what can be built on the right --}}
     <section class="corp-hero relative overflow-hidden pt-24 md:pt-28 pb-10 md:pb-14 border-b border-white/10">
         <img src="/images/software/server-rack.webp" alt="" aria-hidden="true" width="1280" height="852" class="corp-photo absolute inset-y-0 right-0 h-full w-full lg:w-3/4 object-cover">
         <div class="corp-photo-fade absolute inset-0" aria-hidden="true"></div>
@@ -106,32 +106,25 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <div class="lg:col-span-7">
                     <p data-reveal-load class="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-300 mb-6">Jasa Pembuatan Software Custom &amp; Aplikasi</p>
-                    <h1 data-reveal-load class="font-display font-bold text-[2.15rem] sm:text-5xl xl:text-[3.75rem] leading-[1.08] text-white mb-6 [text-wrap:balance]">Software Custom untuk Perusahaan yang Sudah Terlalu Lama Membayar Proses Manual</h1>
-                    <p data-reveal-load style="--d: 120ms" class="text-lg text-white/70 leading-relaxed max-w-2xl mb-9">Biayanya tidak tercatat sebagai pengeluaran, tetapi Anda membayarnya setiap bulan lewat jam kerja, kesalahan, dan keputusan yang terlambat. Kami membangun sistem yang mengikuti cara kerja perusahaan Anda.</p>
+                    <h1 data-reveal-load class="font-display font-bold text-[2.15rem] sm:text-5xl xl:text-[3.75rem] leading-[1.08] text-white mb-6 [text-wrap:balance]">Software Custom untuk Masalah yang Tidak Bisa Diselesaikan Aplikasi Biasa</h1>
+                    <p data-reveal-load style="--d: 120ms" class="text-lg text-white/70 leading-relaxed max-w-2xl mb-9">Dari sistem deteksi dan pemantauan, otomasi berbasis AI, sistem operasional, hingga aplikasi mobile. Kalau kebutuhan perusahaan Anda tidak ada produk jadinya, kami bangun sistemnya.</p>
                     <div data-reveal-load style="--d: 200ms" class="flex flex-col sm:flex-row sm:flex-wrap gap-3">
                         <a href="{{ $consultUrl }}" class="btn-space btn-space--lg btn-space--pill">Diskusikan Kebutuhan <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
                         <a href="#diagnosis" class="btn-space btn-space--lg btn-space--glass">Cek Kebutuhan Perusahaan <span class="btn-space__arrow" aria-hidden="true">&darr;</span></a>
                     </div>
                 </div>
 
-                <aside data-reveal-load style="--d: 160ms" class="lg:col-span-5 corp-ledger" aria-label="Biaya proses manual yang belum dihitung">
-                    <p class="flex items-center justify-between gap-4 border-b border-white/15 pb-3 mb-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
-                        <span>Biaya proses manual</span>
-                        <span>Per tahun</span>
-                    </p>
+                <aside data-reveal-load style="--d: 160ms" class="lg:col-span-5 corp-ledger" aria-label="Kemampuan yang bisa kami bangun">
+                    <p class="border-b border-white/15 pb-3 mb-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">Yang bisa kami bangun</p>
                     <ul>
-                        @foreach ($ledger as $row)
-                            <li class="flex items-baseline justify-between gap-6 py-3.5 border-b border-white/10 text-white/80">
-                                <span>{{ $row }}</span>
-                                <span class="font-mono text-white/40 shrink-0" aria-label="belum dihitung">Rp ?</span>
+                        @foreach ($capabilities as $item)
+                            <li class="py-3 border-b border-white/10">
+                                <span class="block font-display font-bold text-white">{{ $item['title'] }}</span>
+                                <span class="block text-sm text-white/60">{{ $item['example'] }}</span>
                             </li>
                         @endforeach
                     </ul>
-                    <p class="flex items-baseline justify-between gap-4 pt-4 mb-5">
-                        <span class="font-display font-bold text-white text-lg">Total</span>
-                        <span class="font-mono text-brand-300 text-right">Belum pernah dihitung</span>
-                    </p>
-                    <a href="#hitung-biaya" class="group inline-flex items-center gap-2 text-sm font-semibold text-brand-300 hover:text-brand-200">Hitung punya Anda <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span></a>
+                    <a href="#solusi" class="group inline-flex items-center gap-2 mt-4 text-sm font-semibold text-brand-300 hover:text-brand-200">Lihat semua contoh <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span></a>
                 </aside>
             </div>
         </div>
@@ -140,7 +133,7 @@
     {{-- Who it is for: departments, deliberately not a client-logo strip --}}
     <section class="border-b border-white/10 bg-space-deep/60">
         <div class="max-w-[1320px] mx-auto px-4 md:px-8 py-5 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-8">
-            <p class="text-sm text-white/60 shrink-0">Untuk setiap divisi yang masih bergantung pada spreadsheet:</p>
+            <p class="text-sm text-white/60 shrink-0">Bisa dirancang untuk kebutuhan:</p>
             <ul class="flex flex-wrap gap-x-6 gap-y-1.5">
                 @foreach ($divisions as $division)
                     <li class="font-semibold text-white/85">{{ $division }}</li>
@@ -149,9 +142,33 @@
         </div>
     </section>
 
-    {{-- 01: findings, written like an audit --}}
+    {{-- 01: what can be built, broad on purpose so it doesn't read as reporting only --}}
+    <section id="solusi" class="scroll-mt-20 max-w-[1320px] mx-auto px-4 md:px-8 py-12 md:py-16">
+        <x-public.corp-heading index="01" label="Solusi" title="Bukan Hanya Laporan. Ini yang Bisa Dibangun untuk Perusahaan Anda" />
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            @foreach ($solutions as $group)
+                <article data-reveal class="flex flex-col rounded-sm border border-white/10 bg-space-deep overflow-hidden">
+                    <div class="bg-brand-400/15 px-5 py-4 border-b border-white/10">
+                        <h3 class="font-display font-bold text-xl leading-snug text-white">{{ $group['name'] }}</h3>
+                        <p class="text-sm text-white/70 mt-1">{{ $group['lead'] }}</p>
+                    </div>
+                    <ul class="px-5 py-3 flex-1">
+                        @foreach ($group['items'] as $item)
+                            <li class="flex gap-3 py-2 text-sm text-white/80 leading-snug border-b border-white/10 last:border-b-0">
+                                <span class="text-brand-300" aria-hidden="true">+</span>
+                                <span>{{ $item }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </article>
+            @endforeach
+        </div>
+        <p data-reveal class="mt-6 text-white/65 max-w-3xl">Kebutuhan Anda tidak ada di daftar? Justru di situlah software custom berguna. Kelayakannya kami periksa bersama sebelum Anda memutuskan. Lihat juga <a href="/blog/contoh-software-custom-perusahaan" class="text-brand-300 underline underline-offset-4 hover:text-brand-200">contoh software custom</a> dan <a href="/blog/pembuatan-aplikasi-perusahaan" class="text-brand-300 underline underline-offset-4 hover:text-brand-200">cara memilih platform aplikasi</a>.</p>
+    </section>
+
+    {{-- 02: findings, written like an audit --}}
     <section class="max-w-[1320px] mx-auto px-4 md:px-8 py-12 md:py-16">
-        <x-public.corp-heading index="01" label="Temuan" title="Empat Biaya yang Tidak Pernah Muncul di Laporan Keuangan" />
+        <x-public.corp-heading index="02" label="Temuan" title="Empat Risiko Jika Perusahaan Bertahan dengan Cara Lama" />
         <ol class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @foreach ($findings as $i => $finding)
                 <li data-reveal class="flex flex-col rounded-sm border border-white/10 border-t-2 border-t-brand-400 bg-space-deep p-5 md:p-6">
@@ -226,10 +243,10 @@
         </div>
     </section>
 
-    {{-- 02: self-diagnosis; the verdict can honestly say "not yet" --}}
+    {{-- 03: self-diagnosis; the verdict can honestly say "not yet" --}}
     <section id="diagnosis" class="force-dark corp-band scroll-mt-20 py-12 md:py-16 text-white">
         <div class="max-w-[1320px] mx-auto px-4 md:px-8">
-            <x-public.corp-heading index="02" label="Diagnosis" title="Apakah Perusahaan Anda Sudah Membutuhkannya?" />
+            <x-public.corp-heading index="03" label="Diagnosis" title="Apakah Perusahaan Anda Sudah Membutuhkannya?" />
             <div data-need-check class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                 <fieldset class="lg:col-span-7">
                     <legend class="text-white/80 mb-5">Centang yang terjadi di perusahaan Anda saat ini.</legend>
@@ -266,9 +283,9 @@
         </div>
     </section>
 
-    {{-- 03: cost of waiting, driven only by the visitor's own numbers --}}
+    {{-- 04: cost of waiting, driven only by the visitor's own numbers --}}
     <section id="hitung-biaya" class="scroll-mt-20 max-w-[1320px] mx-auto px-4 md:px-8 py-12 md:py-16">
-        <x-public.corp-heading index="03" label="Biaya Menunda" title="Setiap Bulan Menunda Ada Harganya. Berapa Harga Anda?" />
+        <x-public.corp-heading index="04" label="Biaya Menunda" title="Setiap Bulan Menunda Ada Harganya. Berapa Harga Anda?" />
         <div data-roi-calc data-reveal class="grid grid-cols-1 lg:grid-cols-12 border border-white/15 rounded-sm">
             <div class="lg:col-span-5 p-6 md:p-8 space-y-5 lg:border-r border-white/15">
                 <label class="block">
@@ -301,23 +318,6 @@
                 <div class="mt-auto"><a href="{{ $consultUrl }}" class="btn-space btn-space--pill">Hitung Bersama Kami <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a></div>
             </div>
         </div>
-    </section>
-
-    {{-- 04: solutions per department, as a matrix --}}
-    <section class="max-w-[1320px] mx-auto px-4 md:px-8 pb-12 md:pb-16">
-        <x-public.corp-heading index="04" label="Solusi" title="Satu Sistem untuk Setiap Divisi yang Membutuhkan" />
-        <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-            @foreach ($solutions as $row)
-                <li data-reveal class="flex flex-col rounded-sm border border-white/10 bg-space-deep overflow-hidden">
-                    <div class="bg-brand-400/15 px-5 py-4 border-b border-white/10">
-                        <p class="font-mono text-[11px] uppercase tracking-[0.1em] text-brand-300 mb-1">{{ $row['unit'] }}</p>
-                        <p class="font-display font-bold text-lg leading-snug text-white">{{ $row['system'] }}</p>
-                    </div>
-                    <p class="px-5 py-4 text-sm text-white/65 leading-relaxed"><span class="block font-semibold text-white/85 mb-1">Kondisi hari ini</span>{{ $row['today'] }}</p>
-                </li>
-            @endforeach
-        </ul>
-        <p data-reveal class="mt-7 text-white/65 max-w-3xl">Kebutuhan Anda tidak ada di daftar? Lihat <a href="/blog/contoh-software-custom-perusahaan" class="text-brand-300 underline underline-offset-4 hover:text-brand-200">contoh software custom</a> dan <a href="/blog/pembuatan-aplikasi-perusahaan" class="text-brand-300 underline underline-offset-4 hover:text-brand-200">cara memilih platform aplikasi</a>.</p>
     </section>
 
     {{-- 05: pricing is handled in conversation, so this block only routes to contact --}}
