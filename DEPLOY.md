@@ -61,6 +61,38 @@ php artisan view:cache
   ```
   (akan minta password interaktif, tidak lewat argumen — lihat komentar di `app/Console/Commands/AdminCreateCommand.php`)
 
+## 6a. Performa server: OPcache (sekali saja, di cPanel)
+
+Tanpa OPcache, PHP membaca ulang ratusan file setiap ada pengunjung. Di server produksi (Rumahweb, cPanel) ini menaikkan waktu PHP dari sekitar 9 ms menjadi sekitar 150 ms per halaman.
+
+1. cPanel, buka **Select PHP Version**, pilih PHP **8.3**, lalu di tab **Extensions** centang `opcache`.
+2. Di tab **Per Domain Settings**, pastikan domain ini memakai **CloudLinux PHP Selector** (klik **Use PHP Selector**). Kalau domain masih "handled by cPanel MultiPHP Manager", centang ekstensi di PHP Selector **tidak berlaku** untuk domain itu.
+3. Hentikan proses PHP lama supaya pengaturan baru terpakai:
+   ```bash
+   pkill -u $(whoami) lsphp
+   ```
+4. Cek waktu PHP lewat header `Server-Timing` (jalankan beberapa kali, kunjungan pertama setelah restart memang lebih lambat):
+   ```bash
+   for i in 1 2 3 4 5; do curl -s -I https://domainanda.com/robots.txt | grep -i server-timing; done
+   ```
+   Normalnya `app;dur=` di bawah sekitar 50. Kalau sekitar 150 atau lebih, OPcache belum aktif untuk domain ini, jadi ulangi langkah 1–3.
+
+## 6b. Update rutin setelah deploy pertama
+
+Jalankan dari folder project di server:
+
+```bash
+git pull origin main
+composer install --optimize-autoloader --no-dev   # hanya jika composer.lock berubah
+php artisan migrate --force
+php artisan optimize
+php artisan view:cache
+```
+
+- Ada artikel baru di `database/seeders/data/blog-artikel.php`: `php artisan db:seed --class=ArticleSeeder --force` (hanya artikel, tidak menimpa setting).
+- `CorporateContentSeeder` **menimpa** tagline, deskripsi website, dan judul beranda; jalankan hanya bila konten itu memang ikut berubah.
+- Setelah halaman atau artikel baru tayang: `php artisan indexnow:submit` untuk memberi tahu Bing.
+
 ## 7. Checklist keamanan manual (cek langsung di browser setelah deploy)
 
 - [ ] **Document root mengarah ke folder `public/`**, bukan root project. Test: buka `https://domainanda.com/composer.json` dan `https://domainanda.com/.env` — keduanya HARUS 404/403, bukan menampilkan isi file.
