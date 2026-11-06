@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             NavItemSeeder::class,
             MascotAssetSeeder::class,
             CorporateContentSeeder::class,
+            ArticleSeeder::class,
         ]);
     }
 }

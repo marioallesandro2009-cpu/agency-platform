@@ -1436,3 +1436,9 @@ html .theme-space.theme-blue .force-dark {
 .theme-blue .bg-glow-drift {
     background-image: radial-gradient(circle at 80% 20%, rgb(37 99 235 / 0.14), transparent 45%);
 }
+/* Article headings on the corporate (software) posts use the same plain sans. */
+.theme-blue .prose :is(h1, h2, h3, h4) {
+    font-family: Raleway, "Raleway Fallback", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}

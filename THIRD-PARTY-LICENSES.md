@@ -79,3 +79,6 @@ stok foto. Infografik `*-infografik.webp` dibuat sendiri tanpa foto pihak ketiga
 
 Foto latar halaman Software Custom (public/images/software), juga Pexels License:
 server-rack (https://www.pexels.com/photo/37730211/).
+
+Artikel monitoring-suhu-cold-chain (public/images/blog), Pexels License:
+https://www.pexels.com/photo/7513430/
