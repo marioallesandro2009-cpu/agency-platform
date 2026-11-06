@@ -10,7 +10,24 @@ use Illuminate\Support\Facades\Response;
 
 class SitemapController extends Controller
 {
+    /** Services with their own named route (slug => route name). */
+    public const SERVICE_ROUTES = [
+        "jasa-website-umkm" => "service.umkm",
+        "jasa-website-company-profile" => "service.company-profile",
+        "jasa-toko-online" => "service.toko-online",
+        "jasa-web-development" => "service.web-development",
+        "jasa-software-custom" => "service.custom-software",
+    ];
+
     public function index()
+    {
+        $urls = self::urls();
+
+        return $this->xml($urls);
+    }
+
+    /** Every public URL in the sitemap, also used by `php artisan indexnow:submit`. */
+    public static function urls(): array
     {
         $urls = [];
 
@@ -28,13 +45,7 @@ class SitemapController extends Controller
             $urls[] = ["loc" => route($page["route"]), "lastmod" => null, "priority" => $page["priority"]];
         }
 
-        $serviceRoutes = [
-            "jasa-website-umkm" => "service.umkm",
-            "jasa-website-company-profile" => "service.company-profile",
-            "jasa-toko-online" => "service.toko-online",
-            "jasa-web-development" => "service.web-development",
-            "jasa-software-custom" => "service.custom-software",
-        ];
+        $serviceRoutes = self::SERVICE_ROUTES;
 
         foreach (Service::published()->get() as $service) {
             if (! isset($serviceRoutes[$service->slug])) {
@@ -55,6 +66,11 @@ class SitemapController extends Controller
             $urls[] = ["loc" => route("portfolio.show", $project), "lastmod" => $project->updated_at, "priority" => "0.6"];
         }
 
+        return $urls;
+    }
+
+    private function xml(array $urls)
+    {
         // Generate XML secara manual (tanpa Blade) supaya tidak bergantung
         // pada view compiler yang bermasalah di production.
         $xml = '<' . '?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";

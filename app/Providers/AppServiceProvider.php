@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\SitemapController;
+use App\Models\BlogPost;
 use App\Models\MascotAsset;
 use App\Models\NavItem;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Support\IndexNow;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +43,20 @@ class AppServiceProvider extends ServiceProvider
         // CSP blocks it (console error). Public pages turn prefetch off.
         Vite::useCspNonce(app('csp-nonce'));
         Vite::prefetch(concurrency: 3);
+
+        // Let Bing & co. know as soon as public content goes live or changes.
+        BlogPost::saved(function (BlogPost $post) {
+            $live = $post->status === 'published' && (! $post->published_at || $post->published_at->lte(now()));
+            if ($live && ($post->wasRecentlyCreated || $post->wasChanged(['status', 'slug', 'title', 'content', 'excerpt', 'published_at', 'featured_image']))) {
+                IndexNow::queue(route('blog.show', $post));
+            }
+        });
+        Service::saved(function (Service $service) {
+            $route = SitemapController::SERVICE_ROUTES[$service->slug] ?? null;
+            if ($route && $service->is_published && ($service->wasRecentlyCreated || $service->wasChanged())) {
+                IndexNow::queue(route($route));
+            }
+        });
 
         // Feeds the same navbar/footer/mascot data the Inertia pages get via
         // HandleInertiaRequests::share() to the hybrid-Blade public layout

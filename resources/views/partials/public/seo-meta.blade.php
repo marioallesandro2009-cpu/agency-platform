@@ -24,6 +24,18 @@
         'sameAs' => array_values(array_filter($settings['social'] ?? [])) ?: null,
     ];
     $organizationJsonLd = array_filter($organizationJsonLd, fn ($v) => $v !== null);
+    if (isset($organizationJsonLd['logo']) && !preg_match('/^https?:\/\//', $organizationJsonLd['logo'])) {
+        $organizationJsonLd['logo'] = url($organizationJsonLd['logo']);
+    }
+
+    // Site name shown by search engines next to results; only needed on the homepage.
+    $websiteJsonLd = request()->is('/') ? [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => $siteName,
+        'url' => url('/'),
+        'inLanguage' => 'id-ID',
+    ] : null;
 @endphp
 
 <title>{{ $fullTitle }}</title>
@@ -47,6 +59,10 @@
 @endif
 
 <script type="application/ld+json" nonce="{{ app('csp-nonce') }}">{!! json_encode($organizationJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+
+@if ($websiteJsonLd)
+    <script type="application/ld+json" nonce="{{ app('csp-nonce') }}">{!! json_encode($websiteJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endif
 
 @foreach ($seoJsonLd as $block)
     <script type="application/ld+json" nonce="{{ app('csp-nonce') }}">{!! json_encode($block, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>

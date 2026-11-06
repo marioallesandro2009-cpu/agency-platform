@@ -28,6 +28,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // IndexNow (Bing and others): on by default in production only. The key
+    // must match the committed public/{key}.txt file.
+    'indexnow' => [
+        'key' => env('INDEXNOW_KEY', '4f67945c4db99fa6418be68f8cb000a4'),
+        'enabled' => env('INDEXNOW_ENABLED', env('APP_ENV') === 'production'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
