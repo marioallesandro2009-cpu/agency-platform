@@ -82,3 +82,6 @@ server-rack (https://www.pexels.com/photo/37730211/).
 
 Artikel monitoring-suhu-cold-chain (public/images/blog), Pexels License:
 https://www.pexels.com/photo/7513430/
+
+Artikel aplikasi-manajemen-kontrak (public/images/blog), Pexels License:
+https://www.pexels.com/photo/357514/

@@ -73,4 +73,56 @@ return [
 <p>Ingin membangun sistem monitoring suhu yang terhubung dengan gudang dan armada Anda? Lihat layanan <a href="/jasa-software-custom">jasa software custom</a> kami, atau <a href="/konsultasi?service=Software%20Custom">konsultasikan kebutuhan Anda secara gratis</a>.</p>
 HTML,
     ],
+    [
+        "title" => "Kontrak yang Berakhir Diam-Diam: Biaya Tersembunyi dari Manajemen Kontrak yang Longgar",
+        "seo_title" => "Manajemen Kontrak: Yang Diam-Diam Menggerus Nilai Bisnis",
+        "slug" => "aplikasi-manajemen-kontrak",
+        "category" => "custom-software",
+        "focus_keyword" => "manajemen kontrak",
+        "excerpt" => "Satu kalimat kecil di halaman sembilan bisa menjadi tagihan yang tidak pernah disetujui siapa pun. Begini nilai bisnis tergerus tanpa pernah masuk laporan.",
+        "seo_description" => "Manajemen kontrak yang longgar jarang terasa sampai tagihan tak terduga datang. Begini nilai bisnis tergerus diam-diam, dan cara kantor modern mencegahnya.",
+        "published_at" => "2026-11-09 07:00:00",
+        "image" => "aplikasi-manajemen-kontrak",
+        "image_alt" => "Tumpukan map arsip tebal berisi dokumen kontrak yang menggambarkan manajemen kontrak manual",
+        "graphic_alt" => "Infografik siklus manajemen kontrak: pengajuan, peninjauan, persetujuan, penandatanganan, pemantauan tenggat, dan perpanjangan",
+        "graphic" => [
+            "eyebrow" => "Siklus Kontrak Perusahaan",
+            "title" => "Enam tahap yang perlu terpantau",
+            "items" => ["Pengajuan dari divisi", "Peninjauan oleh tim legal", "Persetujuan berjenjang", "Penandatanganan dan arsip", "Pemantauan kewajiban dan tenggat", "Perpanjangan atau pengakhiran"],
+        ],
+        "content" => <<<'HTML'
+<p>Manajemen kontrak jarang dibahas di rapat direksi, sampai suatu pagi muncul tagihan perpanjangan yang tidak pernah disetujui siapa pun.</p>
+<p>Bayangkan tagihan itu tiba di meja bagian keuangan. Layanannya sudah setahun tidak dipakai. Seseorang membuka kontraknya, lalu menemukan satu kalimat kecil di halaman sembilan: kontrak diperpanjang otomatis bila tidak ada pemberitahuan 60 hari sebelum berakhir.</p>
+<p>Batas waktu itu lewat tiga minggu yang lalu.</p>
+<p>Tidak ada yang benar-benar lalai. Orang yang dulu mengurus kontrak itu sudah pindah divisi. Tanggalnya tercatat di spreadsheet yang jarang dibuka. Semua orang mengira ada orang lain yang memantaunya.</p>
+<p>Kejadian seperti ini terasa kecil, dan di situlah letak bahayanya.</p>
+<h2 id="angka">Angka yang Jarang Masuk Laporan Bulanan</h2>
+<p>Sebuah asosiasi global di bidang kontrak dan manajemen komersial memperkirakan rata-rata nilai yang tergerus dalam kontrak mencapai <a href="https://www.worldcc.com/resource/from-value-leakage-to-better-outcomes-why-contracting-needs-integration.html" target="_blank" rel="noopener">8,6 persen</a>. Perusahaan terbaik berada sedikit di atas 3 persen. Yang terburuk bisa melebihi 20 persen.</p>
+<p>Angka itu berasal dari riset global, jadi setiap perusahaan tentu berbeda. Tetapi cobalah menghitungnya sebentar. Pada kontrak senilai Rp10 miliar per tahun, 8,6 persen berarti Rp860 juta. Ini hanya gambaran skala, bukan perkiraan untuk perusahaan tertentu.</p>
+<p>Yang lebih menarik adalah di mana nilai itu hilang. Asosiasi yang sama menunjuk kewajiban yang tidak jelas, tata kelola yang lemah, serah terima yang buruk, dan minimnya data kinerja. Hampir tidak ada yang terdengar seperti kesalahan besar. Semuanya terdengar seperti hari kerja biasa.</p>
+<h2 id="sehari">Sehari di Kantor yang Kontraknya Tersebar</h2>
+<p>Pagi hari, tim pengadaan bertanya apakah harga vendor tahun ini masih sesuai kesepakatan. Tidak ada yang langsung tahu. Kontraknya ada di lampiran email seseorang, atau mungkin di folder bersama, dalam tiga file yang namanya hampir sama. Salah satunya bernama "final_revisi3".</p>
+<p>Menjelang siang, sebuah kontrak baru berhenti di meja atasan yang sedang dinas. Divisi pemohon mengirim pesan untuk menanyakan posisinya. Lalu mengirim lagi. Vendor mulai bertanya kapan pekerjaan bisa dimulai.</p>
+<p>Sore harinya, ada kabar bahwa layanan dari vendor lain sering terganggu sepanjang kuartal ini. Sebetulnya kontrak mereka memuat janji tingkat layanan, dan perusahaan berhak menagihnya. Hanya saja, tidak ada yang ingat, dan tidak ada yang mencatat.</p>
+<p>Tidak satu pun dari kejadian itu masuk laporan keuangan sebagai kerugian. Semuanya hilang sebagai waktu, kesempatan, dan uang yang tidak pernah ditagih.</p>
+<h2 id="spreadsheet">Kenapa Spreadsheet Selalu Terasa Cukup</h2>
+<p>Spreadsheet tidak pernah gagal secara mendadak. Ia bekerja dengan baik saat kontrak masih dua puluh. Ia masih lumayan saat jumlahnya lima puluh, asalkan orang yang merawatnya rajin.</p>
+<p>Lalu perusahaan tumbuh. Divisi bertambah, kontrak bertambah, dan orang yang paling paham daftar itu mengambil cuti panjang. Tiba-tiba, pengetahuan tentang tenggat penting perusahaan ternyata tersimpan di kepala satu orang.</p>
+<p>Inilah sebabnya manajemen kontrak yang lemah jarang disadari lebih awal. Setiap kali ada yang terlewat, selalu ada penjelasannya, dan penjelasan itu selalu terdengar seperti pengecualian.</p>
+[[infografik]]
+<h2 id="berjalan">Saat Manajemen Kontrak Berjalan dengan Sendirinya</h2>
+<p>Sekarang putar ulang kejadian di awal tadi. Sembilan puluh hari sebelum kontrak berakhir, penanggung jawabnya menerima pengingat otomatis. Ia membuka satu halaman di laptop. Di sana sudah ada kontrak, nilainya, riwayat pemakaian, dan tanggal batas pemberitahuan.</p>
+<p>Layanan itu sudah tidak dipakai, jadi ia memilih untuk tidak memperpanjang. Keputusannya selesai dalam beberapa menit, dan tagihan itu tidak pernah datang.</p>
+<p>Tim pengadaan pun tidak perlu lagi membongkar email. Mereka mengetik nama vendor, dan versi terakhir kontrak muncul bersama seluruh riwayat perubahannya. Divisi pemohon dapat melihat posisi persetujuan tanpa perlu bertanya, dan sistem mengingatkan penyetuju yang belum merespons, termasuk ketika ia sedang dinas.</p>
+<p>Tidak semua orang juga bisa membuka semua kontrak. Akses diatur sesuai peran dan setiap aktivitas tercatat. Kontrol akses yang lemah termasuk risiko utama dalam <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">daftar risiko aplikasi web yang menjadi rujukan global</a>, sehingga hal ini wajar dirancang sejak awal.</p>
+<p>Semua itu tidak membutuhkan teknologi yang rumit. Yang dibutuhkan adalah aplikasi web sederhana yang memahami cara kerja perusahaan Anda. Kalaupun alur persetujuan Anda cukup umum, produk jadi bisa dipertimbangkan. Tetapi ketika alurnya khas atau harus terhubung dengan sistem pengadaan dan keuangan, sistem yang dibuat khusus biasanya lebih pas. Beberapa <a href="/blog/contoh-software-custom-perusahaan">contoh software custom</a> lain menunjukkan polanya.</p>
+<p>Dan tidak perlu dibangun sekaligus. Perusahaan bisa memulai dari dua hal, yaitu tempat penyimpanan dan pengingat, lalu menambah sisanya setelah terasa manfaatnya. Cara bertahap ini juga membuat <a href="/blog/biaya-pembuatan-software-custom">biaya pembuatan software</a> lebih mudah dikendalikan.</p>
+<p>Pada akhirnya, yang berubah hanya tiga hal:</p>
+<ul><li>Tenggat mendatangi orangnya.</li><li>Dokumen selalu ada di satu tempat.</li><li>Setiap keputusan terlihat jejaknya.</li></ul>
+<h2 id="pertanyaan">Satu Pertanyaan untuk Besok Pagi</h2>
+<p>Coba tanyakan kepada tim Anda besok: kontrak apa saja yang akan berakhir dalam 90 hari ke depan, dan mana yang diperpanjang otomatis?</p>
+<p>Perhatikan berapa lama jawabannya datang, dan seberapa yakin orang yang menjawabnya.</p>
+<p>Kalau jawabannya butuh waktu, Anda sudah tahu sendiri apa artinya. Anda bisa melihat <a href="/jasa-software-custom">seperti apa sistem semacam ini dibangun</a>, atau <a href="/konsultasi?service=Software%20Custom">menceritakan cara kerja tim Anda saat ini</a>.</p>
+HTML,
+    ],
 ];
