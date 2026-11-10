@@ -14,6 +14,7 @@ const activeTab = ref("general");
 const imageKeys = ["logo", "logo_dark", "og_image"];
 const placeholders = {
     ga_measurement_id: "G-XXXXXXXXXX",
+    meta_pixel_id: "Hanya angka, contoh 123456789012345",
 };
 
 const labels = {
@@ -37,6 +38,7 @@ const labels = {
     primary_color: "Warna Utama",
     secondary_color: "Warna Sekunder",
     ga_measurement_id: "Google Analytics Measurement ID",
+    meta_pixel_id: "Meta Pixel ID",
     admin_notification_email: "Email Notifikasi Admin",
 };
 

@@ -82,11 +82,11 @@ class SecurityHeaders
 
         $response->headers->set("Content-Security-Policy", implode("; ", [
             "default-src 'self'",
-            trim("script-src 'self' 'unsafe-inline' 'nonce-{$nonce}' https://www.googletagmanager.com " . implode(' ', $viteDevOrigins)),
+            trim("script-src 'self' 'unsafe-inline' 'nonce-{$nonce}' https://www.googletagmanager.com https://connect.facebook.net " . implode(' ', $viteDevOrigins)),
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
             "font-src 'self' https://fonts.bunny.net",
             trim("img-src 'self' data: https: blob: " . implode(' ', $localImgOrigins)),
-            trim("connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.google.com " . implode(' ', [...$viteDevOrigins, ...$viteDevWsOrigins])),
+            trim("connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.google.com https://connect.facebook.net https://www.facebook.com " . implode(' ', [...$viteDevOrigins, ...$viteDevWsOrigins])),
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
