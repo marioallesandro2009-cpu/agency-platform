@@ -46,8 +46,6 @@ Route::middleware("track.visit")->group(function () {
     Route::get("/jasa-toko-online", [ServiceController::class, "show"])->name("service.toko-online")->defaults("service", "jasa-toko-online");
     Route::get("/jasa-web-development", [ServiceController::class, "show"])->name("service.web-development")->defaults("service", "jasa-web-development");
     Route::get("/jasa-software-custom", [ServiceController::class, "show"])->name("service.custom-software")->defaults("service", "jasa-software-custom");
-    Route::view("/software-developer-perumahan", "pages.developer-perumahan")->name("landing.developer-perumahan");
-    Route::view("/kebijakan-privasi", "pages.kebijakan-privasi")->name("privacy");
     Route::get("/tentang-kami", [AboutController::class, "index"])->name("about");
     Route::get("/faq", [PublicFaqController::class, "index"])->name("faq");
     Route::get("/blog", [App\Http\Controllers\BlogController::class, "index"])->name("blog.index");

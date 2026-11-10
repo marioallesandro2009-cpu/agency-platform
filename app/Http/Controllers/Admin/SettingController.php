@@ -28,7 +28,7 @@ class SettingController extends Controller
         "contact" => ["whatsapp_number", "email", "phone", "address", "maps_url"],
         "social" => ["instagram", "tiktok", "facebook", "linkedin", "youtube"],
         "branding" => ["primary_color", "secondary_color"],
-        "integrations" => ["ga_measurement_id", "meta_pixel_id"],
+        "integrations" => ["ga_measurement_id"],
         "notifications" => ["admin_notification_email"],
     ];
 

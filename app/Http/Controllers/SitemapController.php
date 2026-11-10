@@ -33,7 +33,6 @@ class SitemapController extends Controller
 
         foreach ([
             ["route" => "home", "priority" => "1.0"],
-            ["route" => "landing.developer-perumahan", "priority" => "0.8"],
             ["route" => "pricing", "priority" => "0.8"],
             ["route" => "jasa-website", "priority" => "0.8"],
             ["route" => "portfolio.index", "priority" => "0.7"],

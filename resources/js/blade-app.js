@@ -242,18 +242,6 @@ function initLeadAttribution() {
     });
 }
 
-// ---- Meta Pixel events --------------------------------------------------
-// fbq only exists when a Pixel ID is set in the admin settings.
-function trackMeta(event) {
-    if (typeof window.fbq === "function") window.fbq("track", event);
-}
-
-function initWhatsappTracking() {
-    document.addEventListener("click", (event) => {
-        if (event.target.closest?.('a[href*="wa.me/"]')) trackMeta("Contact");
-    });
-}
-
 // ---- Lead capture form (ContactCtaForm equivalent) ---------------------
 function getCookie(name) {
     const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
@@ -300,7 +288,6 @@ function initLeadForms() {
 
                 if (!response.ok) throw new Error("Request failed");
 
-                trackMeta("Lead");
                 form.classList.add("hidden");
                 if (successBox) successBox.classList.remove("hidden");
             } catch (err) {
@@ -609,7 +596,6 @@ function initLeadWizard() {
             }
             if (!response.ok) throw new Error("Request failed");
 
-            trackMeta("Lead");
             const data = await response.json().catch(() => ({}));
             const message = document.querySelector("[data-lead-success-message]");
             if (message && data.message) message.textContent = data.message;
@@ -867,7 +853,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initPricingTabs();
     initBillingToggle();
     initLeadAttribution();
-    initWhatsappTracking();
     initLeadForms();
     initLeadWizard();
     initValuesConsole();

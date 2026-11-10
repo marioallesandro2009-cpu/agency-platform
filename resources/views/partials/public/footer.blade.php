@@ -77,7 +77,6 @@
     </div>
     <div class="border-t border-white/10 py-5 text-center space-y-1 {{ $space ? 'font-mono uppercase tracking-[0.15em] text-[10px]' : 'text-xs' }}">
         <p>&copy; {{ date('Y') }} {{ $settings['general']['website_name'] ?? '' }}. All rights reserved.</p>
-        <p><a href="/kebijakan-privasi" class="hover:text-white transition-colors">Kebijakan Privasi</a></p>
         <p class="{{ $space ? 'text-white/30' : 'text-gray-500' }}">{{ $settings['general']['footer_disclaimer'] ?? '' }}</p>
     </div>
 </footer>

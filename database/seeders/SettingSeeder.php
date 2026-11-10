@@ -41,7 +41,6 @@ class SettingSeeder extends Seeder
 
             // Integrations
             ["key" => "ga_measurement_id", "value" => null, "group" => "integrations"],
-            ["key" => "meta_pixel_id", "value" => null, "group" => "integrations"],
 
             // Notifications (private — never shared to public pages, see
             // HandleInertiaRequests::PUBLIC_SETTING_GROUPS)
