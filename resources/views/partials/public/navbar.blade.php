@@ -54,7 +54,7 @@
             @endif
         </a>
 
-        <nav class="hidden flex-1 items-center justify-center {{ $space ? 'xl:flex gap-5 2xl:gap-7 whitespace-nowrap' : 'md:flex gap-8' }}">
+        <nav class="hidden flex-1 items-center justify-center {{ $space ? 'min-[1120px]:flex gap-4 xl:gap-5 2xl:gap-7 whitespace-nowrap' : 'md:flex gap-8' }}">
             @if ($homeItem)
                 <a href="{{ $homeItem['url'] }}" class="{{ $navLink }}">@if ($space)<span class="text-brand-400 mr-1.5">&bull;</span>@endif{{ $homeItem['label'] }}</a>
             @endif
@@ -115,7 +115,7 @@
                 </div>
             @endif
 
-            <button data-nav-toggle aria-expanded="false" aria-controls="mobile-menu-panel" aria-label="Menu" class="{{ $space ? 'xl:hidden' : 'md:hidden' }} p-1 {{ $space ? 'text-white' : 'text-gray-700' }}">
+            <button data-nav-toggle aria-expanded="false" aria-controls="mobile-menu-panel" aria-label="Menu" class="{{ $space ? 'min-[1120px]:hidden' : 'md:hidden' }} p-1 {{ $space ? 'text-white' : 'text-gray-700' }}">
                 <svg data-icon-open class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -126,7 +126,7 @@
         </div>
     </div>
 
-    <div data-nav-panel id="mobile-menu-panel" class="hidden border-t px-4 py-3 space-y-1 {{ $space ? 'xl:hidden border-white/10' : 'md:hidden' }}">
+    <div data-nav-panel id="mobile-menu-panel" class="hidden border-t px-4 py-3 space-y-1 {{ $space ? 'min-[1120px]:hidden border-white/10' : 'md:hidden' }}">
         @if ($homeItem)
             <a href="{{ $homeItem['url'] }}" class="block text-sm font-medium py-1.5 {{ $mobileLink }}">{{ $homeItem['label'] }}</a>
         @endif
