@@ -19,6 +19,12 @@
                     <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">WhatsApp</td>
                     <td style="padding: 6px 0;">{{ $lead->whatsapp }}</td>
                 </tr>
+                @if ($lead->contact_position)
+                <tr>
+                    <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">Kontak</td>
+                    <td style="padding: 6px 0;">{{ $lead->contact_position }}</td>
+                </tr>
+                @endif
                 @if ($lead->email)
                 <tr>
                     <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">Email</td>
@@ -53,6 +59,12 @@
                     <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">Sumber</td>
                     <td style="padding: 6px 0;">{{ $lead->source }}</td>
                 </tr>
+                @if ($lead->utm_source || $lead->referrer || $lead->landing_page)
+                <tr>
+                    <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">Asal Kunjungan</td>
+                    <td style="padding: 6px 0;">{{ collect([$lead->utm_source, $lead->utm_medium, $lead->utm_campaign, $lead->referrer, $lead->landing_page])->filter()->join(" / ") }}</td>
+                </tr>
+                @endif
                 <tr>
                     <td style="padding: 6px 0; color: #6b7280; vertical-align: top;">Waktu Submit</td>
                     <td style="padding: 6px 0;">{{ $lead->created_at->format("d M Y H:i") }}</td>

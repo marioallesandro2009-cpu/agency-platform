@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use App\Models\Faq;
-use App\Models\Lead;
 use App\Models\PageSection;
 use App\Models\PortfolioProject;
 use App\Models\PricingPackage;
@@ -99,7 +98,6 @@ class HomeController extends Controller
             ]),
             "blogSection" => $this->sectionMeta($blogSection),
             "latestPosts" => BlogPost::with("category")->published()->latestFirst()->take(3)->get(),
-            "recentActivity" => Lead::recentTickerActivity(),
         ]);
     }
 

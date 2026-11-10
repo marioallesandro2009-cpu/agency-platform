@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lead;
 use App\Models\MaintenancePlan;
 use App\Models\PricingPackage;
 
@@ -13,7 +12,6 @@ class PricingController extends Controller
         return view("pages.pricing", [
             "packages" => PricingPackage::published()->ordered()->get(),
             "maintenancePlans" => MaintenancePlan::published()->ordered()->get(),
-            "recentActivity" => Lead::recentTickerActivity(),
         ]);
     }
 }

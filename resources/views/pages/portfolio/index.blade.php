@@ -9,7 +9,7 @@
 <x-layouts.public
     theme="space"
     seo-title="Portfolio"
-    seo-description="Kumpulan proyek website yang sudah kami kerjakan untuk berbagai bisnis dan UMKM."
+    seo-description="Contoh kapabilitas website dan software custom untuk berbagai kebutuhan perusahaan."
 >
     <x-public.space-page-header
         eyebrow="Portfolio"

@@ -3,11 +3,11 @@
     $pad = fn ($n) => str_pad($n, 2, '0', STR_PAD_LEFT);
     $budgetOptions = [
         '' => 'Belum tahu / masih survei',
-        '< Rp1 Juta' => '< Rp1 Juta',
-        'Rp1 - 3 Juta' => 'Rp1 - 3 Juta',
-        'Rp3 - 7 Juta' => 'Rp3 - 7 Juta',
-        'Rp7 - 15 Juta' => 'Rp7 - 15 Juta',
-        '> Rp15 Juta' => '> Rp15 Juta',
+        '< Rp3 Juta' => '< Rp3 Juta',
+        'Rp3 - 10 Juta' => 'Rp3 - 10 Juta',
+        'Rp10 - 25 Juta' => 'Rp10 - 25 Juta',
+        'Rp25 - 75 Juta' => 'Rp25 - 75 Juta',
+        '> Rp75 Juta' => '> Rp75 Juta',
     ];
     $fieldClass = 'w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-400/30';
     $labelClass = 'block font-mono text-[10px] uppercase tracking-[0.2em] text-white/55 mb-2';
@@ -86,6 +86,11 @@
                         <label for="lead-name" class="{{ $labelClass }}">Nama Perusahaan <span class="text-brand-400">*</span></label>
                         <input id="lead-name" name="name" type="text" required autocomplete="organization" class="{{ $fieldClass }}">
                         <p data-field-error="name" class="text-xs text-red-400 mt-1.5"></p>
+                    </div>
+                    <div>
+                        <label for="lead-position" class="{{ $labelClass }}">Nama &amp; Jabatan Anda (opsional)</label>
+                        <input id="lead-position" name="contact_position" type="text" maxlength="255" placeholder="mis. Andi, Manajer Operasional" autocomplete="organization-title" class="{{ $fieldClass }}">
+                        <p data-field-error="contact_position" class="text-xs text-red-400 mt-1.5"></p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>

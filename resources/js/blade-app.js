@@ -206,38 +206,40 @@ function initNeedCheck() {
     });
 }
 
-// ---- Live activity ticker ----------------------------------------------
-function initLiveTicker() {
-    const el = document.querySelector("[data-live-ticker]");
-    if (!el) return;
+// ---- Lead attribution ---------------------------------------------------
+// Remembers where a visitor first came from (a new campaign link replaces
+// it) and adds that to every lead form as hidden fields. Values are cut to
+// the server's limits so a long URL can never fail validation on a field
+// the visitor cannot see.
+function initLeadAttribution() {
+    const key = "leadAttribution";
+    const params = new URLSearchParams(window.location.search);
+    const utmFields = ["utm_source", "utm_medium", "utm_campaign"];
 
-    const activities = JSON.parse(el.dataset.liveTicker || "[]");
-    if (!activities.length) return;
-    if (sessionStorage.getItem("liveTickerDismissed") === "1") return;
+    let data = null;
+    try {
+        data = JSON.parse(localStorage.getItem(key));
+    } catch (e) {}
 
-    el.classList.remove("hidden");
-    const textEl = el.querySelector("[data-live-ticker-text]");
-    let index = 0;
-
-    function render() {
-        const item = activities[index];
-        if (textEl) textEl.innerHTML = `<span class="font-semibold">${item.name}</span> baru saja memesan ${item.service}`;
+    if (!data || utmFields.some((field) => params.get(field))) {
+        const external = document.referrer && new URL(document.referrer).host !== window.location.host;
+        data = { referrer: external ? document.referrer.slice(0, 500) : "", landing_page: window.location.pathname.slice(0, 500) };
+        utmFields.forEach((field) => (data[field] = (params.get(field) || "").slice(0, 100)));
+        try {
+            localStorage.setItem(key, JSON.stringify(data));
+        } catch (e) {}
     }
-    render();
 
-    const timer = setInterval(() => {
-        index = (index + 1) % activities.length;
-        render();
-    }, 4500);
-
-    const closeBtn = el.querySelector("[data-live-ticker-close]");
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => {
-            sessionStorage.setItem("liveTickerDismissed", "1");
-            clearInterval(timer);
-            el.classList.add("hidden");
+    document.querySelectorAll("[data-lead-form], [data-lead-wizard]").forEach((form) => {
+        Object.entries(data).forEach(([name, value]) => {
+            if (!value) return;
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            form.appendChild(input);
         });
-    }
+    });
 }
 
 // ---- Lead capture form (ContactCtaForm equivalent) ---------------------
@@ -506,7 +508,7 @@ function initLeadWizard() {
             const el = form.querySelector(`[data-summary="${key}"]`);
             if (el) el.textContent = text;
         };
-        set("identity", [v("name"), v("email"), v("whatsapp")].filter(Boolean).join(" · "));
+        set("identity", [v("name"), v("contact_position"), v("email"), v("whatsapp")].filter(Boolean).join(" · "));
         set("needs", [v("service_interested"), v("budget_estimate")].filter(Boolean).join(" · "));
         set("details", [v("address"), v("message")].filter(Boolean).join(" · ") || "Tidak diisi");
     }
@@ -850,6 +852,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initNeedCheck();
     initPricingTabs();
     initBillingToggle();
+    initLeadAttribution();
     initLeadForms();
     initLeadWizard();
     initValuesConsole();
@@ -858,7 +861,6 @@ document.addEventListener("DOMContentLoaded", () => {
     whenIdle(() => {
         initSpaceVisuals();
         initHudClock();
-        initLiveTicker();
         initRadar();
         initGlowCards();
         initTilt();

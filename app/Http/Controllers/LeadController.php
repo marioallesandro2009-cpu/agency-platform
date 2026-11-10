@@ -71,6 +71,12 @@ class LeadController extends Controller
             "budget_estimate" => "nullable|string|max:100",
             "pricing_category" => "nullable|string|max:100",
             "pricing_tier" => "nullable|string|max:100",
+            "contact_position" => "nullable|string|max:255",
+            "utm_source" => "nullable|string|max:100",
+            "utm_medium" => "nullable|string|max:100",
+            "utm_campaign" => "nullable|string|max:100",
+            "referrer" => "nullable|string|max:500",
+            "landing_page" => "nullable|string|max:500",
             // "cta_home" — the inline "Talk to Us"-style form embedded in the
             // homepage's Final CTA section (ContactCtaForm.vue), distinct from
             // the dedicated /konsultasi and /kontak pages.

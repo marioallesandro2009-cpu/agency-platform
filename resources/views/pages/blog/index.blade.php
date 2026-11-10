@@ -15,7 +15,7 @@
         eyebrow="Blog"
         code="LOG"
         :title="$pageTitle"
-        subtitle="Artikel dan insight seputar pembuatan website, UMKM, dan bisnis online."
+        subtitle="Artikel dan insight seputar pembuatan website, software custom, dan strategi digital perusahaan."
     />
 
     <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-16 md:py-24">

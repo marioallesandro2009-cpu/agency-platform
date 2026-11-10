@@ -37,21 +37,6 @@
     seo-title="Harga Paket Website"
     seo-description="Daftar harga paket pembuatan website untuk landing page, company profile, e-commerce, dan sistem informasi."
 >
-    @if (!empty($recentActivity))
-        <div
-            data-live-ticker='{{ json_encode($recentActivity, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) }}'
-            role="status"
-            class="hidden fixed left-4 bottom-5 z-40 max-w-[calc(100vw-7rem)] sm:max-w-sm flex items-center gap-3 rounded-full border border-white/10 bg-space-deep/80 pl-3 pr-2 py-2 font-mono text-[11px] text-white/70 shadow-2xl"
-        >
-            <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-                <span class="absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75 animate-ping motion-reduce:animate-none"></span>
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-400"></span>
-            </span>
-            <p data-live-ticker-text class="min-w-0 truncate [&_span]:text-white [&_span]:font-normal"></p>
-            <button data-live-ticker-close aria-label="Tutup notifikasi" class="shrink-0 w-6 h-6 rounded-full text-white/50 hover:text-white hover:bg-white/10 leading-none">&times;</button>
-        </div>
-    @endif
-
     <x-public.space-page-header
         eyebrow="Harga"
         code="$$"

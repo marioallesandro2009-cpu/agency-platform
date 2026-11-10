@@ -16,7 +16,6 @@ class AboutController extends Controller
         ["key" => "portfolio", "label" => "Proyek Portfolio", "is_visible" => true],
         ["key" => "blog", "label" => "Artikel Blog", "is_visible" => true],
         ["key" => "techstack", "label" => "Tech Stack Digunakan", "is_visible" => true],
-        ["key" => "rating", "label" => "Rating Klien", "is_visible" => true],
     ];
 
     public function edit()

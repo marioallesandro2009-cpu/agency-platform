@@ -10,17 +10,17 @@
         : null;
 
     $capabilities = [
-        ['title' => 'Deteksi dan pemantauan', 'example' => 'Anomali, gangguan sistem, sensor'],
+        ['title' => 'Kontrol dan peringatan', 'example' => 'Selisih data, jatuh tempo, audit'],
         ['title' => 'Otomasi dan AI', 'example' => 'Chatbot internal, baca dokumen'],
         ['title' => 'Sistem operasional', 'example' => 'ERP, HRIS, CRM, inventory'],
-        ['title' => 'Aplikasi dan portal', 'example' => 'Android, iOS, portal klien'],
+        ['title' => 'Aplikasi dan portal', 'example' => 'Aplikasi web, portal klien'],
         ['title' => 'Data dan integrasi', 'example' => 'Dashboard, API, migrasi'],
     ];
 
     $divisions = ['Operasional', 'IT', 'Keuangan', 'Audit', 'SDM', 'Sales', 'Gudang', 'Manajemen'];
 
     $findings = [
-        ['title' => 'Masalah yang baru diketahui setelah terlambat', 'text' => 'Gangguan sistem, transaksi mencurigakan, atau mesin bermasalah baru disadari setelah kerugian terjadi, karena tidak ada yang memantau secara terus-menerus.', 'ask' => 'Berapa lama sebelum tim Anda tahu ada yang tidak beres?'],
+        ['title' => 'Masalah yang baru diketahui setelah terlambat', 'text' => 'Selisih data, tagihan terlewat, atau kontrak yang habis baru disadari setelah kerugian terjadi, karena tidak ada yang memantau secara terus-menerus.', 'ask' => 'Berapa lama sebelum tim Anda tahu ada yang tidak beres?'],
         ['title' => 'Jam kerja yang habis untuk pekerjaan berulang', 'text' => 'Staf yang digaji untuk berpikir dan melayani pelanggan justru memindahkan data dan mengerjakan hal yang sama setiap hari.', 'ask' => 'Pekerjaan apa yang seharusnya sudah berjalan otomatis?'],
         ['title' => 'Aplikasi yang memaksa bisnis Anda berubah', 'text' => 'Aplikasi siap pakai dibuat untuk rata-rata perusahaan. Saat proses Anda berbeda, tim terpaksa memakai cara memutar di luar sistem.', 'ask' => 'Berapa banyak proses yang masih dikerjakan di luar aplikasi?'],
         ['title' => 'Proses yang bergantung pada satu orang', 'text' => 'Saat karyawan kunci cuti atau keluar, pengetahuannya ikut pergi dan pekerjaan penting ikut berhenti.', 'ask' => 'Apa yang terhenti jika orang itu resign bulan depan?'],
@@ -38,12 +38,12 @@
     ];
 
     $solutions = [
-        ['name' => 'Deteksi dan Pemantauan', 'lead' => 'Tahu lebih awal saat ada yang tidak beres.', 'items' => ['Deteksi anomali dan transaksi mencurigakan', 'Monitoring server dan sistem dengan peringatan otomatis', 'Pemantauan sensor dan perangkat IoT, seperti suhu dan mesin', 'Analisis gambar dari kamera untuk area tertentu']],
-        ['name' => 'Otomasi dan AI', 'lead' => 'Pekerjaan berulang berjalan tanpa ditunggu.', 'items' => ['Chatbot yang menjawab dari dokumen internal', 'Pembacaan dokumen dan invoice otomatis (OCR)', 'Alur kerja dan persetujuan otomatis', 'Prediksi permintaan dan kebutuhan stok']],
+        ['name' => 'Kontrol dan Peringatan', 'lead' => 'Tahu lebih awal saat ada yang tidak beres.', 'items' => ['Penanda selisih data dan transaksi di luar aturan', 'Pengingat kontrak, izin, dan tagihan jatuh tempo', 'Monitoring sistem dengan peringatan otomatis', 'Jejak audit perubahan data']],
+        ['name' => 'Otomasi dan AI', 'lead' => 'Pekerjaan berulang berjalan tanpa ditunggu.', 'items' => ['Chatbot yang menjawab dari dokumen internal', 'Pembacaan dokumen dan invoice otomatis (OCR)', 'Alur kerja dan persetujuan otomatis', 'Notifikasi WhatsApp dan email sesuai tahapan kerja']],
         ['name' => 'Sistem Operasional', 'lead' => 'Inti operasional mengikuti alur kerja Anda.', 'items' => ['ERP sesuai modul yang benar-benar dipakai', 'HRIS, absensi, dan payroll', 'CRM dan pipeline sales', 'Inventory, gudang, dan barcode']],
-        ['name' => 'Aplikasi dan Portal', 'lead' => 'Layanan dan tim terhubung dari mana saja.', 'items' => ['Aplikasi mobile Android dan iOS', 'Portal klien, vendor, dan mitra', 'Booking dan reservasi', 'E-learning dan pelatihan internal']],
+        ['name' => 'Aplikasi dan Portal', 'lead' => 'Layanan dan tim terhubung dari mana saja.', 'items' => ['Aplikasi web yang nyaman dipakai di ponsel (PWA)', 'Portal klien, vendor, dan mitra', 'Booking dan reservasi', 'E-learning dan pelatihan internal']],
         ['name' => 'Data dan Integrasi', 'lead' => 'Sistem yang terpisah bekerja sebagai satu.', 'items' => ['Dashboard manajemen', 'Integrasi API antar-sistem', 'Migrasi dari sistem lama', 'Laporan otomatis terjadwal']],
-        ['name' => 'Sistem Khusus Industri', 'lead' => 'Untuk proses yang tidak ada produk jadinya.', 'items' => ['Pelacakan armada dan logistik', 'Sistem klinik dan rekam medis', 'Sistem akademik sekolah dan kampus', 'Simpan pinjam dan koperasi']],
+        ['name' => 'Sistem Khusus Industri', 'lead' => 'Untuk proses yang tidak ada produk jadinya.', 'items' => ['Developer perumahan: booking, cicilan DP, dan komisi', 'Rental alat berat: kontrak, jam kerja, dan invoice', 'Kontraktor: RAB, PO material, dan termin', 'Manajemen kontrak dan vendor']],
     ];
 
     $comparison = [
@@ -107,7 +107,7 @@
                 <div class="lg:col-span-7">
                     <p data-reveal-load class="font-mono text-[11px] uppercase tracking-[0.14em] text-brand-300 mb-6">Jasa Pembuatan Software Custom &amp; Aplikasi</p>
                     <h1 data-reveal-load class="font-display font-bold text-[2.15rem] sm:text-5xl xl:text-[3.75rem] leading-[1.08] text-white mb-6 [text-wrap:balance]">Software Custom untuk Masalah yang Tidak Bisa Diselesaikan Aplikasi Biasa</h1>
-                    <p data-reveal-load style="--d: 120ms" class="text-lg text-white/70 leading-relaxed max-w-2xl mb-9">Dari sistem deteksi dan pemantauan, otomasi berbasis AI, sistem operasional, hingga aplikasi mobile. Kalau kebutuhan perusahaan Anda tidak ada produk jadinya, kami bangun sistemnya.</p>
+                    <p data-reveal-load style="--d: 120ms" class="text-lg text-white/70 leading-relaxed max-w-2xl mb-9">Dari sistem operasional, otomasi alur kerja, hingga portal klien. Kalau kebutuhan perusahaan Anda tidak ada produk jadinya, kami bangun sistemnya.</p>
                     <div data-reveal-load style="--d: 200ms" class="flex flex-col sm:flex-row sm:flex-wrap gap-3">
                         <a href="{{ $consultUrl }}" class="btn-space btn-space--lg btn-space--pill">Diskusikan Kebutuhan <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
                         <a href="#diagnosis" class="btn-space btn-space--lg btn-space--glass">Cek Kebutuhan Perusahaan <span class="btn-space__arrow" aria-hidden="true">&darr;</span></a>

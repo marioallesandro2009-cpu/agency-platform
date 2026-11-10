@@ -6,7 +6,6 @@ use App\Models\BlogPost;
 use App\Models\PageSection;
 use App\Models\PortfolioProject;
 use App\Models\TechStack;
-use App\Models\Testimonial;
 
 class AboutController extends Controller
 {
@@ -46,7 +45,6 @@ class AboutController extends Controller
             ["key" => "portfolio", "label" => "Proyek Portfolio", "is_visible" => true],
             ["key" => "blog", "label" => "Artikel Blog", "is_visible" => true],
             ["key" => "techstack", "label" => "Tech Stack Digunakan", "is_visible" => true],
-            ["key" => "rating", "label" => "Rating Klien", "is_visible" => true],
         ];
     }
 
@@ -75,14 +73,9 @@ class AboutController extends Controller
             "portfolio" => PortfolioProject::published()->count(),
             "blog" => BlogPost::published()->count(),
             "techstack" => TechStack::active()->count(),
-            "rating" => Testimonial::published()->avg("rating"),
             default => null,
         };
 
-        if (!$value) {
-            return null;
-        }
-
-        return $key === "rating" ? number_format($value, 1) : (string) $value;
+        return $value ? (string) $value : null;
     }
 }

@@ -31,7 +31,7 @@ class PageSectionSeeder extends Seeder
                 "title" => "Kenalan Lebih Dekat dengan Kami",
                 "subtitle" => null,
                 "content" => [
-                    "description" => "Kami adalah agensi pengembangan website yang fokus membantu bisnis dan UMKM di Indonesia tampil profesional secara online. Setiap proyek kami kerjakan dengan pendekatan personal, bukan template massal, supaya website benar-benar mencerminkan identitas dan tujuan bisnis Anda.",
+                    "description" => "Kami membangun website dan software custom untuk perusahaan di Indonesia. Setiap proyek dimulai dari memahami cara kerja tim Anda, supaya hasilnya benar-benar dipakai dan mendukung tujuan bisnis.",
                     "button_text" => "Lihat Selengkapnya",
                     "button_url" => "/tentang-kami",
                 ],
@@ -135,10 +135,10 @@ class PageSectionSeeder extends Seeder
                 "title" => "Tentang Kami",
                 "subtitle" => "Siapa Kami",
                 "content" => [
-                    "description" => "Kami adalah agensi pengembangan website yang fokus membantu bisnis dan UMKM di Indonesia hadir secara profesional di dunia digital. Sejak awal berdiri, kami berkomitmen membangun website yang bukan cuma indah dipandang, tapi juga efektif mendatangkan hasil nyata bagi bisnis klien.",
-                    "mission" => "Menyediakan solusi website yang terjangkau, cepat, dan berkualitas untuk membantu bisnis tumbuh secara digital.",
+                    "description" => "Exodine Web adalah studio pengembangan website dan software custom untuk perusahaan di Indonesia. Kami membantu tim merapikan pekerjaan yang masih bergantung pada spreadsheet, chat, dan proses manual, mulai dari website perusahaan sampai sistem operasional yang mengikuti alur kerja Anda.",
+                    "mission" => "Membangun website dan software yang mudah dipakai, tepat sasaran, dan bisa dikembangkan bertahap sesuai kebutuhan tiap perusahaan.",
                     "mission_icon" => "target",
-                    "vision" => "Menjadi mitra terpercaya bagi UMKM dan bisnis di Indonesia dalam membangun kehadiran online yang profesional.",
+                    "vision" => "Menjadi mitra teknologi terpercaya bagi perusahaan di Indonesia yang ingin bekerja lebih rapi dan terukur.",
                     "vision_icon" => "compass",
                     "values" => [
                         ["title" => "Transparansi", "description" => "Harga dan proses kerja yang jelas sejak awal, tanpa biaya tersembunyi.", "icon" => "shield-check"],

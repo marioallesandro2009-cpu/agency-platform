@@ -102,9 +102,13 @@ function formatDate(date) {
                             <span v-if="lead.service_interested"> - Minat: {{ lead.service_interested }}</span>
                             <span v-if="lead.budget_estimate"> - Anggaran: {{ lead.budget_estimate }}</span>
                         </p>
+                        <p v-if="lead.contact_position" class="text-sm text-gray-500 mt-1">Kontak: {{ lead.contact_position }}</p>
                         <p v-if="lead.address" class="text-sm text-gray-500 mt-1">Alamat: {{ lead.address }}</p>
                         <p v-if="lead.message" class="text-sm text-gray-600 mt-2 whitespace-pre-line">{{ lead.message }}</p>
                         <p class="text-xs text-gray-400 mt-2">{{ formatDate(lead.created_at) }}</p>
+                        <p v-if="lead.utm_source || lead.referrer || lead.landing_page" class="text-xs text-gray-400 mt-1 break-all">
+                            Asal: {{ [lead.utm_source, lead.utm_medium, lead.utm_campaign, lead.referrer, lead.landing_page].filter(Boolean).join(" · ") }}
+                        </p>
 
                         <textarea
                             :value="notesDraft[lead.id] ?? lead.admin_notes ?? ''"
