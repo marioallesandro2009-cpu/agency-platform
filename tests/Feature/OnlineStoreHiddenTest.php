@@ -41,6 +41,18 @@ class OnlineStoreHiddenTest extends TestCase
         $this->assertTrue($other->fresh()->is_published, "Other packages must stay published.");
     }
 
+    public function test_ecommerce_portfolio_demo_is_hidden_but_other_projects_stay(): void
+    {
+        $shop = PortfolioProject::create(["name" => "ExoGadget", "slug" => "exogadget", "category" => "Website E-commerce", "is_published" => true, "order" => 9]);
+        $other = PortfolioProject::create(["name" => "AutoCraft", "slug" => "autocraft", "category" => "Company Profile / Bengkel", "is_published" => true, "order" => 10]);
+
+        (require database_path("migrations/2026_11_22_030000_hide_ecommerce_portfolio_demo.php"))->up();
+
+        $this->assertFalse($shop->fresh()->is_published);
+        $this->assertTrue($other->fresh()->is_published);
+        $this->get("/portfolio")->assertOk()->assertDontSee("ExoGadget")->assertSee("AutoCraft");
+    }
+
     public function test_pricing_page_has_no_ecommerce_tab_without_a_published_package(): void
     {
         $this->package("ecommerce", published: false);
