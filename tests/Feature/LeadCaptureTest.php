@@ -48,22 +48,21 @@ class LeadCaptureTest extends TestCase
         $response->assertStatus(302); // no WA number configured in this test DB, so store() just redirects back()
     }
 
-    public function test_submitting_the_form_redirects_to_whatsapp_when_a_number_is_configured(): void
+    public function test_submitting_the_form_does_not_send_the_visitor_to_whatsapp(): void
     {
         Setting::set('whatsapp_number', '6281234567890', 'contact');
 
-        // Inertia::location() only responds 409 (X-Inertia-Location header,
-        // for the JS client to catch and do a full navigation) when the
-        // request itself carries X-Inertia — otherwise it's just a plain
-        // redirect, which is the correct fallback for a non-Inertia caller.
+        // Lead model: the team contacts the visitor, so there is no wa.me handoff.
         $response = $this->withHeaders(['X-Inertia' => 'true'])->post('/leads', [
             'name' => 'Budi Santoso',
             'whatsapp' => '081234567890',
             'source' => 'konsultasi',
         ]);
 
-        $response->assertStatus(409);
-        $this->assertStringStartsWith('https://wa.me/6281234567890', $response->headers->get('X-Inertia-Location'));
+        $response->assertSessionHas('success');
+        $this->assertNull($response->headers->get('X-Inertia-Location'));
+        $this->assertStringNotContainsString('wa.me', (string) $response->headers->get('Location'));
+        $this->assertDatabaseHas('leads', ['name' => 'Budi Santoso']);
     }
 
     public function test_invalid_whatsapp_format_is_rejected(): void
