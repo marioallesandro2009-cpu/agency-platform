@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
-use App\Models\PortfolioProject;
 use App\Models\Service;
 use Illuminate\Support\Facades\Response;
 
@@ -60,10 +59,6 @@ class SitemapController extends Controller
 
         foreach (BlogPost::published()->get() as $post) {
             $urls[] = ["loc" => route("blog.show", $post), "lastmod" => $post->updated_at, "priority" => "0.6"];
-        }
-
-        foreach (PortfolioProject::published()->get() as $project) {
-            $urls[] = ["loc" => route("portfolio.show", $project), "lastmod" => $project->updated_at, "priority" => "0.6"];
         }
 
         return $urls;

@@ -97,7 +97,7 @@
             @endphp
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
                 @foreach ($portfolioProjects as $index => $project)
-                    <a href="/portfolio/{{ $project->slug }}" data-tilt class="tilt-card group block {{ $stripSpan[$index % count($stripSpan)] }}">
+                    <{{ $project->live_url ? 'a' : 'div' }} @if ($project->live_url) href="{{ $project->live_url }}" target="_blank" rel="noopener" aria-label="Kunjungi {{ $project->name }}" @endif data-tilt class="tilt-card group block {{ $stripSpan[$index % count($stripSpan)] }}">
                         <div class="hud-frame relative p-2 mb-5">
                             <div class="{{ $stripShape[$index % count($stripShape)] }} rounded-lg overflow-hidden bg-space-panel art-frame">
                                 @if ($project->thumbnail)
@@ -107,7 +107,7 @@
                         </div>
                         <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-400 mb-2">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }} &middot; {{ $project->category }}</p>
                         <h3 class="font-display font-semibold {{ $index === 0 ? 'text-2xl' : 'text-lg' }} text-white tracking-tight transition-colors group-hover:text-brand-300">{{ $project->name }}</h3>
-                    </a>
+                    </{{ $project->live_url ? 'a' : 'div' }}>
                 @endforeach
             </div>
             <div class="mt-12 flex justify-end">

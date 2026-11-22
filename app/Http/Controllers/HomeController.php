@@ -94,7 +94,7 @@ class HomeController extends Controller
             "ctaSection" => $cta,
             "portfolioSection" => $this->sectionMeta($portfolioSection),
             "portfolioProjects" => PortfolioProject::published()->ordered()->limit(3)->get([
-                "id", "name", "slug", "category", "thumbnail", "short_description", "project_type",
+                "id", "name", "slug", "category", "thumbnail", "short_description", "project_type", "live_url",
             ]),
             "blogSection" => $this->sectionMeta($blogSection),
             "latestPosts" => BlogPost::with("category")->published()->latestFirst()->take(3)->get(),

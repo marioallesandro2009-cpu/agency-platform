@@ -40,7 +40,8 @@ Route::middleware("track.visit")->group(function () {
     Route::get("/harga", [PublicPricingController::class, "index"])->name("pricing");
     Route::get("/jasa-website", [GeneralServiceController::class, "index"])->name("jasa-website");
     Route::get("/portfolio", [PortfolioController::class, "index"])->name("portfolio.index");
-    Route::get("/portfolio/{portfolioProject}", [PortfolioController::class, "show"])->name("portfolio.show");
+    // The detail page was removed; keep old links and search results working.
+    Route::get("/portfolio/{slug}", fn () => redirect("/portfolio", 301))->name("portfolio.legacy");
     Route::get("/jasa-website-umkm", [ServiceController::class, "show"])->name("service.umkm")->defaults("service", "jasa-website-umkm");
     Route::get("/jasa-website-company-profile", [ServiceController::class, "show"])->name("service.company-profile")->defaults("service", "jasa-website-company-profile");
     Route::get("/jasa-toko-online", [ServiceController::class, "show"])->name("service.toko-online")->defaults("service", "jasa-toko-online");

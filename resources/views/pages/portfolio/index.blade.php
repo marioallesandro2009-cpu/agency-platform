@@ -4,21 +4,28 @@
         $host = parse_url($url ?? '', PHP_URL_HOST);
         return $host ? preg_replace('/^www\./', '', $host) : $url;
     };
+    // Screenshots keep their own proportions (nothing is cropped); local files are
+    // measured so the box is reserved before the image loads. Anything else falls back to 16:10.
+    $frameSize = function ($project) {
+        $path = $project->thumbnail && str_starts_with($project->thumbnail, '/images/') ? public_path($project->thumbnail) : null;
+        $size = $path && is_file($path) ? @getimagesize($path) : false;
+        return $size ? [$size[0], $size[1]] : [800, 500];
+    };
 @endphp
 
 <x-layouts.public
     theme="space"
     seo-title="Portfolio"
-    seo-description="Contoh kapabilitas website dan software custom untuk berbagai kebutuhan perusahaan."
+    seo-description="Website dan software custom yang sudah kami bangun untuk perusahaan, bisa dilihat langsung."
 >
     <x-public.space-page-header
         eyebrow="Portfolio"
         code="WRK"
         title="Hasil Karya Kami"
-        subtitle="Beberapa proyek konsep yang menunjukkan pendekatan kami dalam membangun website untuk berbagai kebutuhan bisnis."
+        subtitle="Beberapa proyek yang bisa Anda lihat langsung. Klik Kunjungi untuk membukanya."
     >
         <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-white/45">
-            <span class="text-brand-400">{{ $pad($projects->count()) }}</span> proyek terdokumentasi
+            <span class="text-brand-400">{{ $pad($projects->count()) }}</span> proyek
         </p>
     </x-public.space-page-header>
 
@@ -28,37 +35,39 @@
                 <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/45">Belum ada proyek portfolio yang dipublikasikan.</p>
             </div>
         @else
-            <div class="space-y-6 md:space-y-8">
+            {{-- Photo and a visit button only: there is deliberately no detail page. --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 @foreach ($projects as $index => $project)
-                    @php $flip = $index % 2 === 1; @endphp
-                    <article class="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-6 transition-colors duration-300 hover:border-brand-400/40">
-                        <div data-reveal="{{ $flip ? 'left' : 'right' }}" class="lg:col-span-7 {{ $flip ? 'lg:order-2' : 'lg:order-1' }}">
-                            {{-- Shown as a browser window: reads as "a website we built", not a stock photo --}}
-                            <div class="browser-frame">
-                                <div class="browser-frame__bar">
-                                    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-                                    @if ($project->live_url)
-                                        <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="browser-frame__url">{{ $domainLabel($project->live_url) }}</a>
-                                    @else
-                                        <span class="browser-frame__url" aria-hidden="true">preview/{{ $project->slug }}</span>
-                                    @endif
-                                </div>
-                                <a
-                                    href="/portfolio/{{ $project->slug }}"
-                                    class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-400"
-                                    aria-label="{{ $project->name }}"
-                                >
-                                <div class="aspect-[16/10] overflow-hidden bg-space-panel art-frame">
+                    @php [$imgW, $imgH] = $frameSize($project); @endphp
+                    <article data-reveal data-reveal-delay="{{ ($index % 2) * 80 }}" class="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:p-5 transition-colors duration-300 hover:border-brand-400/40">
+                        {{-- Shown as a browser window: reads as "a website we built", not a stock photo --}}
+                        <div class="browser-frame">
+                            <div class="browser-frame__bar">
+                                <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+                                @if ($project->live_url)
+                                    <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="browser-frame__url">{{ $domainLabel($project->live_url) }}</a>
+                                @else
+                                    <span class="browser-frame__url" aria-hidden="true">preview/{{ $project->slug }}</span>
+                                @endif
+                            </div>
+                            <{{ $project->live_url ? 'a' : 'div' }}
+                                @if ($project->live_url)
+                                    href="{{ $project->live_url }}" target="_blank" rel="noopener"
+                                    aria-label="Kunjungi {{ $project->name }}"
+                                @endif
+                                class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-400"
+                            >
+                                <div class="overflow-hidden bg-space-panel {{ $project->project_type === 'personal' ? 'art-frame' : '' }}" style="aspect-ratio: {{ $imgW }} / {{ $imgH }}">
                                     @if ($project->thumbnail)
                                         <img
                                             src="{{ \App\Support\Img::url($project->thumbnail, 960) }}"
                                             srcset="{{ \App\Support\Img::srcset($project->thumbnail, [480, 960, 1280, 1600]) }}"
-                                            sizes="(min-width: 1024px) 55vw, 100vw"
+                                            sizes="(min-width: 768px) 45vw, 100vw"
                                             alt="{{ $project->name }}"
-                                            width="800"
-                                            height="500"
-                                            @if ($index > 0) loading="lazy" @else fetchpriority="high" @endif
-                                            class="w-full h-full object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+                                            width="{{ $imgW }}"
+                                            height="{{ $imgH }}"
+                                            @if ($index > 1) loading="lazy" @else fetchpriority="high" @endif
+                                            class="w-full h-full object-cover transition-all duration-700 {{ $project->project_type === 'personal' ? 'opacity-85 group-hover:scale-105 group-hover:opacity-100' : 'group-hover:scale-[1.02]' }}"
                                         >
                                     @else
                                         <div class="w-full h-full flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.25em] text-white/35" aria-hidden="true">
@@ -66,32 +75,24 @@
                                         </div>
                                     @endif
                                 </div>
-                                </a>
-                            </div>
+                            </{{ $project->live_url ? 'a' : 'div' }}>
                         </div>
 
-                        <div data-reveal="{{ $flip ? 'right' : 'left' }}" data-reveal-delay="80" class="lg:col-span-5 px-2 md:px-4 pb-4 lg:pb-0 {{ $flip ? 'lg:order-1' : 'lg:order-2' }}">
-                            <div class="flex flex-wrap items-center gap-3 mb-6">
-                                <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-white/45 tabular-nums">
-                                    <span class="text-brand-400">{{ $pad($index + 1) }}</span> / {{ $pad($projects->count()) }}
-                                </span>
-                                @if ($project->category)
-                                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-400">{{ $project->category }}</span>
-                                @endif
-                                @if ($project->project_type === 'personal')
-                                    <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 border border-white/15 px-2.5 py-1 rounded-full">Contoh Kapabilitas</span>
-                                @endif
+                        <div class="flex flex-wrap items-center justify-between gap-4 mt-auto pt-6 px-1">
+                            <div class="min-w-0">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    @if ($project->category)
+                                        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-400">{{ $project->category }}</span>
+                                    @endif
+                                    @if ($project->project_type === 'personal')
+                                        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 border border-white/15 px-2.5 py-1 rounded-full">Contoh Kapabilitas</span>
+                                    @endif
+                                </div>
+                                <h2 class="font-display font-semibold text-2xl leading-tight tracking-tight text-white [text-wrap:balance]">{{ $project->name }}</h2>
                             </div>
-                            <a href="/portfolio/{{ $project->slug }}" class="block">
-                                <h2 class="font-display font-semibold text-3xl md:text-4xl leading-[1.08] tracking-tight text-white mb-4 transition-colors group-hover:text-brand-300 [text-wrap:balance]">{{ $project->name }}</h2>
-                            </a>
-                            <p class="text-white/55 leading-relaxed mb-8 max-w-md">{{ $project->short_description }}</p>
-                            <div class="flex flex-wrap items-center gap-3">
-                                <a href="/portfolio/{{ $project->slug }}" class="btn-space btn-space--glass">Lihat studi kasus <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
-                                @if ($project->live_url)
-                                    <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45 hover:text-brand-300 transition-colors">{{ $domainLabel($project->live_url) }} &nearr;</a>
-                                @endif
-                            </div>
+                            @if ($project->live_url)
+                                <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="btn-space btn-space--glass shrink-0">Kunjungi <span class="btn-space__arrow" aria-hidden="true">&nearr;</span></a>
+                            @endif
                         </div>
                     </article>
                 @endforeach

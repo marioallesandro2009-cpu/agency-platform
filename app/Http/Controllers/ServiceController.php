@@ -38,7 +38,7 @@ class ServiceController extends Controller
                     ->orderByDesc("is_featured")
                     ->ordered()
                     ->limit(3)
-                    ->get(["id", "name", "slug", "category", "short_description", "thumbnail"])
+                    ->get(["id", "name", "slug", "category", "short_description", "thumbnail", "live_url"])
                 : collect(),
         ]);
     }

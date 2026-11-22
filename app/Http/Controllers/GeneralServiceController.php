@@ -13,7 +13,7 @@ class GeneralServiceController extends Controller
         return view("pages.jasa-website", [
             "services" => Service::published()->ordered()->get(),
             "portfolioProjects" => PortfolioProject::published()->ordered()->limit(3)->get([
-                "id", "name", "slug", "category", "thumbnail",
+                "id", "name", "slug", "category", "thumbnail", "live_url",
             ]),
             "pricingPackages" => PricingPackage::published()->ordered()->get(),
         ]);

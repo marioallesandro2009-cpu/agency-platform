@@ -226,7 +226,7 @@
                     />
                     <div data-reveal data-reveal-delay="100" class="w-full flex flex-col sm:flex-row gap-2.5">
                         @foreach ($portfolioProjects as $project)
-                            <a href="/portfolio/{{ $project->slug }}" class="gallery-panel relative overflow-hidden rounded-2xl block h-64 sm:h-[480px] bg-space-panel ring-1 ring-white/10">
+                            <{{ $project->live_url ? 'a' : 'div' }} @if ($project->live_url) href="{{ $project->live_url }}" target="_blank" rel="noopener" aria-label="Kunjungi {{ $project->name }}" @endif class="gallery-panel relative overflow-hidden rounded-2xl block h-64 sm:h-[480px] bg-space-panel ring-1 ring-white/10">
                                 @if ($project->thumbnail)
                                     <img src="{{ \App\Support\Img::url($project->thumbnail, 640) }}" alt="{{ $project->name }}" width="400" height="500" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
                                 @endif
@@ -238,7 +238,7 @@
                                     <span class="h-8 w-px flex-shrink-0 bg-brand-400"></span>
                                     <span class="font-display font-semibold whitespace-nowrap drop-shadow">{{ $project->name }}</span>
                                 </div>
-                            </a>
+                            </{{ $project->live_url ? 'a' : 'div' }}>
                         @endforeach
                     </div>
                     <div class="mt-10 flex justify-end">

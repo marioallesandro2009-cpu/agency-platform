@@ -148,7 +148,7 @@
                     <x-public.space-heading :index="$blockNumbers['portfolio']" label="Portfolio" title="Portfolio Terkait" />
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         @foreach ($relatedPortfolio as $project)
-                            <a href="/portfolio/{{ $project->slug }}" class="group block rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden transition-colors hover:border-brand-400/40">
+                            <{{ $project->live_url ? 'a' : 'div' }} @if ($project->live_url) href="{{ $project->live_url }}" target="_blank" rel="noopener" aria-label="Kunjungi {{ $project->name }}" @endif class="group block rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden transition-colors hover:border-brand-400/40">
                                 <div class="aspect-[4/3] bg-space-panel overflow-hidden">
                                     @if ($project->thumbnail)
                                         <img src="{{ \App\Support\Img::url($project->thumbnail, 480) }}" alt="{{ $project->name }}" width="320" height="240" loading="lazy" class="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100">
@@ -160,7 +160,7 @@
                                         <p class="text-sm text-white/50 mt-1 line-clamp-2">{{ $project->short_description }}</p>
                                     @endif
                                 </div>
-                            </a>
+                            </{{ $project->live_url ? 'a' : 'div' }}>
                         @endforeach
                     </div>
                 </div>

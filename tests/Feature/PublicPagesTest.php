@@ -111,9 +111,9 @@ class PublicPagesTest extends TestCase
         $this->get('/blog/' . $post->slug)->assertNotFound();
     }
 
-    public function test_portfolio_detail_page_loads(): void
+    public function test_old_portfolio_detail_urls_redirect_to_the_gallery(): void
     {
-        $project = PortfolioProject::create([
+        PortfolioProject::create([
             'name' => 'Contoh Proyek',
             'slug' => 'contoh-proyek',
             'category' => 'UMKM',
@@ -121,7 +121,30 @@ class PublicPagesTest extends TestCase
             'order' => 1,
         ]);
 
-        $this->get('/portfolio/' . $project->slug)->assertOk();
+        $this->get('/portfolio/contoh-proyek')->assertStatus(301)->assertRedirect('/portfolio');
+    }
+
+    public function test_portfolio_shows_photos_with_visit_links_and_no_detail_links(): void
+    {
+        PortfolioProject::create([
+            'name' => 'Proyek Hidup', 'slug' => 'proyek-hidup', 'category' => 'Company Profile',
+            'live_url' => 'https://contoh.example.test', 'is_published' => true, 'order' => 1,
+        ]);
+        PortfolioProject::create([
+            'name' => 'Proyek Tanpa Tautan', 'slug' => 'tanpa-tautan', 'is_published' => true, 'order' => 2,
+        ]);
+
+        $page = $this->get('/portfolio')->assertOk();
+
+        $page->assertSee('Kunjungi', false)
+            ->assertSee('href="https://contoh.example.test"', false)
+            ->assertSee('Proyek Tanpa Tautan')
+            ->assertDontSee('/portfolio/proyek-hidup', false)
+            ->assertDontSee('/portfolio/tanpa-tautan', false)
+            ->assertDontSee('studi kasus', false);
+
+        $this->get('/')->assertOk()->assertDontSee('/portfolio/proyek-hidup', false);
+        $this->get('/sitemap.xml')->assertOk()->assertDontSee('/portfolio/proyek-hidup', false);
     }
 
     public function test_sitemap_and_robots_respond(): void
