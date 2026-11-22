@@ -6,6 +6,9 @@
     if ($corporate ?? false) {
         $menuItems = $menuItems->map(fn ($item) => $item['url'] === '/harga' ? ['label' => $item['label'], 'url' => '/kontak'] : $item);
     }
+    // A service that already has its own top-level menu link must not repeat in the dropdown.
+    $topLevelUrls = $menuItems->pluck('url')->all();
+    $dropdownServices = collect($navServices ?? [])->reject(fn ($service) => in_array('/' . $service['slug'], $topLevelUrls, true));
     $navLink = $space
         ? 'nav-underline font-mono text-[11px] uppercase tracking-[0.18em] text-white/60 hover:text-white'
         : 'nav-underline text-xs font-semibold uppercase tracking-wide text-gray-600 hover:text-brand-600';
@@ -66,7 +69,7 @@
                 </button>
                 <div id="services-dropdown" class="absolute left-0 top-full pt-3 w-72 hidden group-hover:block group-focus-within:block">
                     <div class="rounded-lg py-2 {{ $space ? 'bg-space-deep/95 backdrop-blur-xl border border-white/10 shadow-2xl' : 'bg-white shadow-elevated border border-black/10' }}">
-                        @foreach ($navServices ?? [] as $service)
+                        @foreach ($dropdownServices as $service)
                             <a href="/{{ $service['slug'] }}" class="block px-4 py-2.5 text-sm {{ $space ? 'text-white/70 hover:bg-white/5 hover:text-brand-300' : 'text-gray-700 hover:bg-gray-50 hover:text-brand-600' }}">
                                 {{ $service['name'] }}
                             </a>
@@ -136,7 +139,7 @@
             <span data-caret aria-hidden="true" class="text-xs">v</span>
         </button>
         <div data-mobile-services-panel id="mobile-services-panel" class="hidden pl-3 space-y-1 border-l ml-1 {{ $space ? 'border-white/10' : '' }}">
-            @foreach ($navServices ?? [] as $service)
+            @foreach ($dropdownServices as $service)
                 <a href="/{{ $service['slug'] }}" class="block text-sm py-1 {{ $space ? 'text-white/60' : 'text-gray-600' }}">{{ $service['name'] }}</a>
             @endforeach
         </div>

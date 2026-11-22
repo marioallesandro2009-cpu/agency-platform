@@ -17,6 +17,11 @@ class SecurityHeaders
     {
         $response = $next($request);
 
+        // PHP adds "X-Powered-By: PHP/x.y.z" itself; the exact version only helps someone
+        // looking for a known exploit, so it is stripped from every response.
+        header_remove("X-Powered-By");
+        $response->headers->remove("X-Powered-By");
+
         $response->headers->set("X-Frame-Options", "DENY");
         $response->headers->set("X-Content-Type-Options", "nosniff");
         $response->headers->set("Referrer-Policy", "strict-origin-when-cross-origin");
