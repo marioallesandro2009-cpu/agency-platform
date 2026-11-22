@@ -39,7 +39,7 @@
                                     <a href="https://wa.me/{{ $contact['whatsapp_number'] }}?text=Halo%2C%20saya%20mau%20nanya-nanya" target="_blank" rel="noopener" class="btn-space btn-space--pill">Chat WhatsApp <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
                                 @endif
                                 @if ($contact['phone'] ?? null)
-                                    <a href="tel:{{ $contact['phone'] }}" class="btn-space btn-space--glass">Telepon <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $contact['phone']) }}" class="btn-space btn-space--glass">Telepon <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>
                                 @endif
                                 @if ($contact['email'] ?? null)
                                     <a href="mailto:{{ $contact['email'] }}" class="btn-space btn-space--glass">Email <span class="btn-space__arrow" aria-hidden="true">&rarr;</span></a>

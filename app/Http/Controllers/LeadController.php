@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Models\PricingPackage;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class LeadController extends Controller
@@ -89,9 +90,17 @@ class LeadController extends Controller
             "status" => "new",
         ]);
 
+        // Sent right away instead of queued: production has no queue worker, so
+        // a queued mail would sit in the jobs table forever. A mail failure must
+        // never break the visitor's form; the lead is already saved and shows up
+        // in the admin Leads page.
         $notificationEmail = Setting::get("admin_notification_email");
         if ($notificationEmail) {
-            Mail::to($notificationEmail)->queue(new NewLeadNotification($lead));
+            try {
+                Mail::to($notificationEmail)->sendNow(new NewLeadNotification($lead));
+            } catch (\Throwable $e) {
+                Log::error("Notifikasi lead gagal dikirim (lead #{$lead->id}): " . $e->getMessage());
+            }
         }
 
         // Lead-based business model: the team reaches out, the visitor isn't

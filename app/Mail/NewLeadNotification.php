@@ -3,16 +3,15 @@
 namespace App\Mail;
 
 use App\Models\Lead;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewLeadNotification extends Mailable implements ShouldQueue
+/** Not queued on purpose: see LeadController::store(). */
+class NewLeadNotification extends Mailable
 {
-    use Queueable, SerializesModels;
+    use SerializesModels;
 
     public function __construct(public Lead $lead)
     {

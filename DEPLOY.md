@@ -93,6 +93,28 @@ php artisan view:cache
 - `CorporateContentSeeder` **menimpa** tagline, deskripsi website, dan judul beranda; jalankan hanya bila konten itu memang ikut berubah.
 - Setelah halaman atau artikel baru tayang: `php artisan indexnow:submit` untuk memberi tahu Bing.
 
+## 6c. Email notifikasi lead (wajib dites sekali)
+
+Email "Lead Baru" dikirim langsung saat form dikirim, tanpa antrean, jadi tidak perlu cron atau `queue:work`. Kalau pengiriman gagal, form tetap sukses untuk pengunjung dan galatnya tercatat di `storage/logs/laravel.log` dengan teks "Notifikasi lead gagal dikirim". Lead selalu tersimpan di admin, menu Leads, apa pun yang terjadi pada email.
+
+1. Isi `MAIL_*` di `.env` server (host, port, username, password, `MAIL_FROM_ADDRESS`). `MAIL_MAILER` harus `smtp`, bukan `log`.
+2. Isi "Email Notifikasi Admin" di admin, Settings, tab Notifications.
+3. Setelah `.env` berubah: `php artisan config:cache`.
+4. Uji dari folder project di server:
+   ```bash
+   php artisan mail:test
+   ```
+   Perintah ini mencetak mailer yang dipakai dan mengirim email uji. Cek kotak masuk dan folder spam. Kalau hasilnya "hanya ditulis ke log", `MAIL_MAILER` masih `log`.
+5. Kirim satu lead uji lewat `/konsultasi`, lalu pastikan email "Lead Baru" tiba dan lead muncul di admin Leads.
+
+## 6d. Checklist berkala di cPanel dan layanan luar
+
+- **SSL:** cPanel, SSL/TLS Status. Pastikan AutoSSL aktif untuk domain dan `www`, dan cek tanggal berakhir sekitar dua minggu sebelumnya. Header HSTS aktif, jadi sertifikat yang lewat masa berlaku membuat situs tidak bisa dibuka sama sekali.
+- **Backup:** cPanel, Backup atau JetBackup. Jadwalkan backup harian untuk database dan file, lalu unduh satu salinan setiap bulan ke tempat lain.
+- **Uptime:** daftarkan `https://exodineweb.com/` di layanan pemantau gratis dengan interval 5 menit dan pemberitahuan ke email.
+- **Search Console:** verifikasi lewat DNS (rekam TXT di cPanel, Zone Editor), lalu kirim `https://exodineweb.com/sitemap.xml`.
+- **Google Analytics:** isi Measurement ID di admin, Settings, tab Integrations.
+
 ## 7. Checklist keamanan manual (cek langsung di browser setelah deploy)
 
 - [ ] **Document root mengarah ke folder `public/`**, bukan root project. Test: buka `https://domainanda.com/composer.json` dan `https://domainanda.com/.env` — keduanya HARUS 404/403, bukan menampilkan isi file.
