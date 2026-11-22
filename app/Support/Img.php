@@ -24,8 +24,10 @@ class Img
     {
         if (self::prerendered($src)) {
             $width = collect(self::PRERENDERED_WIDTHS)->first(fn ($w) => $w >= $width) ?? max(self::PRERENDERED_WIDTHS);
+            $variant = substr($src, 0, -strlen('.jpg')) . "-{$width}.webp";
 
-            return substr($src, 0, -strlen('.jpg')) . "-{$width}.webp";
+            // Weekly articles ship a single .jpg; without the WebP variants the original is served.
+            return is_file(public_path($variant)) ? $variant : $src;
         }
 
         if (! self::resizable($src)) {
@@ -41,6 +43,11 @@ class Img
     public static function srcset(?string $src, array $widths = [480, 960, 1600]): string
     {
         if (self::prerendered($src)) {
+            // No variants on disk (single .jpg): no srcset, the plain src is enough.
+            if (! is_file(public_path(substr($src, 0, -strlen('.jpg')) . '-' . self::PRERENDERED_WIDTHS[0] . '.webp'))) {
+                return '';
+            }
+
             return collect(self::PRERENDERED_WIDTHS)->map(fn ($w) => self::url($src, $w) . " {$w}w")->implode(', ');
         }
 

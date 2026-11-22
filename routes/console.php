@@ -45,6 +45,17 @@ Artisan::command('mail:test {to? : Alamat tujuan, bawaannya Email Notifikasi Adm
     return 0;
 })->purpose('Kirim email uji lewat konfigurasi mail saat ini, untuk memastikan notifikasi lead sampai');
 
+Artisan::command('blog:import', function () {
+    $result = \App\Support\WeeklyBlogImporter::run();
+
+    $this->info($result['imported'] . ' artikel diimpor atau diperbarui.');
+    foreach ($result['skipped'] as $reason) {
+        $this->warn('Dilewati: ' . $reason);
+    }
+
+    return 0;
+})->purpose('Impor artikel mingguan dari database/seeders/data/blog-mingguan/*.json (aman dijalankan berulang)');
+
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');

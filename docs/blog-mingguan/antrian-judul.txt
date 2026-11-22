@@ -1,0 +1,9 @@
+# Antrian judul blog mingguan.
+# Tulis satu judul per baris di bagian "Antrian". Agen mengambil 5 teratas tiap Senin,
+# lalu memindahkannya ke bagian "Sudah dipakai". Kalau antrian kosong, agen membuat topik sendiri.
+# Judul sebaiknya memuat angka. Jangan tulis topik toko online atau e-commerce.
+
+== Antrian ==
+
+
+== Sudah dipakai ==
