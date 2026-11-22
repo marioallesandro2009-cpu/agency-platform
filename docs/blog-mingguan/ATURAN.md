@@ -80,8 +80,12 @@ Catat tiap gambar di `public/images/blog/LISENSI.csv` dengan kolom `berkas,sumbe
 2. Baca ulang setiap artikel dari awal sampai akhir dengan daftar ini: provokatif? menyinggung kelompok mana pun? klaim tanpa sumber? ada kata yang bisa dianggap pelecehan? ada hal yang bisa melanggar hukum atau norma? ada nama merek atau lembaga? gambar sudah tercatat lisensinya?
 3. Artikel yang gagal diperbaiki sampai lolos, atau dibuang dari berkas. **Jangan menerbitkan artikel yang gagal.** Lebih baik 3 artikel yang bersih daripada 5 yang berisiko; catat alasannya di laporan.
 
-## Setelah lolos
+## Setelah lolos: DRAF, BUKAN TERBIT
 
-1. Commit ke `main` dengan pesan `feat: 5 artikel blog mingguan <tanggal>` dan push.
-2. Tulis laporan singkat di `docs/blog-mingguan/laporan/<tanggal>.md`: judul tiap artikel, kata kunci, sumber angka, sumber dan lisensi gambar, dan artikel yang dibuang beserta alasannya.
-3. Server menarik dan mengimpor sendiri lewat cron (`php artisan blog:import`). Agen tidak mengakses server.
+Artikel **tidak boleh** langsung masuk `main` dan tidak boleh diterbitkan. Pemilik meninjau dulu, lalu meminta penerbitan.
+
+1. Buat branch baru `blog/draf-<tanggal>` dari `main`. Jangan pernah push ke `main`.
+2. Selain berkas JSON, tulis versi baca untuk pemilik: `docs/blog-mingguan/draf/<tanggal>/<slug>.md` untuk tiap artikel. Isinya judul, kata kunci, kategori, ringkasan, gambar (tautan relatif ke `public/images/blog/<image>.jpg`), lalu isi artikel dalam Markdown biasa, dan di bagian bawah daftar sumber dan lisensi gambar. Pemilik membacanya langsung di GitHub.
+3. Tulis laporan singkat di `docs/blog-mingguan/laporan/<tanggal>.md`: judul tiap artikel, kata kunci, sumber angka, sumber dan lisensi gambar, dan artikel yang dibuang beserta alasannya.
+4. Commit dengan pesan `draf: N artikel blog mingguan <tanggal>`, push branch itu, dan buka **pull request** ke `main` dengan judul `Draf 5 artikel blog <tanggal>`. Isi deskripsi PR dengan daftar judul dan hasil pemeriksa.
+5. Berhenti di situ. Penerbitan (merge dan deploy) hanya dilakukan setelah pemilik meminta, bukan oleh agen ini.
