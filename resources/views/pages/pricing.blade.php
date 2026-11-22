@@ -5,6 +5,9 @@
         ['value' => 'ecommerce', 'label' => 'E-commerce'],
         ['value' => 'sistem_informasi', 'label' => 'Sistem Informasi'],
     ];
+    // A category with no published package has no tab (e.g. hidden from the admin).
+    $categories = collect($categories)->filter(fn ($cat) => $packages->where('category', $cat['value'])->isNotEmpty())->values()->all()
+        ?: [['value' => 'landing_page', 'label' => 'Landing Page']];
     $tierLabels = ['seed' => 'Seed', 'growth' => 'Growth', 'scale' => 'Scale'];
     $tierOrder = ['seed' => 0, 'growth' => 1, 'scale' => 2];
 
@@ -35,7 +38,7 @@
 <x-layouts.public
     theme="space"
     seo-title="Harga Paket Website"
-    seo-description="Daftar harga paket pembuatan website untuk landing page, company profile, e-commerce, dan sistem informasi."
+    seo-description="Daftar harga paket pembuatan website untuk landing page, company profile, dan sistem informasi."
 >
     <x-public.space-page-header
         eyebrow="Harga"

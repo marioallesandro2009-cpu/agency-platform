@@ -8,6 +8,8 @@
         ['value' => 'ecommerce', 'label' => 'E-commerce'],
         ['value' => 'sistem_informasi', 'label' => 'Sistem Informasi'],
     ];
+    // Only categories that still have a published package get a price row.
+    $priceCategories = collect($priceCategories)->filter(fn ($cat) => $pricingPackages->where('category', $cat['value'])->isNotEmpty())->values()->all();
     foreach ($priceCategories as $cat) {
         $cheapestByCategory[$cat['value']] = $pricingPackages
             ->where('category', $cat['value'])
