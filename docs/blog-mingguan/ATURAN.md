@@ -90,3 +90,9 @@ Artikel **tidak boleh** langsung masuk `main` dan tidak boleh diterbitkan. Pemil
 4. Commit dengan pesan `draf: N artikel blog mingguan <tanggal>`, push branch itu, dan buka **pull request** ke `main` dengan judul `Draf 5 artikel blog <tanggal>`. Isi deskripsi PR dengan daftar judul dan hasil pemeriksa.
    Jika tidak ada alat untuk membuka PR (mis. tidak ada `gh` atau tokennya ditolak), jangan dianggap gagal: cukup pastikan branch sudah ter-push dan tulis di ringkasan akhir tautan `https://github.com/marioallesandro2009-cpu/agency-platform/compare/main...blog/draf-<tanggal>`. Agen ini tidak punya izin menghapus branch (HTTP 403), dan itu memang disengaja; jangan mencoba menghapus apa pun.
 5. Berhenti di situ. Penerbitan (merge dan deploy) hanya dilakukan setelah pemilik meminta, bukan oleh agen ini.
+
+## Pembagian tugas (tiga routine)
+
+- **Penulis (Opus):** menulis draf dan mengirimnya ke branch `blog/draf-<tanggal>`. Itu saja.
+- **Pratinjau (Sonnet), Senin 08:00 WIB:** mengambil branch `blog/draf-*` terbaru, menjalankan `node scripts/cek-artikel.mjs`, membuat halaman pratinjau dengan `node scripts/preview-draf.mjs <json> /tmp/pratinjau.html`, lalu menerbitkannya sebagai Artifact berjudul `Pratinjau draf blog <tanggal>`. Pemilik membukanya di aplikasi Claude di HP. Routine ini tidak mengubah isi artikel dan tidak menyentuh `main`.
+- **Terbitkan (Sonnet), dijalankan manual dari HP:** menggabungkan branch `blog/draf-*` terbaru ke `main` hanya bila: (a) pemeriksa otomatis lolos untuk semua artikel di berkas, (b) selisih berkas dibanding `main` hanya berisi `database/seeders/data/blog-mingguan/`, `public/images/blog/`, `docs/`, dan (c) tidak ada artikel yang gagal pemeriksa. Bila salah satu tidak terpenuhi, berhenti dan laporkan alasannya tanpa menggabungkan apa pun. Setelah merge ke `main`, server memasang artikelnya sendiri.
