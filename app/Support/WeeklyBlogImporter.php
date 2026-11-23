@@ -68,7 +68,8 @@ class WeeklyBlogImporter
                     'blog_category_id' => $categories[$post['category']],
                     'author_id' => $authorId,
                     'status' => 'published',
-                    'published_at' => Carbon::parse($post['published_at']),
+                    // The JSON hours are Jakarta time ("07:00" = 07:00 WIB); the app stores UTC.
+                    'published_at' => Carbon::parse($post['published_at'], 'Asia/Jakarta')->setTimezone(config('app.timezone')),
                 ]);
 
                 $imported++;

@@ -112,6 +112,17 @@ class WeeklyBlogImportTest extends TestCase
         $this->get("/sitemap.xml")->assertOk()->assertDontSee("uji-impor-mingguan", false);
     }
 
+    public function test_publish_time_in_the_file_is_read_as_jakarta_time(): void
+    {
+        $this->image();
+        $this->write([$this->sample(["published_at" => "2026-11-23 07:00:00"])]);
+
+        WeeklyBlogImporter::run($this->dir);
+
+        // 07:00 WIB is 00:00 UTC, so a Monday 07:00 batch is already visible a few hours later.
+        $this->assertSame("2026-11-23 00:00:00", BlogPost::where("slug", "uji-impor-mingguan")->first()->published_at->setTimezone("UTC")->format("Y-m-d H:i:s"));
+    }
+
     public function test_the_artisan_command_runs_on_an_empty_folder(): void
     {
         $this->artisan("blog:import")->assertExitCode(0);
