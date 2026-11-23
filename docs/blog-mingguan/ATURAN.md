@@ -77,8 +77,10 @@ Catat tiap gambar di `public/images/blog/LISENSI.csv` dengan kolom `berkas,sumbe
 ## Pemeriksaan ulang (wajib, sebelum commit)
 
 1. `node scripts/cek-artikel.mjs --file database/seeders/data/blog-mingguan/<tanggal>.json --expect 5`
-2. Baca ulang setiap artikel dari awal sampai akhir dengan daftar ini: provokatif? menyinggung kelompok mana pun? klaim tanpa sumber? ada kata yang bisa dianggap pelecehan? ada hal yang bisa melanggar hukum atau norma? ada nama merek atau lembaga? gambar sudah tercatat lisensinya?
-3. Artikel yang gagal diperbaiki sampai lolos, atau dibuang dari berkas. **Jangan menerbitkan artikel yang gagal.** Lebih baik 3 artikel yang bersih daripada 5 yang berisiko; catat alasannya di laporan.
+2. **Kutipan bukti.** Untuk setiap angka atau klaim faktual, catat di laporan kalimat asli dari sumber (dikutip apa adanya, bahasa aslinya) beserta alamatnya. Klaim yang tidak punya kutipan bukti wajib ditulis ulang sebagai pendapat ("biasanya", "sering terjadi") atau dihapus. Hindari superlatif tanpa bukti seperti "paling", "selalu", "semua orang", "dikenal luas".
+3. **Pemeriksa kedua yang terpisah.** Jalankan subagen baru (tool Agent) yang hanya diberi: isi artikel, kutipan bukti dari langkah 2, dan bagian "Batas yang tidak boleh dilanggar" di berkas ini. Jangan beri catatan atau alasan penulis. Minta subagen itu mendaftar setiap kalimat yang (a) tidak didukung kutipan bukti, (b) salah secara teknis, (c) bernada menekan, menakut-nakuti, atau menyinggung, (d) memuat merek, lembaga, peraturan, atau klaim mutlak. Perbaiki semua temuan yang benar, lalu jalankan ulang langkah 1.
+4. Baca ulang sendiri setiap artikel dari awal sampai akhir dengan daftar ini: provokatif? menyinggung kelompok mana pun? klaim tanpa sumber? ada kata yang bisa dianggap pelecehan? ada hal yang bisa melanggar hukum atau norma? ada nama merek atau lembaga? gambar sudah tercatat lisensinya? ada tautan `/blog/...` ke artikel lain di batch yang sama (rusak bila artikel itu dibuang)?
+5. Artikel yang gagal diperbaiki sampai lolos (maksimal 3 putaran per artikel), atau dibuang dari berkas. **Jangan menerbitkan artikel yang gagal.** Lebih baik 3 artikel yang bersih daripada 5 yang berisiko; catat alasannya di laporan, termasuk temuan pemeriksa kedua dan cara menanganinya.
 
 ## Setelah lolos: DRAF, BUKAN TERBIT
 
@@ -93,6 +95,6 @@ Artikel **tidak boleh** langsung masuk `main` dan tidak boleh diterbitkan. Pemil
 
 ## Pembagian tugas (tiga routine)
 
-- **Penulis (Opus):** menulis draf dan mengirimnya ke branch `blog/draf-<tanggal>`. Itu saja.
-- **Pratinjau (Sonnet), Senin 08:00 WIB:** mengambil branch `blog/draf-*` terbaru, menjalankan `node scripts/cek-artikel.mjs`, membuat halaman pratinjau dengan `node scripts/preview-draf.mjs <json> /tmp/pratinjau.html`, lalu menerbitkannya sebagai Artifact berjudul `Pratinjau draf blog <tanggal>`. Pemilik membukanya di aplikasi Claude di HP. Routine ini tidak mengubah isi artikel dan tidak menyentuh `main`.
+- **Penulis (Sonnet):** menulis draf, menjalankan seluruh langkah "Pemeriksaan ulang" (termasuk pemeriksa kedua yang terpisah), lalu mengirimnya ke branch `blog/draf-<tanggal>`. Itu saja.
+- **Pratinjau (Sonnet), Senin 08:00 WIB:** mengambil branch `blog/draf-*` terbaru, menjalankan `node scripts/cek-artikel.mjs`, mencocokkan setiap angka dan klaim di artikel dengan kutipan bukti di `docs/blog-mingguan/laporan/<tanggal>.md` dan mencantumkan klaim yang tidak cocok atau tidak berkutipan di halaman pratinjau, membuat halaman pratinjau dengan `node scripts/preview-draf.mjs <json> /tmp/pratinjau.html`, lalu menerbitkannya sebagai Artifact berjudul `Pratinjau draf blog <tanggal>`. Pemilik membukanya di aplikasi Claude di HP. Routine ini tidak mengubah isi artikel dan tidak menyentuh `main`.
 - **Terbitkan (Sonnet), dijalankan manual dari HP:** menggabungkan branch `blog/draf-*` terbaru ke `main` hanya bila: (a) pemeriksa otomatis lolos untuk semua artikel di berkas, (b) selisih berkas dibanding `main` hanya berisi `database/seeders/data/blog-mingguan/`, `public/images/blog/`, `docs/`, dan (c) tidak ada artikel yang gagal pemeriksa. Bila salah satu tidak terpenuhi, berhenti dan laporkan alasannya tanpa menggabungkan apa pun. Setelah merge ke `main`, server memasang artikelnya sendiri.
